@@ -18,7 +18,10 @@ import {
 import { UserContext } from "../../App";
 
 const ForumQuestion = (questionDataParam, theKey) => {
-  let questionData = questionDataParam.questionData;
+  const [questionData, setQuestionData] = useState(
+    questionDataParam.questionData
+  );
+
   const { BASE, status, setStatus, user } = useContext(UserContext);
 
   const [answer, setAnswer] = useState("");
@@ -43,8 +46,8 @@ const ForumQuestion = (questionDataParam, theKey) => {
   const increaseVotes = async (id) => {
     try {
       setLoading(true);
-      const response = await Axios.put(`${BASE}/forum/upvotes/${id}`, {
-        userId: loggedInUser._id,
+      const response = await Axios.post(`${BASE}forum/upvotes/${id}`, {
+        username: loggedInUser.username,
       });
       // if (response.status === 200) {
 
@@ -56,19 +59,38 @@ const ForumQuestion = (questionDataParam, theKey) => {
         console.log("Yess!");
       }
 
-      setData((prevData) =>
-        prevData.map((item) =>
-          item._id === id ? { ...item, rating: item.rating + 1 } : item
-        )
-      );
-      setTimeout(() => {
-        navigator("/forum");
-      }, 2000);
+      const updatedData = { ...questionData, rating: questionData.rating + 1 };
+
+      setQuestionData(updatedData);
     } catch (error) {
       if (error.status === 400) {
         setStatus("Error!");
       }
       console.error("Error while upvoting:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const downVote = async (id) => {
+    try {
+      setLoading(true);
+      const response = await Axios.put(`${BASE}/forum/downvotes/${id}`, {
+        userId: user.id,
+      });
+      if (response.status === 200) {
+        setStatus("Down Voted");
+        const updatedData = {
+          ...questionData,
+          rating: questionData.rating - 1,
+        };
+
+        setQuestionData(updatedData);
+      } else {
+        setStatus("Error while downvoting");
+      }
+    } catch (error) {
+      console.error("Error while downvoting:", error);
     } finally {
       setLoading(false);
     }
@@ -87,30 +109,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
       }
     } catch (err) {
       console.error(err);
-    }
-  };
-
-  const downVote = async (id) => {
-    try {
-      setLoading(true);
-      const response = await Axios.put(`${BASE}/forum/downvotes/${id}`, {
-        userId: user.id,
-      });
-      if (response.status === 200) {
-        setStatus("Down Voted");
-        setData((prev) =>
-          prev.map((x) => (x._id === id ? { rating: x.rating - 1 } : x))
-        );
-      } else {
-        setStatus("Error while downvoting");
-      }
-      setTimeout(() => {
-        navigator("/forum");
-      }, 2000);
-    } catch (error) {
-      console.error("Error while downvoting:", error);
-    } finally {
-      setLoading(false);
     }
   };
 

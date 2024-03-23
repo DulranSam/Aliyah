@@ -236,9 +236,8 @@ router
     }
   });
 
-router.route("/upvotes/:id").put(async (req, res) => {
+router.route("/upvotes/:id").post(async (req, res) => {
   const id = req?.params?.id;
-  const userId = req.body.userId;
 
   if (!id) {
     return res.status(400).json({ Alert: "No ID" });
@@ -257,11 +256,9 @@ router.route("/upvotes/:id").put(async (req, res) => {
         .json({ Alert: `${id} is an invalid question ID!` });
     }
 
-    const upvotedByUpdate = await userModel.findByIdAndUpdate(
-      { _id: userId },
-      { $inc: { voxelPoints: 5 }, $push: { upvotedBy: id } },
-      { new: true }
-    );
+    const upvotedByUpdate = await userModel
+      .findOne({ username: username })
+      .updateOne({ $inc: { voxelPoints: 5 } });
 
     if (!upvotedByUpdate) {
       return res.status(400).json({
@@ -271,6 +268,46 @@ router.route("/upvotes/:id").put(async (req, res) => {
 
     res.status(200).json({
       Alert: `Nerd Points Updated For The User ${userId}!`,
+      Votes: `Upvotes updated to ${verify.rating}! Data ${JSON.stringify(
+        verify
+      )}`,
+    });
+  } catch (error) {
+    res.status(500).json({ Alert: "Internal Server Error" });
+  }
+});
+
+router.route("/downvotes/:id").put(async (req, res) => {
+  const id = req?.params?.id;
+  const userId = req.body.userId;
+  if (!id) {
+    return res.status(400).json({ Alert: "No ID" });
+  }
+  try {
+    const verify = await forumModel.findByIdAndUpdate(
+      id,
+      { $inc: { rating: -1 } },
+      { new: true }
+    );
+    const nerdPointsUpdate = await userModel.findByIdAndUpdate(
+      { _id: userId },
+      { $inc: { voxelPoints: -1 } }
+    ); //decrement points by 1
+    if (!nerdPointsUpdate) {
+      res.status(400).json({
+        Alert: "Error while updating nerd points , perhaps user not logged in?",
+      });
+    } else {
+      res.status(200).json({
+        Alert: `Nerd Points Updated For The User ${nerdPointsUpdate}!`,
+      });
+    }
+    if (!verify) {
+      return res
+        .status(404)
+        .json({ Alert: `${id} brings an invalid question!` });
+    }
+    res.status(200).json({
       Votes: `Upvotes updated to ${verify.rating}! Data ${JSON.stringify(
         verify
       )}`,
@@ -315,46 +352,6 @@ router.route("/nerds/:id").put(async (req, res) => {
   } catch (error) {
     console.error("Error occurred:", error);
     return res.status(500).json({ Alert: "Internal Server Error" });
-  }
-});
-
-router.route("/downvotes/:id").put(async (req, res) => {
-  const id = req?.params?.id;
-  const userId = req.body.userId;
-  if (!id) {
-    return res.status(400).json({ Alert: "No ID" });
-  }
-  try {
-    const verify = await forumModel.findByIdAndUpdate(
-      id,
-      { $inc: { rating: -1 } },
-      { new: true }
-    );
-    const nerdPointsUpdate = await userModel.findByIdAndUpdate(
-      { _id: userId },
-      { $inc: { voxelPoints: -1 } }
-    ); //decrement points by 1
-    if (!nerdPointsUpdate) {
-      res.status(400).json({
-        Alert: "Error while updating nerd points , perhaps user not logged in?",
-      });
-    } else {
-      res.status(200).json({
-        Alert: `Nerd Points Updated For The User ${nerdPointsUpdate}!`,
-      });
-    }
-    if (!verify) {
-      return res
-        .status(404)
-        .json({ Alert: `${id} brings an invalid question!` });
-    }
-    res.status(200).json({
-      Votes: `Upvotes updated to ${verify.rating}! Data ${JSON.stringify(
-        verify
-      )}`,
-    });
-  } catch (error) {
-    res.status(500).json({ Alert: "Internal Server Error" });
   }
 });
 
