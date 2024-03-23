@@ -58,7 +58,7 @@ router.route("/addQuestion").post(async (req, res) => {
 });
 
 router.route("/addAnswerToQuestion").post(async (req, res) => {
-  const { questionId, answer, answeredBy = "guest" } = req.body;
+  const { questionId, answer, answeredBy} = req.body;
 
   if (!questionId || !answer) {
     return res
@@ -174,7 +174,7 @@ router.route("/delans/:id").delete(async (req, res) => {
 router
   .route("/:id")
   .put(async (req, res) => {
-    const { answer, whoAnswered = "guest" } = req.body; //by default the guest answers
+    const { answer, whoAnswered  } = req.body; //by default the guest answers
     const id = req.params.id;
 
     if (!answer || !id) {

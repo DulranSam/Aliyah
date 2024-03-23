@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 
 import Axios from "axios";
@@ -23,6 +23,11 @@ const ForumQuestion = (questionDataParam, theKey) => {
   const [answer, setAnswer] = useState("");
   const [toggle, setToggle] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState({});
+
+  useEffect(() => {
+    setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
+  }, []);
 
   const increaseVotes = async (id) => {
     try {
@@ -30,13 +35,13 @@ const ForumQuestion = (questionDataParam, theKey) => {
       const response = await Axios.put(`${BASE}/forum/upvotes/${id}`, {
         userId: user.id,
       });
-      // if (response.data.status === 200) {
+      // if (response.status === 200) {
 
       // } else {
       //   setStatus("Error while upvoting");
       // }
 
-      if (response.data.status === 200) {
+      if (response.status === 200) {
         console.log("Yess!");
       }
 
@@ -64,7 +69,7 @@ const ForumQuestion = (questionDataParam, theKey) => {
         userID: "65e43aa4a2304a41b4d37e2c",
         theTotalUpvotes,
       });
-      if (response.data.status === 200) {
+      if (response.status === 200) {
         alert("Nerd points updated!");
         console.log(response.data);
       } else {
@@ -81,7 +86,7 @@ const ForumQuestion = (questionDataParam, theKey) => {
       const response = await Axios.put(`${BASE}/forum/downvotes/${id}`, {
         userId: user.id,
       });
-      if (response.data.status === 200) {
+      if (response.status === 200) {
         setStatus("Down Voted");
         setData((prev) =>
           prev.map((x) => (x._id === id ? { rating: x.rating - 1 } : x))
@@ -105,6 +110,7 @@ const ForumQuestion = (questionDataParam, theKey) => {
       const response = await Axios.post(`${BASE}/forum/addAnswerToQuestion`, {
         questionId: id,
         answer: answer,
+        answeredBy: loggedInUser.username,
       });
       if (response.status === 200) {
         console.log("Answer posted successfully!");
@@ -157,8 +163,8 @@ const ForumQuestion = (questionDataParam, theKey) => {
       <Typography variant="h4">Responses:</Typography>
       {questionData.answers.length > 0 ? (
         questionData.answers.map((answer, index) => (
-          <div key={index} style={{ margin: "20px"}}>
-              <br/>
+          <div key={index} style={{ margin: "20px" }}>
+            <br />
             <Typography variant="h6">{answer.text}</Typography>
             <Typography variant="body1">
               Posted By: {answer.answeredBy}
@@ -168,11 +174,11 @@ const ForumQuestion = (questionDataParam, theKey) => {
                 ? ` Number of votes: ${answer.noOfUpvotes}`
                 : "No upvotes!"}
             </Typography>
-            <br/>
+            <br />
             <Button onClick={() => DeleteAnswer(questionData._id)}>
               Delete
             </Button>
-            <br/>
+            <br />
             <Button
               onClick={() => nerdPointsIncrement(questionData._id)}
               variant="contained"
