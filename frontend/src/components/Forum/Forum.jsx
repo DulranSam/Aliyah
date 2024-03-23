@@ -24,6 +24,7 @@ const Forum = () => {
     setLoading,
     status,
     setStatus,
+    BASE,
     logged,
     user,
     loggedInUser,
@@ -43,7 +44,7 @@ const Forum = () => {
 
   const [toggle, setToggle] = useState(false);
   const [theTotalUpvotes, setTheTotalUpvotes] = useState(0);
-  const EndPoint = "http://localhost:8000/forum";
+  const EndPoint = `${BASE}/forum`;
 
   useEffect(() => {
     let searchParams = "";
@@ -162,7 +163,6 @@ const Forum = () => {
           <Typography variant="h5">No questions available</Typography>
         )}
         <Typography>{status}</Typography>
-
       </div>
     </div>
   ) : (

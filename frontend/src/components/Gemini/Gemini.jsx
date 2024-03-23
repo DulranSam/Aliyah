@@ -8,13 +8,13 @@ import { TextField, Button } from "../muiComponents";
 import "./Bot.css";
 
 function Gemini() {
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser, BASE } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [menu, setMenu] = useState(false);
 
-  const endPoint = "http://localhost:8000/gemini";
+  const endPoint = `${BASE}/gemini`;
 
   let searchCounter = 0;
 

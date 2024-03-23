@@ -6,7 +6,9 @@ import QuestionComponent from "../../components/QuestionComponent/QuestionCompon
 import Axios from "axios";
 // import "./ExamFinal.css";
 import ExamCountDown from "./ExamCount-Down";
-// import { UserContext } from "../../App";
+import { UserContext } from "../../App";
+
+const { BASE } = useContext(UserContext);
 
 const ExamFinalized = () => {
   const examData = sessionStorage.getItem("examData");
@@ -65,7 +67,7 @@ const ExamFinalized = () => {
 
     try {
       for (let i = 0; i < answerValues.length; i++) {
-        await Axios.post("http://localhost:8000/history", {
+        await Axios.post(`${BASE}/history`, {
           questionID: answerValues[i],
         });
         alert("Posted!");

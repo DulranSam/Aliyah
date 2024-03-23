@@ -8,6 +8,7 @@ import initializeProbabilities from "./initializeProbabilities";
 import { useNavigate } from "react-router-dom";
 
 const FeedbackPage = () => {
+  const { BASE } = useContext(UserContext);
   const navigator = useNavigate();
 
   const [availFeedbackModules, setAvailFeedbackModules] = useState([]);
@@ -82,7 +83,7 @@ const FeedbackPage = () => {
   const calculateProbabilities = async (moduleID) => {
     setProbabilitiesSet(false);
 
-    await Axios.post("http://localhost:8000/getTopics/getModuleProbs", {
+    await Axios.post(`${BASE}/getTopics/getModuleProbs`, {
       username: loggedInUser.username,
     })
       .then(function (response) {
@@ -100,7 +101,7 @@ const FeedbackPage = () => {
   // Update the module probabilities
   useEffect(() => {
     async function updateModuleProbability() {
-      await Axios.post("http://localhost:8000/user/setModuleProbabilities", {
+      await Axios.post(`${BASE}/user/setModuleProbabilities`, {
         username: loggedInUser.username,
         topicProbabilities: moduleProbabilities,
         moduleID: moduleID,
@@ -124,7 +125,7 @@ const FeedbackPage = () => {
     setExamQuestions([]);
     setModuleID(moduleID);
 
-    await Axios.post("http://localhost:8000/getQuestion/getAllQuestions", {
+    await Axios.post(`${BASE}/getQuestion/getAllQuestions`, {
       moduleID: moduleID,
     })
       .then(function (response) {
@@ -285,7 +286,7 @@ const FeedbackPage = () => {
   }, [moduleProbabilitiesSet]);
 
   const createExam = async () => {
-    await Axios.post("http://localhost:8000/exam/saveExam", {
+    await Axios.post(`${BASE}/exam/saveExam`, {
       examType: "Feedback",
       examQuestions: examQuestions,
       userRef: loggedInUser._id,

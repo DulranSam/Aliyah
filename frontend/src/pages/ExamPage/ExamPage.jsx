@@ -1,12 +1,13 @@
 import "./ExamPage.css";
 import QuestionComponent from "../../components/QuestionComponent/QuestionComponent";
 import Axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { ClipLoader } from "react-spinners";
 import "//unpkg.com/mathlive";
 import ExamCountDown from "../TestPages/ExamCount-Down";
 import { useNavigate, Link, useParams, Navigate } from "react-router-dom";
 import updateLoggedUser from "../SelectCoursesPage/updateLoggedUser";
+import { UserContext } from "../../App";
 
 function InfoPanel({
   examType,
@@ -92,6 +93,8 @@ function ExamPageContent({
     );
   }
 
+  const { BASE } = useContext(UserContext);
+
   const [questions, setQuestions] = useState([]);
   const [correctAnswers, setCorrectAnswers] = useState([]);
   const [questionsList, setQuestionsList] = useState([]);
@@ -113,12 +116,9 @@ function ExamPageContent({
     const receiveQuestions = async () => {
       for (let i = 0; i < questionsList.length; i++) {
         try {
-          const response = await Axios.post(
-            "http://localhost:8000/getQuestion",
-            {
-              questionID: questionsList[i],
-            }
-          );
+          const response = await Axios.post(`${BASE}/getQuestion`, {
+            questionID: questionsList[i],
+          });
 
           const questionData = response.data;
 
@@ -157,7 +157,7 @@ function ExamPageContent({
     setExamTopic
   ) => {
     try {
-      const response = await Axios.post("http://localhost:8000/exam/getExam", {
+      const response = await Axios.post(`${BASE}/exam/getExam`, {
         examRef: examID,
       });
 
@@ -405,31 +405,25 @@ function ExamPage() {
   const postUserDetails = async () => {
     try {
       if (examType === "Feedback") {
-        const response = await Axios.post(
-          "http://localhost:8000/exam/updateExam",
-          {
-            examRef: examID,
-            userRef: userRef,
-            marks: mark,
-            totalMark: totalMark,
-            correctQuestions: correctQuestions,
-            wrongQuestions: wrongQuestions,
-            userAnswers: userWrittenAnswers,
-          }
-        );
+        const response = await Axios.post(`${BASE}/exam/updateExam`, {
+          examRef: examID,
+          userRef: userRef,
+          marks: mark,
+          totalMark: totalMark,
+          correctQuestions: correctQuestions,
+          wrongQuestions: wrongQuestions,
+          userAnswers: userWrittenAnswers,
+        });
       } else {
-        const response = await Axios.post(
-          "http://localhost:8000/exam/updateExam",
-          {
-            examRef: examID,
-            userRef: userRef,
-            marks: mark,
-            totalMark: totalMark,
-            correctQuestions: [],
-            wrongQuestions: [],
-            userAnswers: userWrittenAnswers,
-          }
-        );
+        const response = await Axios.post(`${BASE}/exam/updateExam`, {
+          examRef: examID,
+          userRef: userRef,
+          marks: mark,
+          totalMark: totalMark,
+          correctQuestions: [],
+          wrongQuestions: [],
+          userAnswers: userWrittenAnswers,
+        });
       }
     } catch (err) {
       console.log(err);
@@ -474,7 +468,7 @@ function ExamPage() {
             10
         ) / 10;
 
-      await Axios.post("http://localhost:8000/getTopics/getTopicKeyFromTopic", {
+      await Axios.post(`${BASE}/getTopics/getTopicKeyFromTopic`, {
         source: examSubject,
         topic: examTopic,
       })
@@ -492,7 +486,7 @@ function ExamPage() {
   };
 
   const updateProbabilityHelper = async (topicKey, sourceKey, probability) => {
-    await Axios.post("http://localhost:8000/user/updateOneModuleProbability", {
+    await Axios.post(`${BASE}/user/updateOneModuleProbability`, {
       userId: userRef,
       topicKey: topicKey,
       sourceKey: sourceKey,

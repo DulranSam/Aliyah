@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const PastPaperScope = () => {
   const navigator = useNavigate();
 
-  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+  const { loggedInUser, setLoggedInUser, BASE } = useContext(UserContext);
 
   useEffect(() => {
     setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
@@ -48,7 +48,7 @@ const PastPaperScope = () => {
   const getModules = async () => {
     try {
       const response = await Axios.get(
-        "http://localhost:8000/addQuestion/getModulesForPastPaper"
+        `${BASE}/addQuestion/getModulesForPastPaper`
       );
 
       dispatch({ type: "FETCH_MODULES", payload: response.data });
@@ -71,13 +71,10 @@ const PastPaperScope = () => {
 
   const fetchQuestions = async () => {
     try {
-      const response = await Axios.post(
-        "http://localhost:8000/getQuestionsOnTopic",
-        {
-          scopeQuery: `${state.selectedSeason}_${state.selectedYear}_${state.selectedVariant}`,
-          moduleScope: `${state.selectedModule}`,
-        }
-      );
+      const response = await Axios.post(`${BASE}/getQuestionsOnTopic`, {
+        scopeQuery: `${state.selectedSeason}_${state.selectedYear}_${state.selectedVariant}`,
+        moduleScope: `${state.selectedModule}`,
+      });
 
       if (response.data.length === 0) {
         alert("No questions found under this past paper!");
@@ -95,7 +92,7 @@ const PastPaperScope = () => {
   }, []);
 
   const createExam = async () => {
-    await Axios.post("http://localhost:8000/exam/saveExam", {
+    await Axios.post(`${BASE}/exam/saveExam`, {
       examType: "Past Paper",
       examQuestions: questionIDs,
       userRef: loggedInUser._id,

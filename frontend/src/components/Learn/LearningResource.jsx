@@ -15,6 +15,7 @@ const LearningResource = () => {
   const {
     loading,
     setLoading,
+    BASE,
     status,
     setStatus,
     loggedInUser,
@@ -23,15 +24,12 @@ const LearningResource = () => {
 
   const IncrementProgress = async () => {
     try {
-      const outcome = await Axios.put(
-        `http://localhost:8000/resources/progress/updates`,
-        {
-          userId: loggedInUser._id, //user.id
-          topic: topic,
-          source: source,
-          lessonName: lesson,
-        }
-      );
+      const outcome = await Axios.put(`${BASE}/resources/progress/updates`, {
+        userId: loggedInUser._id, //user.id
+        topic: topic,
+        source: source,
+        lessonName: lesson,
+      });
 
       console.log(outcome.data);
     } catch (error) {
@@ -75,7 +73,7 @@ const LearningResource = () => {
         setLoading(true);
         try {
           const response = await Axios.post(
-            "http://localhost:8000/resources/getLessonBodies",
+            `${BASE}/resources/getLessonBodies`,
             {
               userId: loggedInUser._id,
               lessonTitle: lesson,
@@ -107,7 +105,9 @@ const LearningResource = () => {
     topicRelated && Object.keys(topicRelated).length > 0 && (
       <>
         <div style={{ display: "flex", fontFamily: "poppins" }}>
-          <Link to={`/learnprint/${topic}`} style={{margin:"20px"}}>Go Back!</Link>
+          <Link to={`/learnprint/${topic}`} style={{ margin: "20px" }}>
+            Go Back!
+          </Link>
           <div
             className="sidebar"
             style={{

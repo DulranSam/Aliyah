@@ -2,8 +2,8 @@ import Axios from "axios"; // Assuming you've installed frontend-friendly axios
 import initializeProbabilities from "../FeedbackPage/initializeProbabilities";
 import updateLoggedUser from "./updateLoggedUser";
 
-const updateCourses = async (userId, courseRef, courseKey) => {
-  const response = await Axios.post("http://localhost:8000/course/getLessons", {
+const updateCourses = async (userId, courseRef, courseKey, BASE) => {
+  const response = await Axios.post(`${BASE}/course/getLessons`, {
     topic: courseKey,
   });
 
@@ -32,23 +32,23 @@ const updateCourses = async (userId, courseRef, courseKey) => {
     topicLesson: topicArr,
   };
 
-  const res = await Axios.post("http://localhost:8000/user/intialiazeLessons", {
+  const res = await Axios.post(`${BASE}/user/intialiazeLessons`, {
     userId: userId,
     newLessonProgress: topicLessonArr,
   });
 
   console.log(res.data);
 
-  await updateLoggedUser(userId).then(() => {});
+  await updateLoggedUser(userId, BASE).then(() => {});
 
   // No need to parse JSON again
   const loggedInUser = JSON.parse(sessionStorage.getItem("loggedUser")).data;
 
-  await initializeProbabilities(courseKey).then((result) => {
+  await initializeProbabilities(courseKey, BASE).then((result) => {
     console.log(result);
 
-    async function updateModuleProbability() {
-      await Axios.post("http://localhost:8000/user/updateModuleProbabilities", {
+    async function updateModuleProbability(BASE) {
+      await Axios.post(`${BASE}/user/updateModuleProbabilities`, {
         userId: loggedInUser._id,
         source: courseKey,
         topicProbabilities: result,
@@ -61,7 +61,7 @@ const updateCourses = async (userId, courseRef, courseKey) => {
         });
     }
 
-    updateModuleProbability();
+    updateModuleProbability(BASE);
 
     window.location.href = "/select-course";
   });

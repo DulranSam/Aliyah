@@ -6,6 +6,7 @@ import { UserContext } from "../../App";
 import CourseComponent from "./CourseComponent";
 
 const SelectCourses = () => {
+  const { BASE } = useContext(UserContext);
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   const [userStartedCourses, setUserStartedCourses] = useState([]);
@@ -14,13 +15,10 @@ const SelectCourses = () => {
   const [lessonProgress, setLessonProgress] = useState([]);
 
   const initializeProgress = async (sourceKey) => {
-    const response = await Axios.post(
-      "http://localhost:8000/course/getProgress",
-      {
-        sourceKey: sourceKey,
-        userID: loggedInUser._id,
-      }
-    );
+    const response = await Axios.post(`${BASE}/course/getProgress`, {
+      sourceKey: sourceKey,
+      userID: loggedInUser._id,
+    });
 
     setLessonProgress((prevLessonProgress) => [
       ...prevLessonProgress,
@@ -30,12 +28,9 @@ const SelectCourses = () => {
 
   const retrieveCourses = async (userCourses) => {
     try {
-      const response = await Axios.post(
-        "http://localhost:8000/course/getModules",
-        {
-          courses: userCourses,
-        }
-      );
+      const response = await Axios.post(`${BASE}/course/getModules`, {
+        courses: userCourses,
+      });
 
       setUserStartedCourses(response.data.userInProgress);
       setNotStartedCourses(response.data.userNotStarted);

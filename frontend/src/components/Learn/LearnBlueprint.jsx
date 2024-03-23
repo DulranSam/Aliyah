@@ -167,12 +167,9 @@ const LearnBlueprint = () => {
   }
 
   const generateTopicalExam = async (topical) => {
-    await Axios.post(
-      "http://localhost:8000/getQuestionsOnTopic/getQuestionsForExam",
-      {
-        topics: [topical],
-      }
-    )
+    await Axios.post(`${BASE}/getQuestionsOnTopic/getQuestionsForExam`, {
+      topics: [topical],
+    })
       .then(function (response) {
         let questionIDs = [];
         response.data.forEach((element) => {
@@ -196,7 +193,7 @@ const LearnBlueprint = () => {
       moduleFull = "Probability and Statistics I";
     }
 
-    await Axios.post("http://localhost:8000/exam/saveExam", {
+    await Axios.post(`${BASE}/exam/saveExam`, {
       examType: "Topical",
       examQuestions: questionIDs,
       userRef: loggedInUser._id,

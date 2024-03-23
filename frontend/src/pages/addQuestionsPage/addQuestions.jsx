@@ -2,10 +2,11 @@ import NavBar from "../../components/NavigationBar/navBar.jsx";
 import "../main.css";
 import "../addQuestionsPage/addQuestions.css";
 import { useRef, useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Axios from "axios";
 import { Image } from "cloudinary-react";
 import "//unpkg.com/mathlive";
+import { UserContext } from "../../App";
 
 function QuestionSourcePanel({
   setQuestionSource,
@@ -19,14 +20,14 @@ function QuestionSourcePanel({
   const [topicInputBoxes, setTopicInputBoxes] = useState([]);
   const [moduleInputBoxes, setModuleInputBoxes] = useState([]);
 
+  const { BASE } = useContext(UserContext);
+
   // Retrieving the topics
 
   useEffect(() => {
     const retrieveModules = async () => {
       try {
-        const response = await Axios.get(
-          "http://localhost:8000/addQuestion/getModules"
-        );
+        const response = await Axios.get(`${BASE}/addQuestion/getModules`);
         const newOptions = response.data.map((topic, i) => (
           <option key={i} value={topic}>
             {topic}
@@ -45,7 +46,7 @@ function QuestionSourcePanel({
 
       try {
         const response = await Axios.post(
-          "http://localhost:8000/addQuestion/getQuestionInfo",
+          `${BASE}/addQuestion/getQuestionInfo`,
           {
             source: currentQuestionSource,
           }
@@ -197,16 +198,19 @@ function QuestionGridUnit({ index, onInputChange }) {
 
     const postFigure = async () => {
       try {
-        const response = await Axios.post("https://api.cloudinary.com/v1_1/dl13hpmzu/upload", formData);
+        const response = await Axios.post(
+          "https://api.cloudinary.com/v1_1/dl13hpmzu/upload",
+          formData
+        );
         console.log(response);
         setFigureText(response.data.secure_url);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     postFigure();
-  }
+  };
 
   useEffect(() => {
     onInputChange(index, {
@@ -269,9 +273,17 @@ function QuestionGridUnit({ index, onInputChange }) {
               type="text"
               className="qgu-figure-input"
             />
-            <input type="file" name="file" id="file" className="figure-input-btn" accept="image/png, image/gif, image/jpeg" onChange={(e) =>
-            setSelectedImage(e.target.files[0])}/>
-            <button onClick={uploadFigure} className="figure-upload-btn">Upload Image</button>
+            <input
+              type="file"
+              name="file"
+              id="file"
+              className="figure-input-btn"
+              accept="image/png, image/gif, image/jpeg"
+              onChange={(e) => setSelectedImage(e.target.files[0])}
+            />
+            <button onClick={uploadFigure} className="figure-upload-btn">
+              Upload Image
+            </button>
           </div>
           <input
             placeholder="Marks"
@@ -357,7 +369,7 @@ function QuestionFinalPanel() {
 
     let questionIDFinal = "";
 
-    await Axios.post("http://localhost:8000/addQuestion/getQuestionInfo", {
+    await Axios.post(`${BASE}/addQuestion/getQuestionInfo`, {
       source: questionSource,
     })
       .then((res) => {
@@ -373,7 +385,7 @@ function QuestionFinalPanel() {
           questionIDSource + "_" + questionIDTopic + questionIDNumYearVariant;
         console.log(questionIDFinal);
         console.log(questionObject);
-        Axios.post("http://localhost:8000/addQuestion", {
+        Axios.post(`${BASE}/addQuestion`, {
           questionID: questionIDFinal,
           questionTopic: questionTopic,
           questionsGrid: Object.values(questionObject).map(
@@ -396,7 +408,7 @@ function QuestionFinalPanel() {
       })
       .catch((err) => console.log(err));
 
-      window.location.reload(false);
+    window.location.reload(false);
   };
 
   return (
@@ -420,17 +432,20 @@ function QuestionFinalPanel() {
 }
 
 function AddQuestionsPage() {
-
   const [latex, setLatex] = useState("");
   const handleLatexChange = (event) => {
-    console.log(event.target.value)
+    console.log(event.target.value);
     setLatex(event.target.value);
-  }
+  };
 
   return (
     <>
       <NavBar />
-      <math-field onInput={evt => setLatex(evt.target.value)} className="answer-input" placeholder="Type LaTeX..."></math-field>
+      <math-field
+        onInput={(evt) => setLatex(evt.target.value)}
+        className="answer-input"
+        placeholder="Type LaTeX..."
+      ></math-field>
       <div className="latex-render">{latex}</div>
       <QuestionFinalPanel />
     </>

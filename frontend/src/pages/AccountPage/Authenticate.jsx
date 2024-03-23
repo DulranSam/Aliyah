@@ -12,7 +12,7 @@ export default function Authenticate() {
   useEffect(() => {
     const authenticated = async () => {
       try {
-        const response = await axios.post("http://localhost:8000/register", {
+        const response = await axios.post(`${BASE}/register`, {
           user,
         });
         console.log("Response:", response.data);
