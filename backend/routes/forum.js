@@ -9,7 +9,7 @@ router.route("/").post(async (req, res) => {
   try {
     let forums;
     if (searchParams && searchParams.trim() !== "") {
-      forums = await forumModel.find({ topic: searchParams });
+      forums = await forumModel.find({ topic: searchParams }).sort();
     } else {
       forums = await forumModel.find(); // Get all forums if no search params
     }
@@ -58,7 +58,7 @@ router.route("/addQuestion").post(async (req, res) => {
 });
 
 router.route("/addAnswerToQuestion").post(async (req, res) => {
-  const { questionId, answer, answeredBy} = req.body;
+  const { questionId, answer, answeredBy } = req.body;
 
   if (!questionId || !answer) {
     return res
@@ -148,7 +148,8 @@ router.route("/search").post(async (req, res) => {
 
 router.route("/delans/:id").delete(async (req, res) => {
   const id = req?.params?.id;
-  const by = req.body.userID;
+  const by = req?.body?.userID;
+  console.log(`The id is ${id} and it's by ${by}`);
   if (!id || !by) {
     return res.status(400).json({ Alert: "No ID/Who Answered Provided!" });
   }
@@ -174,7 +175,7 @@ router.route("/delans/:id").delete(async (req, res) => {
 router
   .route("/:id")
   .put(async (req, res) => {
-    const { answer, whoAnswered  } = req.body; //by default the guest answers
+    const { answer, whoAnswered } = req.body; //by default the guest answers
     const id = req.params.id;
 
     if (!answer || !id) {
@@ -240,7 +241,7 @@ router.route("/upvotes/:id").put(async (req, res) => {
 
     const upvotedByUpdate = await userModel.findByIdAndUpdate(
       { _id: userId },
-      { $inc: { nerdPoints: 5 }, $push: { upvotedBy: id } },
+      { $inc: { voxelPoints: 5 }, $push: { upvotedBy: id } },
       { new: true }
     );
 
@@ -263,9 +264,9 @@ router.route("/upvotes/:id").put(async (req, res) => {
 
 router.route("/nerds/:id").put(async (req, res) => {
   const id = req?.params?.id;
-  const { userID = "65e82c4ae84d64fde8049ce4", theTotalUpvotes } = req?.body;
+  const { userID } = req?.body;
 
-  console.log(`Payload ${id} and ${userID} , ${theTotalUpvotes}`);
+  console.log(`Payload ${id} and ${userID} `);
   if (!id || !userID)
     return res.status(400).json({ Alert: "ID + userID are REQUIRED!" });
   try {
@@ -274,7 +275,7 @@ router.route("/nerds/:id").put(async (req, res) => {
       return res.status(404).json({ Alert: `${String(id)} is invalid!` });
     } else {
       const updated = await userModel.findByIdAndUpdate(userID, {
-        $inc: { nerdPoints: 5 },
+        $inc: { voxelPoints: 5 },
       });
 
       // Check if the 'answers' array exists in the forum question
@@ -311,7 +312,7 @@ router.route("/downvotes/:id").put(async (req, res) => {
     );
     const nerdPointsUpdate = await userModel.findByIdAndUpdate(
       { _id: userId },
-      { $inc: { nerdPoints: -1 } }
+      { $inc: { voxelPoints: -1 } }
     ); //decrement points by 1
     if (!nerdPointsUpdate) {
       res.status(400).json({
