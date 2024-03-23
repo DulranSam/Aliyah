@@ -30,9 +30,8 @@ const ForumQuestion = (questionDataParam, theKey) => {
     setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
   }, []);
 
-  
   useEffect(() => {
-    console.log(`The question data -> ${JSON.stringify(questionData)}`)
+    console.log(`The question data -> ${JSON.stringify(questionData)}`);
   }, []);
 
   useEffect(() => {
@@ -149,11 +148,12 @@ const ForumQuestion = (questionDataParam, theKey) => {
     }
   };
 
-  const DeleteAnswer = async (id) => {
+  const DeleteAnswer = async (id, by) => {
     console.log(`The userID is ${loggedInUser._id}`);
+    console.log(by);
     try {
       const response = await Axios.delete(`${BASE}/forum/delans/${id}`, {
-        userID: loggedInUser._id,
+        whoAnswered: "blackpeople",
       });
       if (response.status === 200) {
         setData((prev) => prev.filter((comment) => comment._id !== id));
@@ -180,7 +180,9 @@ const ForumQuestion = (questionDataParam, theKey) => {
             <br />
             <Typography variant="h6">{answer.text}</Typography>
             <Typography variant="body1">
-              Posted By: {answer.answeredBy}
+              {answer.answeredBy
+                ? ` By ${answer.answeredBy}`
+                : "No answers yet!"}
             </Typography>
             <Typography variant="body1">
               {answer.noOfUpvotes
@@ -189,7 +191,11 @@ const ForumQuestion = (questionDataParam, theKey) => {
             </Typography>
             <br />
             {answer.answeredBy === loggedInUser.username ? (
-              <Button onClick={() => DeleteAnswer(answer._id)}>Delete</Button>
+              <Button
+                onClick={() => DeleteAnswer(answer._id, answer.answeredBy)}
+              >
+                Delete
+              </Button>
             ) : (
               ""
             )}

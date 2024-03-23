@@ -147,27 +147,46 @@ router.route("/search").post(async (req, res) => {
 });
 
 router.route("/delans/:id").delete(async (req, res) => {
-  const id = req?.params?.id;
-  const by = req?.body?.by;
-  console.log(`The id is ${id} and it's by ${by}`);
-  if (!id || !by) {
-    return res.status(400).json({ Alert: "No ID/Who Answered Provided!" });
-  }
+  try {
+    const id = req.params.id;
+    const { whoAnswered="blackpeople" } = req.body;
+    console.log(`The id is ${id} and answered by ${whoAnswered}`)
 
-  const userExists = await userModel.findOne({ username: by });
-  if (userExists) {
-    try {
-      const exists = await forumModel.findById(id);
-      if (!exists) {
-        return res.status(404).json({ Alert: "Invalid ID" });
-      }
-
-      await exists.answers[-1].deleteOne();
-      return res.status(200).json({ Alert: `Deleted ${id}` });
-    } catch (error) {
-      console.error("Error deleting document:", error);
-      return res.status(500).json({ Alert: "Internal Server Error" });
+    if (!id || !whoAnswered) {
+      return res.status(400).json({ Alert: "No ID or Who Answered Provided!" });
     }
+
+    // Check if the user who answered exists
+    const userExists = await userModel.findOne({ username: whoAnswered });
+    if (!userExists) {
+      return res.status(404).json({ Alert: "User not found" });
+    }
+
+    // Check if the forum post exists
+    const forumPost = await forumModel.findById(id);
+    if (!forumPost) {
+      return res.status(404).json({ Alert: "Forum post not found" });
+    }
+
+    // Find the index of the answer provided by the user
+    const answerIndex = forumPost.answers.findIndex(
+      (answer) => answer.answeredBy === whoAnswered
+    );
+
+    if (answerIndex !== -1) {
+      // Remove the answer from the array of answers
+      forumPost.answers.splice(answerIndex, 1);
+
+      // Save the updated forum post
+      await forumPost.save();
+
+      return res.status(200).json({ Alert: `Answer deleted from post ${id}` });
+    } else {
+      return res.status(404).json({ Alert: "Answer not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting answer:", error);
+    return res.status(500).json({ Alert: "Internal Server Error" });
   }
 });
 
