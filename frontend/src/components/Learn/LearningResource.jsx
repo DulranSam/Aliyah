@@ -68,7 +68,7 @@ const LearningResource = () => {
     }
     setTimeout(() => {
       window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
-    }, 100);
+    }, 50);
   };
 
   useEffect(() => {
