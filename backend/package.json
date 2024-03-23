@@ -22,7 +22,10 @@
     "test:integration": "jest --testPathPattern=integration",
     "test:learn":"jest --testPathPattern=learn",
     "test:forum":"jest --testPathPattern=forum",
-    "test:exam":"jest --testPathPattern=exam"
+    "test:exam":"jest --testPathPattern=exam",
+    "test:courses":"jest --testPathPattern=courses",
+    "test:getQuestion":"jest --testPathPattern=getQuestion",
+    "test:getTopics":"jest --testPathPattern=getTopics"
   },
   "name": "backend",
   "version": "1.0.0",
