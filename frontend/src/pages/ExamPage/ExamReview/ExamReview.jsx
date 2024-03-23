@@ -25,6 +25,15 @@ function ExamReview() {
     const pageContainer = document.querySelector(".qr-container");
     const answerFields = document.querySelectorAll("math-field");
     const subContainers = document.querySelectorAll(".answer-for-sub-question");
+    const mqContainers = document.querySelectorAll(".mq-answer-container");
+
+    if (mqContainers) {
+
+      mqContainers.forEach((subContainer) => {
+        subContainer.style.flexDirection = "column";
+        subContainer.style.alignItems = "flex-start";
+      });
+    }
 
     questionContainer.classList.remove("hidden");
     pageContainer.style.alignItems = "normal";
@@ -62,6 +71,7 @@ function ExamReview() {
       const pUser = document.createElement("p");
       pUser.style.textAlign = "start";
       pUser.style.fontSize = "1.15rem";
+      pUser.style.marginTop = "20px";
       pUser.innerText = "User Answer:";
       pUser.style.fontWeight = "bold";
 
