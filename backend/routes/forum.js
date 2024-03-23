@@ -161,7 +161,8 @@ router.route("/delans/:id").delete(async (req, res) => {
       if (!exists) {
         return res.status(404).json({ Alert: "Invalid ID" });
       }
-      console.log(exists);
+
+      await exists.answers[-1].deleteOne();
       return res.status(200).json({ Alert: `Deleted ${id}` });
     } catch (error) {
       console.error("Error deleting document:", error);

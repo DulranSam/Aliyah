@@ -30,6 +30,11 @@ const ForumQuestion = (questionDataParam, theKey) => {
     setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
   }, []);
 
+  
+  useEffect(() => {
+    console.log(`The question data -> ${JSON.stringify(questionData)}`)
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       setStatus("");
