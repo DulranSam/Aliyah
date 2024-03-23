@@ -37,7 +37,7 @@ async function authenticated(req, res, next) {
   }
 }
 
-app.use(cors({ origin: ["http://localhost:5173"] })); //allow access from anywhere for now!
+app.use(cors({ origin: "*" })); //allow access from anywhere for now!
 app.use(morgan("combined"));
 app.use(express.urlencoded());
 app.use(helmet());
