@@ -67,7 +67,13 @@ router.route("/getExam").post(async (req, res) => {
     return res.status(400).json({ Alert: "The exam reference ID is missing." });
   }
 
-  const examData = await examModel.findById(examRef);
+  let examData;
+
+  try {
+    examData = await examModel.findById(examRef);
+  } catch {
+     return res.status(400).json({ Alert: "No matching exam is found" });
+  }
 
   if (!examData) {
     res
