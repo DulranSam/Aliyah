@@ -9,31 +9,28 @@ const NavBar = () => {
           <a className="navItem" href="/">
             Home
           </a>
-          <a className="navItem" href="#">
-            About
-          </a>
           <a className="navItem" href="select-course">
             Courses
           </a>
+          <a className="navItem" href="dashboard">
+            Dashboard
+          </a>
           <a className="navItem" href="#">
-            Support
+            Resources
           </a>
           <a className="navItem" href="questions">
             Test
           </a>
           <a className="navItem" href="dashboard">
-            Progression
+            Exams
           </a>
-          <a className="navItem" href="authenticate">
-            Auth
+          <a className="navItem" href="#">
+            Forum
           </a>
         </nav>
         <div className="logContainer">
           <a className="loginBtn" href="login">
-            Login
-          </a>
-          <a className="signupBtn" href="registration">
-            Sign up
+            Log out
           </a>
         </div>
       </div>

@@ -1,16 +1,8 @@
 /* Website background container */
 .backgroundContainer {
-  background-color: black;
-  width: fit-content;
-}
-
-/* Background image of the website */
-.bgImg {
-  width: 99vw;
-  height: 100vh;
-  opacity: 0.5;
-  background-image: url("/images/background.png");
-  background-size: contain;
+  background: rgb(132,118,154);
+background: linear-gradient(180deg, rgba(132,118,154,1) 0%, rgba(204,174,186,1) 25%, rgba(236,200,188,1) 75%, rgba(238,194,145,1) 100%);
+  height: 93.5vh;
 }
 
 .itemsContainer {
@@ -19,11 +11,6 @@
   left: 50%;
   transform: translate(-50%, -45%);
   text-align: center;
-}
-
-.webText {
-  color: white;
-  font-size: 64px;
 }
 
     /* Courses button */
@@ -63,8 +50,9 @@
 
   .registration-btns {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-evenly ;
   }
 
   .registration-btns {

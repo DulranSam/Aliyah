@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import NavBar from "../../components/NavigationBar/navBar.jsx";
 import "./home.css";
@@ -5,6 +6,7 @@ import "../main.css";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../App.jsx";
+import { Helmet } from 'react-helmet';
 
 function Home() {
   const { isAuthenticated, user, setIsAuthenticated, setUser } =
@@ -19,37 +21,41 @@ function Home() {
 
   return isAuthenticated ? (
     <>
+      <Helmet>
+        <title>ALiyah | Home</title>
+      </Helmet>
       <NavBar />
       <div className="backgroundContainer">
-        <img alt="background" className="bgImg" src="./images/background.png" />
         <div className="itemsContainer">
-          <p className="webText">
-            <b>ALiyah</b> <br />
-            Welcome Back {user.username}
-          </p>
-          <a className="coursesBtn" href="#">
-            GO TO COURSES
-          </a>
+          <p style={{fontSize: "64px", color: "white"}}>
+            <b style={{fontSize: "128px", textShadow: "1px 1px 8px rgba(0, 0, 0, 1)"}}>ALiyah</b>
+            <br />
+            Welcome back, <i>{user.username}</i></p>
+            <p></p>
         </div>
       </div>
     </>
   ) : (
     <div>
+      <Helmet>
+        <title>ALiyah | Welcome to the realms!</title>
+      </Helmet>
       <div className="backgroundContainer">
         <img alt="background" className="bgImg" src="./images/background.png" />
-
         <div className="itemsContainer">
-          <p className="webText">
-            <b>ALiyah</b> <br />
-            Your partner for learning <br />
+          <p style={{fontSize: "64px", color: "white"}}>
+            <b style={{fontSize: "128px"}}>ALiyah</b>
+            <br />
+            Your partner for learning<br />
             Advanced Level Mathematics!
           </p>
+          <p style={{color: "white", padding: "20px", fontStyle: "italic"}}>Welcome to the e-learning party! No velvet ropes, <br />just logins and laughter. Get on the guest list by registering or logging in!</p>
           <div className="registration-btns">
             <Link to="login" className="clickLogBtn">
-              CLICK HERE TO LOGIN
+              Click here to Login!
             </Link>
             <Link to="register" className="clickLogBtn">
-              Or Register!
+              Click here to Register!
             </Link>
           </div>
         </div>
