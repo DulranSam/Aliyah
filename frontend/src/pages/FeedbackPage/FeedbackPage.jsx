@@ -14,6 +14,8 @@ const FeedbackPage = () => {
 
   const [loggedInUser, setLoggedInUser] = useState({});
 
+  const [selectedModule, setSelectedModule] = useState("");
+
   useEffect(() => {
     setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
   }, []);
@@ -287,7 +289,7 @@ const FeedbackPage = () => {
       examType: "Feedback",
       examQuestions: examQuestions,
       userRef: loggedInUser._id,
-      examModule: "Pure Mathematics I",
+      examModule: selectedModule,
       examTopic: "None",
     })
       .then(function (response) {
@@ -306,7 +308,14 @@ const FeedbackPage = () => {
             <div
               key={index}
               className="module"
-              onClick={() => getQuestionsOnProbability(moduleKey)}
+              onClick={() => {
+                setSelectedModule(
+                  moduleKey === "p1"
+                    ? "Pure Mathematics I"
+                    : "Probability and Statistics I"
+                );
+                getQuestionsOnProbability(moduleKey);
+              }}
             >
               <h3>
                 {moduleKey === "p1"
