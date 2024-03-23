@@ -80,6 +80,8 @@ const Forum = () => {
     } catch (error) {
       console.error("Error fetching forum data:", error);
       setStatus("Error fetching forum data");
+    }finally{
+      setLoading(false);
     }
   };
 
