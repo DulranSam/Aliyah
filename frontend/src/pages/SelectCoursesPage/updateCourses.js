@@ -37,8 +37,6 @@ const updateCourses = async (userId, courseRef, courseKey, BASE) => {
     newLessonProgress: topicLessonArr,
   });
 
-  console.log(res.data);
-
   await updateLoggedUser(userId, BASE).then(() => {});
 
   // No need to parse JSON again
@@ -48,6 +46,7 @@ const updateCourses = async (userId, courseRef, courseKey, BASE) => {
     console.log(result);
 
     async function updateModuleProbability(BASE) {
+      console.log(BASE);
       await Axios.post(`${BASE}/user/updateModuleProbabilities`, {
         userId: loggedInUser._id,
         source: courseKey,
@@ -61,9 +60,10 @@ const updateCourses = async (userId, courseRef, courseKey, BASE) => {
         });
     }
 
-    updateModuleProbability(BASE);
-
-    window.location.href = "/select-course";
+    updateModuleProbability(BASE).then(() => {
+      console.log("Module probabilities updated");
+      window.location.href = "/select-course";
+    });
   });
 
   return response.data;

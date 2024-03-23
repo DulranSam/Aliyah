@@ -41,9 +41,12 @@ const LearningResource = () => {
     let currentLessonIndex = null;
     let nextLesson = "";
 
+    console.log(topicRelated);
+
     topicRelated.map((x, index) => {
       if (x.lessonName == lesson) {
         if (x.completed == false) {
+          console.log("Lesson not completed");
           IncrementProgress();
         } else {
           setStatus(`You have completed ${lesson}`);

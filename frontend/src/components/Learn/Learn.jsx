@@ -30,8 +30,6 @@ const Learn = () => {
       const response = await Axios.post(`${BASE}/resources/getStartedCourses`, {
         userId: loggedInUser._id,
       });
-
-      console.log(response.data);
       setStartedModule(response.data.startedCourses);
     } catch (error) {
       console.error(error.message);
@@ -47,7 +45,6 @@ const Learn = () => {
 
   useEffect(() => {
     if (Object.keys(loggedInUser).length > 0) {
-      console.log(loggedInUser);
       fetchStartedModule();
     }
   }, [loggedInUser]);
