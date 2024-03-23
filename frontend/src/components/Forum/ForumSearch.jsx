@@ -25,6 +25,7 @@ const ForumSearch = () => {
     setData,
     toggle,
     setToggle,
+    BASE,
   } = useContext(UserContext);
 
   const EndPoint = `${BASE}/forum`;
