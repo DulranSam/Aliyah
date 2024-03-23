@@ -71,7 +71,7 @@ function ExamReview() {
       const pUser = document.createElement("p");
       pUser.style.textAlign = "start";
       pUser.style.fontSize = "1.15rem";
-      pUser.style.marginTop = "20px";
+      pUser.style.marginBlock = "20px";
       pUser.innerText = "User Answer:";
       pUser.style.fontWeight = "bold";
 
