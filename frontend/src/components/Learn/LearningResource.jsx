@@ -48,7 +48,9 @@ const LearningResource = () => {
         if (x.completed == false) {
           console.log("Lesson not completed");
           IncrementProgress().then(() => {
-            window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
+            setTimeout(() => {
+              window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
+            }, 1000);
           });
         } else {
           setStatus(`You have completed ${lesson}`);
