@@ -183,9 +183,11 @@ const ForumQuestion = (questionDataParam, theKey) => {
                 : "No upvotes!"}
             </Typography>
             <br />
-            <Button onClick={() => DeleteAnswer(questionData._id)}>
-              Delete
-            </Button>
+            {answer.answeredBy === loggedInUser.username ? (
+              <Button onClick={() => DeleteAnswer(answer._id)}>Delete</Button>
+            ) : (
+              ""
+            )}
             <br />
             <Button
               onClick={() => nerdPointsIncrement(questionData._id)}
