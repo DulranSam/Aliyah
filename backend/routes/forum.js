@@ -274,23 +274,25 @@ router.route("/nerds/:id").put(async (req, res) => {
     if (!exists) {
       return res.status(404).json({ Alert: `${String(id)} is invalid!` });
     } else {
-      const updated = await userModel.findByIdAndUpdate(userID, {
-        $inc: { voxelPoints: 5 },
-      });
+      const updated = await userModel.findById(userID);
 
-      // Check if the 'answers' array exists in the forum question
-      if (!exists.answers || !exists.answers.noOfUpvotes) {
-        // If not, create it and set the initial value to 1
-        exists.answers = { noOfUpvotes: 1 };
-      } else {
-        // If it exists, increment the 'noOfUpvotes' field by 1
-        exists.answers.noOfUpvotes++;
+      if (!updated) {
+        return res.status(404).json({ Alert: `${String(userID)} is invalid!` });
       }
 
-      // Save the updated forum question
-      await exists.save();
+      updated.voxelPoints += 5; // Increment the user's 'voxelPoints' by 5
 
-      res.status(200).json([{ forum: exists }, { user: updated }]);
+      for (answer of exists.answers) {
+        if (answer.answeredBy === updated.username) {
+          answer.noOfUpvotes++;
+        }
+      }
+
+      await updated.save().then(async () => {
+        await exists.save().then(() => {
+          res.status(200).json([{ forum: exists }, { user: updated }]);
+        });
+      });
     }
   } catch (error) {
     console.error("Error occurred:", error);
