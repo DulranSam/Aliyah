@@ -20,18 +20,18 @@ router.route("/save-exam-ref").post(async (req, res) => {
 });
 
 router.route("/updateOneModuleProbability").post(async (req, res) => {
-  const { userId, topicKey, sourceKey, probability   } = req?.body;
+  const { userId, topicKey, sourceKey, probability } = req?.body;
 
   const user = await userModel.findById(userId);
 
   user.topicProbabilities[sourceKey][topicKey] = probability;
 
   const updatedUser = await userModel.findByIdAndUpdate(userId, {
-    topicProbabilities: user.topicProbabilities
-  })
+    topicProbabilities: user.topicProbabilities,
+  });
 
   if (!updatedUser) {
-    return res.status(400).json({Alert: "updatedUser doesnt match records"})
+    return res.status(400).json({ Alert: "updatedUser doesnt match records" });
   } else {
     return res.status(200).json(updatedUser);
   }
@@ -39,6 +39,8 @@ router.route("/updateOneModuleProbability").post(async (req, res) => {
 
 router.route("/updateModuleProbabilities").post(async (req, res) => {
   const { userId, topicProbabilities, source } = req?.body;
+
+  console.log(topicProbabilities);
 
   if (!userId || !topicProbabilities || !source) {
     return res
@@ -60,6 +62,8 @@ router.route("/updateModuleProbabilities").post(async (req, res) => {
 
   // Update the topicProbabilities field with the new object
   validUser.topicProbabilities = updatedTopicProbabilities;
+
+  console.log(updatedTopicProbabilities);
 
   const savedUser = await validUser.save();
 

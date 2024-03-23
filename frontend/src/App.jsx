@@ -15,7 +15,6 @@ import ExamPage from "./pages/ExamPage/ExamPage";
 import SelectCourses from "./pages/SelectCoursesPage/SelectCourses";
 import SpecificCourse from "./pages/SelectCoursesPage/SpecificCourse";
 import ExamReceipt from "./pages/ExamPage/ExamReceipt/ExamReceipt";
-import ExamHistory from "./components/ExamDashboard/ExamHistory";
 import ExamReview from "./pages/ExamPage/ExamReview/ExamReview";
 import Learn from "./components/Learn/Learn";
 import LearnBlueprint from "./components/Learn/LearnBlueprint";
@@ -66,7 +65,7 @@ function App() {
   const [searched, setSearched] = useState([]);
   const [transfer, setTransfer] = useState("");
 
-  const BASE = "http://localhost:8000";
+  const BASE = "https://aliyah-dlyb.onrender.com";
 
   const [loggedInUser, setLoggedInUser] = useState({});
 
@@ -167,7 +166,6 @@ function App() {
           <Route path="exam/:examID" element={<ExamPage />} />
           <Route path="/scope" element={<Scope />}></Route>
           <Route path="receipt" element={<ExamReceipt />} />
-          <Route path="/exam-history" element={<ExamHistory />}></Route>
           <Route path="/exam-review/:examID" element={<ExamReview />}></Route>
           <Route path="/scope" element={<Scope />}></Route>
           <Route path="/examdashboard" element={<ExamDashboard />} />

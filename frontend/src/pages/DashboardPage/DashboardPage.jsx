@@ -326,6 +326,7 @@ function DashboardPage() {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   const {
+    BASE,
     loading,
     setLoading: setLoading,
     value,
@@ -453,10 +454,9 @@ function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/progression/get/hours",
-          { _id: id }
-        );
+        const response = await axios.post(`${BASE}/progression/get/hours`, {
+          _id: id,
+        });
         if (response) {
           setHoursLearned(response.data.hours);
         }

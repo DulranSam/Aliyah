@@ -8,7 +8,7 @@ import { UserContext } from "../../App.jsx";
 
 const Register = () => {
   const navigator = useNavigate();
-  const { loading, setLoading, user, setUser } = useContext(UserContext);
+  const { loading, setLoading, user, setUser, BASE } = useContext(UserContext);
   const [status, setStatus] = useState("");
 
   const handleRegister = async (e) => {
@@ -16,7 +16,7 @@ const Register = () => {
     setStatus("");
     try {
       setLoading(true);
-      const response = await Axios.post("http://localhost:8000/register", user);
+      const response = await Axios.post(`${BASE}/register`, user);
 
       if (response.status === 201) {
         setStatus("You are registered!");

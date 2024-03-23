@@ -2,7 +2,7 @@ import Axios from "axios";
 
 //we can use this to make life easier!
 
-const BASE = "http://localhost:8000";
+const BASE = "https://aliyah-dlyb.onrender.com/";
 
 export async function EquationTest() {
   try {
@@ -42,7 +42,7 @@ export async function FetchMaterial() {
 
 export async function AddMaterial(data) {
   try {
-    const resources = await Axios.post("http://localhost:8000/resources", data);
+    const resources = await Axios.post(`${BASE}/resources`, data);
     return resources.data;
   } catch (err) {
     console.error(err);

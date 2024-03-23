@@ -1,13 +1,20 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
-import ExamHistory from "./ExamHistory";
 import { UserContext } from "../../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import PastPaperScope from "../../pages/PastPaperPage/pastPaperScope";
+import FeedbackPage from "../../pages/FeedbackPage/FeedbackPage";
+import updateLoggedUser from "../../pages/SelectCoursesPage/updateLoggedUser";
 
 const ExamDashboard = () => {
-  const { loading, setLoading, BASE } = useContext(UserContext);
+  const { BASE } = useContext(UserContext);
+
+  const [loading, setLoading] = useState(true);
+
+  const [loggedInUser, setLoggedInUser] = useState({});
+  const [userId, setUserId] = useState("");
+
   const [examDashboard, setExamDashboard] = useState({
     feedbackExams: [],
     topicalExams: [],
@@ -16,14 +23,13 @@ const ExamDashboard = () => {
 
   async function FetchExamData() {
     try {
-      setLoading(true);
       const response = await Axios.post(`${BASE}/examDashboard/getExams`, {
-        userId: "65fd130bc243afb3760aa723",
+        userId: loggedInUser._id,
       });
       if (response.status === 200) {
+        console.log(response.data);
         setExamDashboard(response.data);
       }
-      console.log(`The response is ${JSON.stringify(response.data)}`);
     } catch (err) {
       if (err.response && err.response.status === 400) {
         alert("Error!");
@@ -35,8 +41,26 @@ const ExamDashboard = () => {
   }
 
   useEffect(() => {
-    FetchExamData();
+    setUserId(JSON.parse(sessionStorage.getItem("loggedUser")).data._id);
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      updateLoggedUser(userId, BASE).then(() => {
+        setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
+      });
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (Object.keys(loggedInUser).length) {
+      FetchExamData();
+    }
+  }, [loggedInUser]);
+
+  useEffect(() => {
+    console.log(examDashboard);
+  }, [examDashboard]);
 
   return loading ? (
     <h1 style={{ textAlign: "center", margin: "20px", padding: "10px" }}>
@@ -45,7 +69,6 @@ const ExamDashboard = () => {
   ) : (
     <div style={{ margin: "20px", textAlign: "center" }}>
       <h1>Exam Dashboard</h1>
-  
       <div style={{ margin: "20px" }}>
         {examDashboard.feedbackExams.length ||
         examDashboard.topicalExams.length ||
@@ -55,19 +78,20 @@ const ExamDashboard = () => {
               className="feedback"
               style={{ margin: "20px", padding: "20px" }}
             >
-              <h1>{`Feedback`}</h1>
+              <h1>Feedback</h1>
               {examDashboard.feedbackExams.map((x) => (
                 <div
                   key={x._id}
                   className="card"
                   style={{ marginBottom: "20px" }}
                 >
+                  <p>{x.examModule}</p>
                   <p>{`${Math.round(
                     (x.mark / x.totalMark) * 100
                   )}% Completed`}</p>
                   <Link
                     to={`/exam-review/${x._id}`}
-                  >{`Start ${x.examType} Exam!`}</Link>
+                  >{`Click to view more info!`}</Link>
                 </div>
               ))}
             </div>
@@ -86,12 +110,14 @@ const ExamDashboard = () => {
                     className="card"
                     style={{ marginRight: "20px" }}
                   >
+                    <p>{x.examModule}</p>
                     <p>{`${Math.round(
                       (x.mark / x.totalMark) * 100
                     )}% Completed`}</p>
-                    <Link
-                      to={`/exam-review/${x._id}`}
-                    >{`Start ${x.examType} Exam!`}</Link>
+                    <p>{`${x.examTopic}`}</p>
+                    <Link to={`/exam-review/${x._id}`}>
+                      Click to view more info!
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -107,17 +133,21 @@ const ExamDashboard = () => {
                   className="card"
                   style={{ marginBottom: "20px" }}
                 >
+                  <p>{x.examModule}</p>
                   <p>{`${Math.round(
                     (x.mark / x.totalMark) * 100
                   )}% Completed`}</p>
                   <Link
                     to={`/exam-review/${x._id}`}
-                  >{`Start ${x.examType} Exam!`}</Link>
+                  >{`Click to view more info!`}</Link>
                 </div>
               ))}
-  
             </div>
-            <PastPaperScope/>
+            <PastPaperScope />
+            <div>
+              <h1>Start Feedback Exam</h1>
+              <FeedbackPage />
+            </div>
           </>
         ) : (
           <h1>No results found!</h1>

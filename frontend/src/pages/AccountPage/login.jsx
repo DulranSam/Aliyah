@@ -8,7 +8,7 @@ import "../main.css";
 import "./account.css";
 
 const Login = () => {
-  const BASE = "http://localhost:8000/login";
+
 
   const navigator = useNavigate();
   const {
@@ -21,6 +21,7 @@ const Login = () => {
     setData,
     data,
     userId,
+    BASE,
     setUserId,
   } = useContext(UserContext); //there's a problem here (context)
   const [issue, setIssue] = useState("");
@@ -33,7 +34,7 @@ const Login = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await Axios.post(BASE, user);
+      const response = await Axios.post(`${BASE}/login`, user);
       localStorage.setItem("id",response.data.data._id);
       if (response.status === 200) {
         console.log(response.data);

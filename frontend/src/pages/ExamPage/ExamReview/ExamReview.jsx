@@ -1,10 +1,11 @@
 import "./ExamReview.css";
 import QuestionComponent from "../../../components/QuestionComponent/QuestionComponent";
 import Axios from "axios";
-import { useEffect, useState, useLayoutEffect } from "react";
-import { ClipLoader } from 'react-spinners';
+import { useEffect, useState, useLayoutEffect, useContext } from "react";
+import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router";
 import "//unpkg.com/mathlive";
+import {UserContext} from "../../../App"
 
 function ExamReview() {
   const { examID } = useParams();
@@ -18,13 +19,25 @@ function ExamReview() {
   const [loading, setLoading] = useState(true);
   const [displayButton, setDisplayButton] = useState(true);
 
+  const { BASE } = useContext(UserContext);
+
   const addAnswers = () => {
     setDisplayButton(false);
 
-    const questionContainer = document.querySelector(".question-review-container");
+    const questionContainer = document.querySelector(
+      ".question-review-container"
+    );
     const pageContainer = document.querySelector(".qr-container");
     const answerFields = document.querySelectorAll("math-field");
     const subContainers = document.querySelectorAll(".answer-for-sub-question");
+    const mqContainers = document.querySelectorAll(".mq-answer-container");
+
+    if (mqContainers) {
+      mqContainers.forEach((subContainer) => {
+        subContainer.style.flexDirection = "column";
+        subContainer.style.alignItems = "flex-start";
+      });
+    }
 
     questionContainer.classList.remove("hidden");
     pageContainer.style.alignItems = "normal";
@@ -62,6 +75,7 @@ function ExamReview() {
       const pUser = document.createElement("p");
       pUser.style.textAlign = "start";
       pUser.style.fontSize = "1.15rem";
+      pUser.style.marginBlock = "20px";
       pUser.innerText = "User Answer:";
       pUser.style.fontWeight = "bold";
 
@@ -86,10 +100,7 @@ function ExamReview() {
         fieldContainerCorrect,
         answerFields[i].nextSibling
       );
-      answerFields[i].parentNode.insertBefore(
-        pUser,
-        answerFields[i]
-      );
+      answerFields[i].parentNode.insertBefore(pUser, answerFields[i]);
       answerFields[i].value = userAnswers[i];
       answerFields[i].readOnly = "true";
 
@@ -98,7 +109,7 @@ function ExamReview() {
         answerFields[i].style.border = "0px solid green";
       } else {
         if (answerFields[i].value === "") {
-          answerFields[i].value = "∅"
+          answerFields[i].value = "∅";
         }
         answerFields[i].style.color = "red";
         answerFields[i].style.border = "0px solid red";
@@ -112,12 +123,9 @@ function ExamReview() {
       let answerArray = [];
       for (let i = 0; i < questionIDs.length; i++) {
         try {
-          const response = await Axios.post(
-            "http://localhost:8000/getQuestion",
-            {
-              questionID: questionIDs[i],
-            }
-          );
+          const response = await Axios.post(`${BASE}/getQuestion`, {
+            questionID: questionIDs[i],
+          });
           const questionData = response.data;
           for (let j = 0; j < questionData.answersGrid.length; j++) {
             if (questionData.answersGrid[j] !== "") {
@@ -143,7 +151,7 @@ function ExamReview() {
 
   const getExam = async () => {
     try {
-      const response = await Axios.post("http://localhost:8000/exam/getExam", {
+      const response = await Axios.post(`${BASE}/exam/getExam`, {
         examRef: examID,
       });
       setExamData(response.data);
@@ -176,32 +184,37 @@ function ExamReview() {
   return (
     <>
       {loading ? (
-            <div className="loader-container">
-                <ClipLoader size={450} color="#1fa3d5" loading={true} />
-            </div>
-            ) : (
+        <div className="loader-container">
+          <ClipLoader size={450} color="#1fa3d5" loading={true} />
+        </div>
+      ) : (
         <div className="qr-container vh-det">
-        <div className="question-review-container hidden">{questions}</div>
-        <div className="info-panel question-review">
-          <div className="top-qr">
-            <div className="qrt">
-              <div className="qrt-container">Module: </div>
-              <div className="qrt-value">{examData.examModule}</div>
+          <div className="question-review-container hidden">{questions}</div>
+          <div className="info-panel question-review">
+            <div className="top-qr">
+              <div className="qrt">
+                <div className="qrt-container">Module: </div>
+                <div className="qrt-value">{examData.examModule}</div>
+              </div>
+              <div className="qrt">
+                <div className="qrt-container">Exam Type: </div>
+                <div className="qrt-value">{examData.examType} Exam</div>
+              </div>
             </div>
-            <div className="qrt">
-              <div className="qrt-container">Exam Type: </div>
-              <div className="qrt-value">{examData.examType} Exam</div>
+            <div className="middle-qr">
+              <div className="qr-mark-title">Mark</div>
+              <div className="qr-mark">
+                {Math.round((examData.mark / examData.totalMark) * 100)}%
+              </div>
             </div>
-          </div>
-          <div className="middle-qr">
-            <div className="qr-mark-title">Mark</div>
-            <div className="qr-mark">{Math.round(examData.mark/examData.totalMark * 100)}%</div>
-          </div>
-          <div className="bottom-qr">
-            {displayButton && <button onClick={addAnswers}>View Answers</button>}
+            <div className="bottom-qr">
+              {displayButton && (
+                <button onClick={addAnswers}>View Answers</button>
+              )}
+            </div>
           </div>
         </div>
-      </div>)}
+      )}
     </>
   );
 }

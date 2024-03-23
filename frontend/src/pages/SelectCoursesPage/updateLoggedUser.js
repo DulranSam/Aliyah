@@ -1,7 +1,7 @@
 import Axios from "axios";
 
-const updateLoggedUser = async (userID) => {
-  const response = await Axios.post("http://localhost:8000/user/getUserById", {
+const updateLoggedUser = async (userID, BASE) => {
+  const response = await Axios.post(`${BASE}/user/getUserById`, {
     id: userID,
   });
   sessionStorage.setItem("loggedUser", JSON.stringify(response));

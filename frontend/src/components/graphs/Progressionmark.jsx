@@ -31,6 +31,7 @@ function Progressionmark() {
   const {
     totalMarks,
     setTotalMarks,
+    BASE,
     voxalPoints,
     loggedInUser,
     setLoggedInUser,
@@ -74,10 +75,9 @@ function Progressionmark() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/progression/get/marks",
-          { useRef: id }
-        );
+        const response = await axios.post(`${BASE}/progression/get/marks`, {
+          useRef: id,
+        });
         console.log(response);
         setLoggedInUser(response);
 

@@ -5,18 +5,13 @@ import { UserContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 
 const PastPaperScope = () => {
-
   const navigator = useNavigate();
 
-    const {
-        loggedInUser,
-        setLoggedInUser
-    } = useContext(UserContext);
+  const { loggedInUser, setLoggedInUser, BASE } = useContext(UserContext);
 
-    useEffect(() => {
-        console.log(JSON.parse(sessionStorage.getItem("loggedUser")).data);
-        setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
-      }, []);
+  useEffect(() => {
+    setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
+  }, []);
 
   const initialState = {
     modules: {},
@@ -53,7 +48,7 @@ const PastPaperScope = () => {
   const getModules = async () => {
     try {
       const response = await Axios.get(
-        "http://localhost:8000/addQuestion/getModulesForPastPaper"
+        `${BASE}/addQuestion/getModulesForPastPaper`
       );
 
       dispatch({ type: "FETCH_MODULES", payload: response.data });
@@ -76,13 +71,10 @@ const PastPaperScope = () => {
 
   const fetchQuestions = async () => {
     try {
-      const response = await Axios.post(
-        "http://localhost:8000/getQuestionsOnTopic",
-        {
-          scopeQuery: `${state.selectedSeason}_${state.selectedYear}_${state.selectedVariant}`,
-          moduleScope: `${state.selectedModule}`,
-        }
-      );
+      const response = await Axios.post(`${BASE}/getQuestionsOnTopic`, {
+        scopeQuery: `${state.selectedSeason}_${state.selectedYear}_${state.selectedVariant}`,
+        moduleScope: `${state.selectedModule}`,
+      });
 
       if (response.data.length === 0) {
         alert("No questions found under this past paper!");
@@ -100,41 +92,38 @@ const PastPaperScope = () => {
   }, []);
 
   const createExam = async () => {
-    await Axios.post("http://localhost:8000/exam/saveExam", {
-        examType: "Past Paper",
-        examQuestions: questionIDs,
-        userRef: loggedInUser._id,
-        examModule: selectedModuleState,
-        examTopic: "None"
+    await Axios.post(`${BASE}/exam/saveExam`, {
+      examType: "Past Paper",
+      examQuestions: questionIDs,
+      userRef: loggedInUser._id,
+      examModule: selectedModuleState,
+      examTopic: "None",
     })
-    .then(function(response) {
+      .then(function (response) {
         navigator(`/exam/${response.data[0].Alert}`);
-    })
-    .catch(function(error) {
+      })
+      .catch(function (error) {
         console.log(error);
-    })
-}
+      });
+  };
 
   useEffect(() => {
-    
     if (questions.length > 0) {
-      
       let questionIDArray = [];
 
       for (const i in questions) {
         questionIDArray.push(questions[i].questionID);
       }
-      
+
       setQuestionIDs(questionIDArray);
     }
-
   }, [questions]);
 
   useEffect(() => {
     if (questionIDs.length > 0) {
       createExam();
     }
-  }, [questionIDs])
+  }, [questionIDs]);
 
   const handleModuleChange = (event) => {
     for (let i = 0; i < state.modules.length; i++) {

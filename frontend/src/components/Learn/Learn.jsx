@@ -16,6 +16,7 @@ const Learn = () => {
     setLoggedInUser,
     loading,
     logged,
+    BASE,
     theTopic,
     setTheTopic,
     setLoading,
@@ -26,14 +27,9 @@ const Learn = () => {
   const fetchStartedModule = async () => {
     try {
       setLoading(true);
-      const response = await Axios.post(
-        `http://localhost:8000/resources/getStartedCourses`,
-        {
-          userId: loggedInUser._id,
-        }
-      );
-
-      console.log(response.data);
+      const response = await Axios.post(`${BASE}/resources/getStartedCourses`, {
+        userId: loggedInUser._id,
+      });
       setStartedModule(response.data.startedCourses);
     } catch (error) {
       console.error(error.message);
@@ -49,7 +45,6 @@ const Learn = () => {
 
   useEffect(() => {
     if (Object.keys(loggedInUser).length > 0) {
-      console.log(loggedInUser);
       fetchStartedModule();
     }
   }, [loggedInUser]);
@@ -72,7 +67,7 @@ const Learn = () => {
         <div className="subjects-container">
           {startedModule.length > 0 &&
             startedModule.map((course, index) => (
-              <div key={index} style={{margin:"40px"}}>
+              <div key={index} style={{ margin: "40px" }}>
                 <Link
                   to={
                     course === "Pure Mathematics I"

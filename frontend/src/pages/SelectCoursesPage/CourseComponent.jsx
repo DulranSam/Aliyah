@@ -2,20 +2,22 @@ import React from "react";
 import "./CourseComponent.css";
 import updateCourses from "./updateCourses";
 import { Link } from "react-router-dom";
-
+import { useContext } from "react";
+import { UserContext } from "../../App";
 import ProgressBar from "@ramonak/react-progress-bar";
 
-const handleClick = async (courseRef, courseKey) => {
+const handleClick = async (courseRef, courseKey, BASE) => {
   let loggedInUser = JSON.parse(sessionStorage.getItem("loggedUser")).data;
 
   try {
-    await updateCourses(loggedInUser._id, courseRef, courseKey);
+    await updateCourses(loggedInUser._id, courseRef, courseKey, BASE);
   } catch (error) {
     console.error(error);
   }
 };
 
 const CourseComponent = ({ course, completedFlag, progress }) => {
+  const { BASE } = useContext(UserContext);
   if (completedFlag == false) {
     return (
       <div className="courseContainer">
@@ -31,7 +33,7 @@ const CourseComponent = ({ course, completedFlag, progress }) => {
         </div>
         <button
           onClick={async () => {
-            handleClick(course._id, course.sourceKey);
+            handleClick(course._id, course.sourceKey, BASE);
           }}
         >
           Start Course
