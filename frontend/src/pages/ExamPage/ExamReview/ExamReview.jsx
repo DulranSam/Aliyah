@@ -1,10 +1,11 @@
 import "./ExamReview.css";
 import QuestionComponent from "../../../components/QuestionComponent/QuestionComponent";
 import Axios from "axios";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState, useLayoutEffect, useContext } from "react";
 import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router";
 import "//unpkg.com/mathlive";
+import {UserContext} from "../../../App"
 
 function ExamReview() {
   const { examID } = useParams();

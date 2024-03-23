@@ -46,7 +46,7 @@ const ExamDashboard = () => {
 
   useEffect(() => {
     if (userId) {
-      updateLoggedUser(userId).then(() => {
+      updateLoggedUser(userId, BASE).then(() => {
         setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
       });
     }

@@ -456,7 +456,7 @@ function ExamPage() {
     if (submitButtonClicked) {
       postUserDetails()
         .then(updateProbabilityForTopical())
-        .then(updateLoggedUser(userRef))
+        .then(updateLoggedUser(userRef, BASE))
         .then(navigator("/receipt", { state: { examRef: examID } }));
     }
   }, [submitButtonClicked]);
