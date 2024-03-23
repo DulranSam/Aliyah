@@ -350,6 +350,7 @@ function QuestionFinalPanel() {
   const [questionYear, setQuestionYear] = useState("000 0000");
   const [questionVariant, setQuestionVariant] = useState(0);
   const [questionObject, setQuestionObject] = useState({});
+  const { BASE } = useContext(UserContext);
 
   const logQuestionSource = async () => {
     let questionIDSource = "";

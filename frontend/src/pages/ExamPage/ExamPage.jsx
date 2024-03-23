@@ -373,6 +373,8 @@ function ExamPage() {
   const { examID } = useParams();
   const [userRef, setUserRef] = useState("");
 
+  const { BASE } = useContext(UserContext);
+
   const [isLoadingInfo, setIsLoadingInfo] = useState(true);
   const [examType, setExamType] = useState("");
   const [examSubject, setExamSubject] = useState("");

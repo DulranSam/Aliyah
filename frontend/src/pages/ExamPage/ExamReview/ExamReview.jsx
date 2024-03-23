@@ -18,6 +18,8 @@ function ExamReview() {
   const [loading, setLoading] = useState(true);
   const [displayButton, setDisplayButton] = useState(true);
 
+  const { BASE } = useContext(UserContext);
+
   const addAnswers = () => {
     setDisplayButton(false);
 
