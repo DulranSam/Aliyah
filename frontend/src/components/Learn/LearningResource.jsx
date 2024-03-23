@@ -66,7 +66,9 @@ const LearningResource = () => {
         nextLesson = topicRelated[0].lessonName;
       }
     }
-    window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
+    setTimeout(() => {
+      window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
+    }, 100);
   };
 
   useEffect(() => {
