@@ -148,22 +148,20 @@ router.route("/search").post(async (req, res) => {
 
 router.route("/delans/:id").delete(async (req, res) => {
   const id = req?.params?.id;
-  const by = req?.body?.userID;
+  const by = req?.body?.by;
   console.log(`The id is ${id} and it's by ${by}`);
   if (!id || !by) {
     return res.status(400).json({ Alert: "No ID/Who Answered Provided!" });
   }
 
-  const userExists = await userModel.findById(by);
+  const userExists = await userModel.findOne({ username: by });
   if (userExists) {
     try {
       const exists = await forumModel.findById(id);
-
       if (!exists) {
         return res.status(404).json({ Alert: "Invalid ID" });
       }
-
-      await exists.answers.deleteOne();
+      console.log(exists);
       return res.status(200).json({ Alert: `Deleted ${id}` });
     } catch (error) {
       console.error("Error deleting document:", error);
