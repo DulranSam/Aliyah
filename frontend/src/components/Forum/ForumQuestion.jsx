@@ -153,7 +153,7 @@ const ForumQuestion = (questionDataParam, theKey) => {
     console.log(by);
     try {
       const response = await Axios.delete(`${BASE}/forum/delans/${id}`, {
-        whoAnswered: "blackpeople",
+        whoAnswered: by,
       });
       if (response.status === 200) {
         setData((prev) => prev.filter((comment) => comment._id !== id));

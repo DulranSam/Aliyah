@@ -149,7 +149,7 @@ router.route("/search").post(async (req, res) => {
 router.route("/delans/:id").delete(async (req, res) => {
   try {
     const id = req.params.id;
-    const { whoAnswered="blackpeople" } = req.body;
+    const { whoAnswered } = req.body;
     console.log(`The id is ${id} and answered by ${whoAnswered}`)
 
     if (!id || !whoAnswered) {
