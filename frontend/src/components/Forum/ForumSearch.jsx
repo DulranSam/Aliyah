@@ -13,6 +13,7 @@ const ForumSearch = () => {
     transfer,
     setSearched,
     search,
+    BASE,
     setTransfer,
     status,
     setStatus,
