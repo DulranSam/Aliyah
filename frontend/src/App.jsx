@@ -9,6 +9,7 @@ import Login from "./pages/AccountPage/login";
 import Register from "./pages/AccountPage/register";
 import Authenticate from "./pages/AccountPage/Authenticate";
 import AddQuestionsPage from "./pages/addQuestionsPage/addQuestions";
+import AddLesson from "./pages/addLessonPage/addLesson";
 import Scope from "./pages/TestPages/Scope";
 import FeedbackPage from "./pages/FeedbackPage/FeedbackPage";
 import ExamPage from "./pages/ExamPage/ExamPage";
@@ -64,12 +65,12 @@ function App() {
   const [search, setSearch] = useState("");
   const [searched, setSearched] = useState([]);
   const [transfer, setTransfer] = useState("");
-  const [listofPureProb,setListOfPureProb] = useState({});
-  const [listofStatProb,setListOfStatProb] = useState({});
-  const [listofpureTopics,setListofPureTopics] = useState([]);
-  const [listofStatTopics,setListStatTopics] = useState([]);
-  const [shortenPureMaths,setshortenPureMaths] = useState([]);
-  const [shortenstats,setshortenstats] = useState([]);
+  const [listofPureProb, setListOfPureProb] = useState({});
+  const [listofStatProb, setListOfStatProb] = useState({});
+  const [listofpureTopics, setListofPureTopics] = useState([]);
+  const [listofStatTopics, setListStatTopics] = useState([]);
+  const [shortenPureMaths, setshortenPureMaths] = useState([]);
+  const [shortenstats, setshortenstats] = useState([]);
 
   const BASE = "http://localhost:8000";
 
@@ -161,7 +162,7 @@ function App() {
     shortenPureMaths,
     setshortenPureMaths,
     shortenstats,
-    setshortenstats
+    setshortenstats,
   };
 
   return (
@@ -179,6 +180,7 @@ function App() {
           {/* <Route path="/authenticate" element={<Authenticate />} /> */}
           <Route path="/past-papers" element={<PastPaperScope />} />
           <Route path="add-questions" element={<AddQuestionsPage />} />
+          <Route path="/add-lesson" element={<AddLesson />} />
           <Route path="/select-course" element={<SelectCourses />} />
           <Route path="/select-course/:theTopic" element={<SpecificCourse />} />
           <Route path="exam/:examID" element={<ExamPage />} />
@@ -203,4 +205,3 @@ function App() {
 }
 
 export default App;
-
