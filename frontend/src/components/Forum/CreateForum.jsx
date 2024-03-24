@@ -9,9 +9,10 @@ const CreateForum = () => {
     question: "",
     topic: "Pure Mathematics I",
   });
+
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+  const { loggedInUser, setLoggedInUser, BASE } = useContext(UserContext);
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -24,20 +25,18 @@ const CreateForum = () => {
   async function createQuestions(e) {
     e.preventDefault();
     try {
-      const response = await Axios.post(
-        "http://localhost:8000/forum/addQuestion",
-        {
-          question: forum.question,
-          description: forum.description,
-          topic: forum.topic,
-        }
-      );
+      const response = await Axios.post(`${BASE}/forum/addQuestion`, {
+        question: forum.question,
+        description: forum.description,
+        topic: forum.topic,
+        by: loggedInUser.username,
+      });
       if (response.status === 201) {
         setSuccessMessage("Question added successfully!");
         setForum({ question: "", topic: "Pure Mathematics I" }); // Clear the form after successful submission
-        // setTimeout(() => {
-        //   navigator("/forum");
-        // }, 500);
+        setTimeout(() => {
+          navigator("/forum");
+        }, 1000);
       }
     } catch (err) {
       if (err.response && err.response.status === 409) {

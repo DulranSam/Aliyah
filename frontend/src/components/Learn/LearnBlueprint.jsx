@@ -16,6 +16,7 @@ import {
 import { styled } from "@mui/system";
 import Axios from "axios";
 import "./Learn.css";
+import NavBar from "../NavigationBar/navBar";
 
 const LearnBlueprint = () => {
   const {
@@ -42,9 +43,12 @@ const LearnBlueprint = () => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [topicTitles, setTopicTitles] = useState([]);
+
+  const [renderComplete, setRenderComplete] = useState(false);
   const [topicPercentage, setTopicPercentage] = useState([]);
   const [topicFirstLesson, setTopicFirstLesson] = useState({});
   const [completedTopical, setCompletedTopical] = useState([]);
+
   const [theSubTopic, setTheSubTopic] = useState("");
   const [status, setStatus] = useState("");
   const navigator = useNavigate();
@@ -83,17 +87,16 @@ const LearnBlueprint = () => {
       } else {
         setStatus("Error occurred while fetching resources.");
       }
-    } finally {
-      setLoading(false);
     }
   }
+  let availableDisabled = 0;
 
   const getCompletedTopicalExams = async () => {
     let moduleNeeded = "";
     if (topic === "p1") {
       moduleNeeded = "Pure Mathematics I";
     } else if (topic === "s1") {
-      moduleNeeded = "Probability & Statistics I";
+      moduleNeeded = "Probability and Statistics I";
     }
 
     try {
@@ -117,8 +120,6 @@ const LearnBlueprint = () => {
 
   useEffect(() => {
     if (Object.keys(loggedInUser).length > 0) {
-      console.log(loggedInUser);
-
       getCompletedTopicalExams();
 
       const fetchTopicData = async () => {
@@ -137,7 +138,7 @@ const LearnBlueprint = () => {
 
   useEffect(() => {
     if (completedTopical.length > 0) {
-      console.log(`Completed Topical Exams: ${completedTopical}`);
+      setLoading(false);
     }
   }, [completedTopical]);
 
@@ -166,42 +167,123 @@ const LearnBlueprint = () => {
     // alert("Clicked!");
   }
 
+  const generateTopicalExam = async (topical) => {
+    await Axios.post(`${BASE}/getQuestionsOnTopic/getQuestionsForExam`, {
+      topics: [topical],
+    })
+      .then(function (response) {
+        let questionIDs = [];
+        response.data.forEach((element) => {
+          questionIDs.push(element.questionID);
+        });
+        if (questionIDs.length > 0) {
+          topicExamHelper(topical, questionIDs);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const topicExamHelper = async (topical, questionIDs) => {
+    let moduleFull = "";
+
+    if (topic === "p1") {
+      moduleFull = "Pure Mathematics I";
+    } else {
+      moduleFull = "Probability and Statistics I";
+    }
+
+    await Axios.post(`${BASE}/exam/saveExam`, {
+      examType: "Topical",
+      examQuestions: questionIDs,
+      userRef: loggedInUser._id,
+      examModule: moduleFull,
+      examTopic: topical,
+    })
+      .then(function (response) {
+        navigator(`/exam/${response.data[0].Alert}`);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    setInterval(() => {
+      setStatus("");
+    }, 3200);
+  }, [status]);
+
   return loading ? (
-    <h1>Loading...</h1>
+    <h1 style={{ padding: "60px" }}>Loading...</h1>
   ) : (
-    <>
-      {topicTitles && topicTitles.length && (
-        <Container
-          style={{ display: "flex", fontFamily: "poppins" }}
-          className="container"
-        >
-          {loading ? (
-            <Typography variant="h4">Loading...</Typography>
-          ) : (
-            <>
-              <Typography variant="h3">
-                {topic === "p1"
-                  ? "Pure Mathematics I"
-                  : "Probability And Statistics"}
-              </Typography>
-              <br />
-              <Typography variant="body1">{status}</Typography>
-              <br />
-              <Table style={{ width: "100%", textAlign: "center" }}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Topic</TableCell>
-                    <TableCell>Learned Progress</TableCell>
-                    <TableCell>Topical Exams</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/* Rendering topicRelated */}
-                  {topicTitles &&
-                    topicTitles.map((title, index) => (
+    <div className="fullthing">
+      <NavBar />
+      {topicTitles && topicTitles.length > 0 && (
+        <>
+          <Typography
+            variant="h3"
+            style={{
+              marginBottom: "30px",
+              color: "black",
+              textAlign: "center",
+              padding: "40px",
+            }}
+          >
+            {topic === "p1"
+              ? "Pure Mathematics I"
+              : "Probability And Statistics"}
+          </Typography>
+          <Container
+            style={{ display: "flex", marginTop: "85px", marginBottom: "25px" }}
+            className="container"
+          >
+            {loading ? (
+              <Typography variant="h4">Loading...</Typography>
+            ) : (
+              <>
+                <Table
+                  style={{ width: "100%", textAlign: "center" }}
+                  className="resourcestable"
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: 28,
+                        }}
+                      >
+                        Topic
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: 28,
+                        }}
+                      >
+                        Learned Progress
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: 28,
+                        }}
+                      >
+                        Topical Exams
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody className="topicstable">
+                    {/* Rendering topicRelated */}
+                    {topicTitles.map((title, index) => (
                       <TableRow key={index}>
                         <TableCell>
-                          <div>{title}</div>
+                          <div style={{ color: "white" }}>{title}</div>
                         </TableCell>
                         <TableCell>
                           {topicPercentage && topicPercentage[index] && (
@@ -223,10 +305,20 @@ const LearnBlueprint = () => {
                             >
                               {topicPercentage[index].completedPercentage ===
                               100 ? (
-                                <p style={{ color: "green" }}>Completed</p>
+                                <p
+                                  style={{
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    listStyle: "none",
+                                    border: "4px solid white",
+                                    margin: "5px",
+                                  }}
+                                >
+                                  Completed
+                                </p>
                               ) : (
                                 <p
-                                  style={{ color: "red" }}
+                                  style={{ color: "white", fontWeight: "bold" }}
                                 >{`${topicPercentage[index].completedPercentage}% Complete`}</p>
                               )}
                             </RouterLink>
@@ -234,56 +326,49 @@ const LearnBlueprint = () => {
                         </TableCell>
                         <TableCell>
                           {topicPercentage &&
-                            completedTopical.length > 0 &&
+                            completedTopical.length >= 1 &&
                             topicPercentage[index] &&
                             (topicPercentage[index].completedPercentage ===
                             100 ? (
-                              // <RouterLink
-                              //   component="button"
-                              //   variant="body2"
-                              //   to={
-                              //     !topicPercentage[index].examCompleted &&
-                              //     `/topicalExam/${title}`
-                              //   }
-                              // >
-                              //   {completedTopical.includes(topicTitles[index])
-                              //     ? "Done"
-                              //     : "Available"}
-                              // </RouterLink>
-
                               completedTopical.includes(topicTitles[index]) ? (
                                 <RouterLink
                                   variant="body2"
-                                  onClick={() => {
-                                    setStatus(`You have completed ${title}`);
-                                  }}
+                                  // onClick={() => {
+                                  //   setStatus(`You have completed ${title}`);
+                                  // }}
                                   style={{
                                     textDecoration: "none",
-                                    color: "inherit",
+                                    color: "white",
+                                    fontWeight: "bold",
                                   }}
                                 >
                                   Done
                                 </RouterLink>
                               ) : (
-                                <RouterLink
-                                  component="button"
-                                  variant="body2"
-                                  to={
-                                    !topicPercentage[index].examCompleted &&
-                                    `/topicalExam/${title}`
-                                  }
-                                >
-                                  Available
-                                </RouterLink>
+                                !topicPercentage[index].examCompleted && (
+                                  <button
+                                    onClick={() => {
+                                      if (availableDisabled !== 1) {
+                                        availableDisabled++;
+                                        generateTopicalExam(topicTitles[index]);
+                                      }
+                                      // Disable the button after it's clicked
+                                    }}
+                                    disabled={availableDisabled === 1}
+                                  >
+                                    Available
+                                  </button>
+                                )
                               )
                             ) : (
                               <RouterLink
                                 variant="body2"
-                                onClick={() => {
-                                  setStatus(
-                                    `Please complete ${title} to access the Topical Exam!`
-                                  );
-                                }}
+                                style={{ color: "white", fontWeight: "bold" }}
+                                // onClick={() => {
+                                //   setStatus(
+                                //     `Please complete ${title} to access the Topical Exam!`
+                                //   );
+                                // }}
                               >
                                 Unavailable
                               </RouterLink>
@@ -294,13 +379,15 @@ const LearnBlueprint = () => {
                         </TableCell>
                       </TableRow>
                     ))}
-                </TableBody>
-              </Table>
-            </>
-          )}
-        </Container>
+                  </TableBody>
+                </Table>
+              </>
+            )}
+            <Typography variant="body1">{status}</Typography>
+          </Container>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

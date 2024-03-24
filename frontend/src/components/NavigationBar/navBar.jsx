@@ -1,39 +1,35 @@
 import "./navBar.css";
 import "../../pages/main.css";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <>
       <div className="navBar">
+        <img className="siteLogo" src="https://img.icons8.com/plasticine/100/elephant.png" />
         <nav className="navContainer">
-          <a className="navItem" href="/">
+          <Link to={`/`} className="navItem">
             Home
-          </a>
-          <a className="navItem" href="#">
-            About
-          </a>
-          <a className="navItem" href="select-course">
+          </Link>
+          <Link to={`/select-course`} className="navItem">
             Courses
-          </a>
-          <a className="navItem" href="#">
-            Support
-          </a>
-          <a className="navItem" href="questions">
-            Test
-          </a>
-          <a className="navItem" href="dashboard">
-            Progression
-          </a>
-          <a className="navItem" href="authenticate">
-            Auth
-          </a>
+          </Link>
+          <Link to={`/dashboard`} className="navItem">
+            Dashboard
+          </Link>
+          <Link to={`/resources`} className="navItem">
+            Resources
+          </Link>
+          <Link to={`/examdashboard`} className="navItem">
+            Exams
+          </Link>
+          <Link to={`/forum`} className="navItem">
+            Forum
+          </Link>
         </nav>
         <div className="logContainer">
           <a className="loginBtn" href="login">
-            Login
-          </a>
-          <a className="signupBtn" href="registration">
-            Sign up
+            Log out
           </a>
         </div>
       </div>

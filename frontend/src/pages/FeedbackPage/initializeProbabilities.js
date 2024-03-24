@@ -1,10 +1,10 @@
 import Axios from "axios";
 
-const initializeProbabilities = async (source) => {
+const initializeProbabilities = async (source, BASE) => {
   return new Promise(async (resolve, reject) => {
     try {
       let moduleProbabilities = {};
-      const response = await Axios.post("http://localhost:8000/getTopics", {
+      const response = await Axios.post(`${BASE}/getTopics`, {
         sourceKey: `${source}`,
       });
 

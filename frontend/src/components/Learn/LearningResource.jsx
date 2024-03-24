@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import Axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import "./LearningResource.css";
 
 const LearningResource = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const LearningResource = () => {
   const {
     loading,
     setLoading,
+    BASE,
     status,
     setStatus,
     loggedInUser,
@@ -23,15 +25,12 @@ const LearningResource = () => {
 
   const IncrementProgress = async () => {
     try {
-      const outcome = await Axios.put(
-        `http://localhost:8000/resources/progress/updates`,
-        {
-          userId: loggedInUser._id, //user.id
-          topic: topic,
-          source: source,
-          lessonName: lesson,
-        }
-      );
+      const outcome = await Axios.put(`${BASE}/resources/progress/updates`, {
+        userId: loggedInUser._id, //user.id
+        topic: topic,
+        source: source,
+        lessonName: lesson,
+      });
 
       console.log(outcome.data);
     } catch (error) {
@@ -43,10 +42,17 @@ const LearningResource = () => {
     let currentLessonIndex = null;
     let nextLesson = "";
 
+    console.log(topicRelated);
+
     topicRelated.map((x, index) => {
       if (x.lessonName == lesson) {
         if (x.completed == false) {
-          IncrementProgress();
+          console.log("Lesson not completed");
+          IncrementProgress().then(() => {
+            setTimeout(() => {
+              window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
+            }, 100);
+          });
         } else {
           setStatus(`You have completed ${lesson}`);
         }
@@ -61,8 +67,9 @@ const LearningResource = () => {
         nextLesson = topicRelated[0].lessonName;
       }
     }
-
-    window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
+    setTimeout(() => {
+      window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
+    }, 100);
   };
 
   useEffect(() => {
@@ -75,7 +82,7 @@ const LearningResource = () => {
         setLoading(true);
         try {
           const response = await Axios.post(
-            "http://localhost:8000/resources/getLessonBodies",
+            `${BASE}/resources/getLessonBodies`,
             {
               userId: loggedInUser._id,
               lessonTitle: lesson,
@@ -102,12 +109,17 @@ const LearningResource = () => {
   }, [topicRelated, section]);
 
   return loading ? (
-    <h1>Loading...</h1>
+    <h1 style={{ padding: "60px" }}>Loading...</h1>
   ) : (
     topicRelated && Object.keys(topicRelated).length > 0 && (
       <>
-        <div style={{ display: "flex", fontFamily: "poppins" }}>
-          <Link to={`/learnprint/${topic}`} style={{margin:"20px"}}>Go Back!</Link>
+        <div style={{ display: "flex" }}>
+          <Link
+            to={`/learnprint/${topic}`}
+            style={{ margin: "40px", padding: "20px" }}
+          >
+            <button> Go Back!</button>
+          </Link>
           <div
             className="sidebar"
             style={{
@@ -131,7 +143,7 @@ const LearningResource = () => {
               >
                 <a
                   href={`/learning/${source}/${topic}/${x.lessonName}`}
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: "none", margin: "20px" }}
                 >
                   {x.completed == false ? (
                     <h1 style={{ color: "red" }}>{x.lessonName}</h1>
@@ -142,15 +154,7 @@ const LearningResource = () => {
               </ul>
             ))}
           </div>
-          <div
-            style={{
-              flex: 1,
-              border: "12px solid #17B169",
-              borderWidth: "5px",
-              margin: "20px",
-              padding: "20px",
-            }}
-          >
+          <div className="learnresources">
             <h1>{lesson}</h1>
             {Object.keys(section).length > 0 && (
               <div>

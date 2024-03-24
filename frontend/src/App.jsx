@@ -15,7 +15,6 @@ import ExamPage from "./pages/ExamPage/ExamPage";
 import SelectCourses from "./pages/SelectCoursesPage/SelectCourses";
 import SpecificCourse from "./pages/SelectCoursesPage/SpecificCourse";
 import ExamReceipt from "./pages/ExamPage/ExamReceipt/ExamReceipt";
-import ExamHistory from "./components/ExamDashboard/ExamHistory";
 import ExamReview from "./pages/ExamPage/ExamReview/ExamReview";
 import Learn from "./components/Learn/Learn";
 import LearnBlueprint from "./components/Learn/LearnBlueprint";
@@ -25,6 +24,7 @@ import Forum from "./components/Forum/Forum";
 import CreateForum from "./components/Forum/CreateForum";
 import ForumSearch from "./components/Forum/ForumSearch";
 import PastPaperScope from "./pages/PastPaperPage/pastPaperScope";
+import ExamDashboard from "./components/ExamDashboard/ExamDashboard";
 
 export const UserContext = createContext();
 
@@ -64,6 +64,12 @@ function App() {
   const [search, setSearch] = useState("");
   const [searched, setSearched] = useState([]);
   const [transfer, setTransfer] = useState("");
+  const [listofPureProb,setListOfPureProb] = useState({});
+  const [listofStatProb,setListOfStatProb] = useState({});
+  const [listofpureTopics,setListofPureTopics] = useState([]);
+  const [listofStatTopics,setListStatTopics] = useState([]);
+  const [shortenPureMaths,setshortenPureMaths] = useState([]);
+  const [shortenstats,setshortenstats] = useState([]);
 
   const BASE = "http://localhost:8000";
 
@@ -144,6 +150,18 @@ function App() {
     setTotalStatMarks,
     totalMarks,
     setTotalMarks,
+    listofPureProb,
+    setListOfPureProb,
+    listofStatProb,
+    setListOfStatProb,
+    listofpureTopics,
+    setListofPureTopics,
+    listofStatTopics,
+    setListStatTopics,
+    shortenPureMaths,
+    setshortenPureMaths,
+    shortenstats,
+    setshortenstats
   };
 
   return (
@@ -151,14 +169,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/progression" element={<Progressionmark />} />
+          {/* <Route path="/progression" element={<Progressionmark />} /> */}
           <Route path="/forum" element={<Forum />} />
           <Route path="/forum/add-question" element={<CreateForum />} />
           <Route path="/forum/search" element={<ForumSearch />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Register />} />
-          <Route path="/authenticate" element={<Authenticate />} />
+          {/* <Route path="/authenticate" element={<Authenticate />} /> */}
           <Route path="/past-papers" element={<PastPaperScope />} />
           <Route path="add-questions" element={<AddQuestionsPage />} />
           <Route path="/select-course" element={<SelectCourses />} />
@@ -166,9 +184,9 @@ function App() {
           <Route path="exam/:examID" element={<ExamPage />} />
           <Route path="/scope" element={<Scope />}></Route>
           <Route path="receipt" element={<ExamReceipt />} />
-          <Route path="/exam-history" element={<ExamHistory />}></Route>
           <Route path="/exam-review/:examID" element={<ExamReview />}></Route>
-          <Route path="/scope" element={<Scope />}></Route>{" "}
+          <Route path="/scope" element={<Scope />}></Route>
+          <Route path="/examdashboard" element={<ExamDashboard />} />
           <Route path="/resources" element={<Learn />} />
           <Route
             path="/learning/:source/:topic/:lesson"
@@ -185,3 +203,4 @@ function App() {
 }
 
 export default App;
+

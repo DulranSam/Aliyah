@@ -12,11 +12,20 @@
     "mongoose": "^8.1.1",
     "morgan": "^1.10.0",
     "nodemon": "^3.0.3",
-    "recharts": "^2.11.0"
+    "recharts": "^2.11.0",
+    "sinon": "^17.0.1"
   },
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest"
+    "test": "jest",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:integration": "jest --testPathPattern=integration",
+    "test:learn":"jest --testPathPattern=learn",
+    "test:forum":"jest --testPathPattern=forum",
+    "test:exam":"jest --testPathPattern=exam",
+    "test:courses":"jest --testPathPattern=courses",
+    "test:getQuestion":"jest --testPathPattern=getQuestion",
+    "test:getTopics":"jest --testPathPattern=getTopics"
   },
   "name": "backend",
   "version": "1.0.0",
@@ -26,10 +35,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@babel/core": "^7.24.3",
-    "@babel/node": "^7.23.9",
-    "@babel/preset-env": "^7.24.3",
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   }
 }

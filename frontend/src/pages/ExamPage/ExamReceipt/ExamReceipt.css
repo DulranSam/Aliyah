@@ -36,7 +36,7 @@
     justify-content: space-between;
 }
 
-button {
+.receipt-buttons-container button {
     background-color: green;
     border: 1px solid white;
     border-radius: 25px;
@@ -46,7 +46,7 @@ button {
     font-weight: bold;
 }
 
-button:hover {
+.receipt-buttons-container button  {
     background-color: white;
     border: 1px solid green;
     color: green;
@@ -61,7 +61,7 @@ h2 {
 p {
     font-size: 1rem;
     text-align: center;
-}
+} 
 
 .mark-container {
     display: flex;

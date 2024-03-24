@@ -6,9 +6,12 @@ import { FetchMaterial } from "../Api/Api";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import NotLogged from "../NotLogged";
-import {ProgressBar} from "react-loader-spinner"
+import { ProgressBar } from "react-loader-spinner";
 import "./Learn.css";
 import Axios from "axios";
+import NavBar from "../NavigationBar/navBar";
+import s1img from './s1-img.png';
+import p1img from './p1-img.png';
 
 const Learn = () => {
   const {
@@ -16,25 +19,25 @@ const Learn = () => {
     setLoggedInUser,
     loading,
     logged,
+    BASE,
     theTopic,
     setTheTopic,
+    setLoading,
   } = useContext(UserContext);
 
   const [startedModule, setStartedModule] = useState([]);
 
   const fetchStartedModule = async () => {
     try {
-      const response = await Axios.post(
-        `http://localhost:8000/resources/getStartedCourses`,
-        {
-          userId: loggedInUser._id,
-        }
-      );
-
-      console.log(response.data);
+      setLoading(true);
+      const response = await Axios.post(`${BASE}/resources/getStartedCourses`, {
+        userId: loggedInUser._id,
+      });
       setStartedModule(response.data.startedCourses);
     } catch (error) {
       console.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,7 +48,6 @@ const Learn = () => {
 
   useEffect(() => {
     if (Object.keys(loggedInUser).length > 0) {
-      console.log(loggedInUser);
       fetchStartedModule();
     }
   }, [loggedInUser]);
@@ -56,44 +58,46 @@ const Learn = () => {
     }
   }, [startedModule]);
 
-  return Object.keys(loggedInUser).length > 0 &&  (
-    loading? <ProgressBar/> :
-    <div className="learn-container">
-      <header className="header">
-        <h1>Learning Resources</h1>
-      </header>
-      <div className="subjects-container">
-        {startedModule.length > 0 ? (
-          startedModule.map((course, index) => (
-
-            <Link
-              to={
-                course === "Pure Mathematics I"
-                  ? `/learnprint/p1`
-                  : course === "Probability and Statistics I"
-                  ? `/learnprint/s1`
-                  : null
-              }
-              key={index}
-              className="subject-link"
-              onClick={() => {
-                // if (course === "Pure Mathematics I") {
-                //   setTheTopic("Pure");
-                // } else if (course === "Probability and Statistics I") {
-                //   setTheTopic("Stat");
-                // }
-                console.log(course);
-              }}
-            >
-              <h3>{course}</h3>
-            </Link>
-          ))
-        ) : (
-          <h2>No courses started yet!</h2>
-        )}
+  return (
+    Object.keys(loggedInUser).length > 0 &&
+    (loading ? (
+      <h1 className="learn-container" style={{padding:"60px"}}>Loading...</h1>
+    ) : (
+      <>
+      <NavBar/>
+      <div className="learn-container">
+        <header className="header">
+          <h1 className="lr-heading">Learning Resources</h1>
+        </header>
+        <div className="subjects-container">
+          {startedModule.length > 0 &&
+            startedModule.map((course, index) => (
+              <div className="sc-container" key={course._id}>
+                <h3>{course}</h3>
+                <div className="subject-card" key={index}>
+                    {course === "Probability and Statistics I" && <img className="subject-img" src={s1img}></img>}
+                    {course === "Pure Mathematics I" && <img src={p1img}></img>}
+                  <Link
+                    to={
+                      course === "Pure Mathematics I"
+                        ? `/learnprint/p1`
+                        : course === "Probability and Statistics I"
+                        ? `/learnprint/s1`
+                        : null
+                    }
+                    key={index}
+                    className="subject-link"
+                  >
+                    <button className="sc-btn">Start</button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
-    </div>
-  ) 
+      </>
+    ))
+  );
 };
 
 export default Learn;

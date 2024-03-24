@@ -7,8 +7,6 @@ const { topicsModel } = require("../models/topics");
 router.post("/getModules", async (req, res) => {
   const { courses } = req.body;
 
-  console.log(courses);
-
   try {
     // Handle cases where courses is not an array
     if (!Array.isArray(courses)) {
@@ -103,7 +101,18 @@ router.post("/updateTopics", async (req, res) => {
 });
 
 router.post("/getProgress", async (req, res) => {
+  const mongoose = require("mongoose");
+  const isValidObjectId = mongoose.Types.ObjectId.isValid;
+
   const { sourceKey, userID } = req.body;
+
+  if (!sourceKey || !userID) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  if (!isValidObjectId(userID)) {
+    return res.status(400).json({ message: "Invalid user ID format!" });
+  }
 
   try {
     const user = await userModel.findById(userID);

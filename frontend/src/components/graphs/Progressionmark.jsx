@@ -31,6 +31,7 @@ function Progressionmark() {
   const {
     totalMarks,
     setTotalMarks,
+    BASE,
     voxalPoints,
     loggedInUser,
     setLoggedInUser,
@@ -71,27 +72,28 @@ function Progressionmark() {
   // You're already using useContext here, ensure that it provides 'id'
   const id = localStorage.getItem("id");
 
-  useEffect(()=>{
-   const fetchData = async ()=>{
-      try{
-        const response = await axios.post("http://localhost:8000/progression/get/topicalexams",{useRef:id})
-        console.log(response);
-        setLoggedInUser(response);
-      }catch(err){
-        console.log(err);
-      }
-    }
-   fetchData();
-   
-  },[])
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8000/progression/get/marks",
+          "http://localhost:8000/progression/get/topicalexams",
           { useRef: id }
         );
+        console.log(response);
+        setLoggedInUser(response);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(`${BASE}/progression/get/marks`, {
+          useRef: id,
+        });
         console.log(response);
         // setLoggedInUser(response);
 

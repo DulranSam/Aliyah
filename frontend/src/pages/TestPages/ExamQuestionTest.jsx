@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import QuestionComponent from "../../components/QuestionComponent/QuestionComponent";
 import Axios from "axios";
+import { UserContext } from "../../App";
 
 function ExamQuestionTest() {
   const [questions, setQuestions] = useState([]);
@@ -29,7 +30,7 @@ function ExamQuestionTest() {
 
     for (let i = 0; i < questionsList.length; i++) {
       try {
-        const response = await Axios.post("http://localhost:8000/getQuestion", {
+        const response = await Axios.post(`${BASE}/getQuestion`, {
           questionID: questionsList[i],
         });
 

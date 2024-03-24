@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useReducer, useEffect, useContext } from "react";
 import Axios from "axios";
 import "./pastPaperScope.css";
@@ -6,18 +5,13 @@ import { UserContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 
 const PastPaperScope = () => {
-
   const navigator = useNavigate();
 
-    const {
-        loggedInUser,
-        setLoggedInUser
-    } = useContext(UserContext);
+  const { loggedInUser, setLoggedInUser, BASE } = useContext(UserContext);
 
-    useEffect(() => {
-        console.log(JSON.parse(sessionStorage.getItem("loggedUser")).data);
-        setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
-      }, []);
+  useEffect(() => {
+    setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
+  }, []);
 
   const initialState = {
     modules: {},
@@ -54,7 +48,7 @@ const PastPaperScope = () => {
   const getModules = async () => {
     try {
       const response = await Axios.get(
-        "http://localhost:8000/addQuestion/getModulesForPastPaper"
+        `${BASE}/addQuestion/getModulesForPastPaper`
       );
 
       dispatch({ type: "FETCH_MODULES", payload: response.data });
@@ -75,15 +69,14 @@ const PastPaperScope = () => {
     }
   };
 
+  let fetched = 0;
+
   const fetchQuestions = async () => {
     try {
-      const response = await Axios.post(
-        "http://localhost:8000/getQuestionsOnTopic",
-        {
-          scopeQuery: `${state.selectedSeason}_${state.selectedYear}_${state.selectedVariant}`,
-          moduleScope: `${state.selectedModule}`,
-        }
-      );
+      const response = await Axios.post(`${BASE}/getQuestionsOnTopic`, {
+        scopeQuery: `${state.selectedSeason}_${state.selectedYear}_${state.selectedVariant}`,
+        moduleScope: `${state.selectedModule}`,
+      });
 
       if (response.data.length === 0) {
         alert("No questions found under this past paper!");
@@ -91,6 +84,7 @@ const PastPaperScope = () => {
         return;
       }
       setQuestions(response.data);
+      fetched++;
     } catch (error) {
       console.log(error);
     }
@@ -101,41 +95,38 @@ const PastPaperScope = () => {
   }, []);
 
   const createExam = async () => {
-    await Axios.post("http://localhost:8000/exam/saveExam", {
-        examType: "Past Paper",
-        examQuestions: questionIDs,
-        userRef: loggedInUser._id,
-        examModule: selectedModuleState,
-        examTopic: "None"
+    await Axios.post(`${BASE}/exam/saveExam`, {
+      examType: "Past Paper",
+      examQuestions: questionIDs,
+      userRef: loggedInUser._id,
+      examModule: selectedModuleState,
+      examTopic: "None",
     })
-    .then(function(response) {
+      .then(function (response) {
         navigator(`/exam/${response.data[0].Alert}`);
-    })
-    .catch(function(error) {
+      })
+      .catch(function (error) {
         console.log(error);
-    })
-}
+      });
+  };
 
   useEffect(() => {
-    
     if (questions.length > 0) {
-      
       let questionIDArray = [];
 
       for (const i in questions) {
         questionIDArray.push(questions[i].questionID);
       }
-      
+
       setQuestionIDs(questionIDArray);
     }
-
   }, [questions]);
 
   useEffect(() => {
     if (questionIDs.length > 0) {
       createExam();
     }
-  }, [questionIDs])
+  }, [questionIDs]);
 
   const handleModuleChange = (event) => {
     for (let i = 0; i < state.modules.length; i++) {
@@ -206,7 +197,7 @@ const PastPaperScope = () => {
           </select>
 
           <p>
-            Selected Module:{" "}
+            Selected Module:
             <strong>
               {state.selectedModule === "p1"
                 ? "Pure Mathematics 1"
@@ -214,7 +205,7 @@ const PastPaperScope = () => {
             </strong>
           </p>
           <p>
-            Selected Season:{" "}
+            Selected Season:
             {state.selectedSeason === "s" ? "May/June" : "October/November"}
           </p>
           <p>
@@ -235,9 +226,9 @@ const PastPaperScope = () => {
                 </li>
               ))}
             </ul>
-          ) : (
+          ) : fetched === 1 ? (
             <p>No questions found</p>
-          )}
+          ) : null}
         </>
       )}
     </div>

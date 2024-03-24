@@ -4,13 +4,18 @@
     box-sizing: border-box;
 }
 
-#bodyDiv{
+.bodyDiv {
+    margin-top: 40px; /* Note: No comma between margin values */
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
-    align-items: center;
-    justify-content: center;
+    text-align: left;
     margin-top: 50px;
     gap: 1rem;
-}
+  }
+
+  .bodyDiv button{
+    width: fit-content;
+    padding: 20px;
+  }
