@@ -52,7 +52,7 @@ const LearningResource = () => {
           IncrementProgress().then(() => {
             setTimeout(() => {
               window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
-            }, 100);
+            }, 200);
           });
         } else {
           setStatus(`You have completed ${lesson}`);
@@ -114,11 +114,9 @@ const LearningResource = () => {
   ) : (
     topicRelated && Object.keys(topicRelated).length > 0 && (
       <>
-        <NavBar/>
+        <NavBar />
         <div style={{ display: "flex" }}>
-          <Link
-            to={`/learnprint/${source}`}
-          >
+          <Link to={`/learnprint/${source}`}>
             <button className="stlr-gb-btn">Go Back</button>
           </Link>
           <div
@@ -173,7 +171,8 @@ const LearningResource = () => {
                 ))}
               </div>
             )}
-            <button className="stlr-next-btn"
+            <button
+              className="stlr-next-btn"
               onClick={() => {
                 handleBtnClick();
               }}
