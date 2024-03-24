@@ -99,11 +99,11 @@ const SelectCourses = () => {
           <h1>Select Courses</h1>
           <p>Welcome {loggedInUser.username} 👋</p>
         </div>
-        {userStartedCourses && lessonProgress.length > 0 ? (
+        {userStartedCourses && lessonProgress ? (
           <div className="course-container">
             <h1>Courses In Progress</h1>
             {userStartedCourses.length == 0 ? (
-              <h1>No Courses Started!!</h1>
+              <h2>No Courses Started!!</h2>
             ) : (
               userStartedCourses.map((course, i) => (
                 <div key={i}>
@@ -129,7 +129,9 @@ const SelectCourses = () => {
         {userNotStartedCourses ? (
           <div className="course-container">
             <div>
-            {userNotStartedCourses.length!==0? <h1>`Not Started Courses`</h1> : null}
+              {userNotStartedCourses.length !== 0 ? (
+                <h1>Not Started Courses</h1>
+              ) : null}
               {userNotStartedCourses.length == 0 ? (
                 <h2>All Courses Started!!</h2>
               ) : (
