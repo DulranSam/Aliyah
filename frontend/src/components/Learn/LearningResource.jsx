@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import Axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import "./LearningResource.css"
 
 const LearningResource = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const LearningResource = () => {
           IncrementProgress().then(() => {
             setTimeout(() => {
               window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
-            }, 1000);
+            }, 100);
           });
         } else {
           setStatus(`You have completed ${lesson}`);
@@ -68,7 +69,7 @@ const LearningResource = () => {
     }
     setTimeout(() => {
       window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
-    }, 50);
+    }, 100);
   };
 
   useEffect(() => {
@@ -112,8 +113,8 @@ const LearningResource = () => {
   ) : (
     topicRelated && Object.keys(topicRelated).length > 0 && (
       <>
-        <div style={{ display: "flex", fontFamily: "poppins" }}>
-          <Link to={`/learnprint/${topic}`} style={{ margin: "20px" }}>
+        <div style={{ display: "flex"}}>
+          <Link to={`/learnprint/${topic}`} style={{ margin: "40px",padding:"20px" }}>
             Go Back!
           </Link>
           <div
@@ -139,7 +140,7 @@ const LearningResource = () => {
               >
                 <a
                   href={`/learning/${source}/${topic}/${x.lessonName}`}
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: "none",margin:"20px" }}
                 >
                   {x.completed == false ? (
                     <h1 style={{ color: "red" }}>{x.lessonName}</h1>
@@ -151,6 +152,7 @@ const LearningResource = () => {
             ))}
           </div>
           <div
+          className="learnresources"
             style={{
               flex: 1,
               border: "12px solid #17B169",

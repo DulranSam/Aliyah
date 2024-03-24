@@ -1,15 +1,14 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import Axios from "axios";
 import { UserContext } from "../../App";
 import { useNavigate, Link } from "react-router-dom";
-import NavBar from "../../components/NavigationBar/navBar.jsx";
+import { Helmet } from "react-helmet";
 import "../main.css";
 import "./account.css";
 
 const Login = () => {
-
-
   const navigator = useNavigate();
   const {
     user,
@@ -35,23 +34,23 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await Axios.post(`${BASE}/login`, user);
-      localStorage.setItem("id",response.data.data._id);
+      localStorage.setItem("id", response.data.data._id);
       if (response.status === 200) {
         console.log(response.data);
         setData(response.data);
         setIsAuthenticated(true);
-        setUserId(response.data.data._id)
+        setUserId(response.data.data._id);
 
         sessionStorage.setItem("loggedUser", JSON.stringify(response.data));
         navigator("/");
       }
     } catch (error) {
       console.error(error);
-        if (error.status === 401) {
-          setIssue("Wrong Password, Please try again!");
-        } else if (error.status === 404) {
-          setIssue("Invalid Username, Please Try Again!");
-        }
+      if (error.status === 401) {
+        setIssue("Wrong Password, Please try again!");
+      } else if (error.status === 404) {
+        setIssue("Invalid Username, Please Try Again!");
+      }
     } finally {
       setLoading(false);
     }
@@ -59,7 +58,6 @@ const Login = () => {
 
   return IsAuthenticated ? (
     <div className="backgroundContainer">
-      <img alt="background" className="bgImg2" src="./images/background2.png" />
       <div className="a-container">
         <img alt="avatar" className="avItem2" src="./images/avatar.png" />
         <h1 style={{ textAlign: "center" }}>
@@ -69,7 +67,9 @@ const Login = () => {
     </div>
   ) : (
     <>
-      <NavBar />
+      <Helmet>
+        <title>ALiyah | Login</title>
+      </Helmet>
       <div className="backgroundContainer">
         <img
           alt="background"
@@ -78,6 +78,7 @@ const Login = () => {
         />
         <div className="a-container">
           <img alt="avatar" className="avItem2" src="./images/avatar.png" />
+          <br />
           <p className="containerTitle">Login</p>
           <p className="containerText">
             Dont have an account?&nbsp;
@@ -85,12 +86,17 @@ const Login = () => {
               Register
             </Link>
           </p>
+          <p>{issue}</p>
           <form onSubmit={Login} className="forms">
             <div className="inputLabelGrp">
-              <p>{issue}</p>
-              <label htmlFor="username">Your username</label>
+              <label
+                styles={{ fontSize: "18px", color: "#666666" }}
+                htmlFor="username"
+              >
+                Your username
+              </label>
               <input
-                className="input-btn"
+                className="inputBox"
                 onChange={handleChange}
                 type="text"
                 id="username"
@@ -99,9 +105,14 @@ const Login = () => {
               />
             </div>
             <div className="inputLabelGrp">
-              <label htmlFor="password">Your password</label>
+              <label
+                styles={{ fontSize: "18px", color: "#666666" }}
+                htmlFor="password"
+              >
+                Your password
+              </label>
               <input
-                className="input-btn"
+                className="inputBox"
                 onChange={handleChange}
                 type="password"
                 id="password"

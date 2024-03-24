@@ -1,47 +1,58 @@
-/* *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-} */
-.courseContainer{
-    width: 60vw;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+/* Course Component */
+.courseContainer {
+    background-color: #f4f4f4;
     padding: 1rem;
-    border: 1px solid #000;
-    border-radius: 0.5rem;
-    background-color: #f0f0f0;
-}
-
-.courseContainer button{
-    width: fit-content;
-}
-
-.topicsContainer {
-    width: 60%;
-    height: fit-content;  /* Maintain content-based height (optional) */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
   }
-
+  
+  .courseContainer p {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .topicsContainer {
+    width: 100%;
+  }
+  
   .topicTagField {
     list-style: none;
     display: flex;
-    align-items: center;
-    flex-direction: row;
-    padding-inline-start: 0;
-    gap: 0.5rem;
     flex-wrap: wrap;
-    font-size: 0.8rem;  /* Adjust font size if needed */
-    line-height: 1.2;   /* Adjust line height if needed */
+    gap: 0.5rem;
+    margin-bottom: 1rem;
   }
-
-.topicTagField li{
-    background-color: #000;
-    height: fit-content;
-    text-align: center;
+  
+  .topicTagField a {
+    background-color: #6a1b9a;
     color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
     font-size: 0.9rem;
-    padding: 0.4rem;
-    border-radius: 0.5rem;
-}
+    transition: background-color 0.3s ease;
+  }
+  
+  .topicTagField a:hover {
+    background-color: #4a148c;
+  }
+  
+  .courseContainer button {
+    background-color: #6a1b9a;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .courseContainer button:hover {
+    background-color: #4a148c;
+  }

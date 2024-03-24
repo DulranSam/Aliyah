@@ -2,7 +2,7 @@ import Axios from "axios";
 
 //we can use this to make life easier!
 
-const BASE = "https://aliyah-dlyb.onrender.com/";
+const BASE = "https://aliyah-dlyb.onrender.com";
 
 export async function EquationTest() {
   try {

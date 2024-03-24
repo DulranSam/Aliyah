@@ -6,6 +6,7 @@ import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router";
 import "//unpkg.com/mathlive";
 import {UserContext} from "../../../App"
+import NavBar from "../../../components/NavigationBar/navBar";
 
 function ExamReview() {
   const { examID } = useParams();
@@ -188,32 +189,35 @@ function ExamReview() {
           <ClipLoader size={450} color="#1fa3d5" loading={true} />
         </div>
       ) : (
-        <div className="qr-container vh-det">
-          <div className="question-review-container hidden">{questions}</div>
-          <div className="info-panel question-review">
-            <div className="top-qr">
-              <div className="qrt">
-                <div className="qrt-container">Module: </div>
-                <div className="qrt-value">{examData.examModule}</div>
+        <>
+          <NavBar/>
+          <div className="qr-container vh-det">
+            <div className="question-review-container hidden">{questions}</div>
+            <div className="info-panel question-review">
+              <div className="top-qr">
+                <div className="qrt">
+                  <div className="qrt-container">Module: </div>
+                  <div className="qrt-value">{examData.examModule}</div>
+                </div>
+                <div className="qrt">
+                  <div className="qrt-container">Exam Type: </div>
+                  <div className="qrt-value">{examData.examType} Exam</div>
+                </div>
               </div>
-              <div className="qrt">
-                <div className="qrt-container">Exam Type: </div>
-                <div className="qrt-value">{examData.examType} Exam</div>
+              <div className="middle-qr">
+                <div className="qr-mark-title">Mark</div>
+                <div className="qr-mark">
+                  {Math.round((examData.mark / examData.totalMark) * 100)}%
+                </div>
               </div>
-            </div>
-            <div className="middle-qr">
-              <div className="qr-mark-title">Mark</div>
-              <div className="qr-mark">
-                {Math.round((examData.mark / examData.totalMark) * 100)}%
+              <div className="bottom-qr">
+                {displayButton && (
+                  <button onClick={addAnswers}>View Answers</button>
+                )}
               </div>
-            </div>
-            <div className="bottom-qr">
-              {displayButton && (
-                <button onClick={addAnswers}>View Answers</button>
-              )}
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

@@ -5,35 +5,30 @@ const NavBar = () => {
   return (
     <>
       <div className="navBar">
+        <img className="siteLogo" src="https://img.icons8.com/plasticine/100/elephant.png" />
         <nav className="navContainer">
           <a className="navItem" href="/">
             Home
           </a>
-          <a className="navItem" href="#">
-            About
-          </a>
           <a className="navItem" href="select-course">
             Courses
           </a>
-          <a className="navItem" href="#">
-            Support
-          </a>
-          <a className="navItem" href="questions">
-            Test
-          </a>
           <a className="navItem" href="dashboard">
-            Progression
+            Dashboard
           </a>
-          <a className="navItem" href="authenticate">
-            Auth
+          <a className="navItem" href="resources">
+            Resources
+          </a>
+          <a className="navItem" href="examdashboard">
+            Exams
+          </a>
+          <a className="navItem" href="forum">
+            Forum
           </a>
         </nav>
         <div className="logContainer">
           <a className="loginBtn" href="login">
-            Login
-          </a>
-          <a className="signupBtn" href="registration">
-            Sign up
+            Log out
           </a>
         </div>
       </div>

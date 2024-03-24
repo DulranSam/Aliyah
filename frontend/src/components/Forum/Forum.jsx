@@ -1,22 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import Axios from "axios";
+import "./Forum.css";
+import { Helmet } from "react-helmet";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Axios from "axios";
 import { UserContext } from "../../App";
-import {
-  Button,
-  FormControl,
-  Input,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
-import "./Forum.css";
+import { ClipLoader } from "react-spinners";
 
 import ForumQuestion from "./ForumQuestion";
+import NavBar from "../NavigationBar/navBar";
 
 const Forum = () => {
   const {
@@ -80,7 +74,7 @@ const Forum = () => {
     } catch (error) {
       console.error("Error fetching forum data:", error);
       setStatus("Error fetching forum data");
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -111,67 +105,88 @@ const Forum = () => {
   };
 
   return loggedInUser ? (
-    <div className="main">
-      <div
-        style={{ margin: "5%", border: "12px solid #ccc", padding: "20px" }}
-        className="container"
-      >
-        <Typography variant="h4" className="forumTitle">
-          Forum
-        </Typography>
-        <br />
-        <br />
-        <Typography variant="h4">
-          Welcome back, {loggedInUser.username}! 🎉
-        </Typography>
-        <br />
-        <Link to="/forum/add-question">Add question to forum? 🤔</Link>
-        <br />
-        <form onSubmit={searchUp}>
-          <input
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-            placeholder="Search here..."
-            type="text"
-          ></input>
-          <button type="submit" disabled={loading}>
-            Search...
-          </button>
-        </form>
-        <FormControl style={{ marginBottom: "20px" }}>
-          <InputLabel>Select Topic</InputLabel>
-          <br />
-          <Select
-            className="theDrop"
-            value={down}
-            onChange={(e) => setDown(Number(e.target.value))}
-          >
-            <MenuItem value={0}>All</MenuItem>
-            <MenuItem value={1}>Pure Math</MenuItem>
-            <MenuItem value={2}>Statistics</MenuItem>
-          </Select>
-        </FormControl>
-        <p>{status}</p>
-        {loading ? (
-          <Typography variant="h5">Loading...</Typography>
-        ) : data.length > 0 ? (
-          data.map((x, index) => (
-            <div key={index}>
-              <ForumQuestion questionData={x} theKey={index} />
+    <>
+      <NavBar />
+      <hr />
+      <Helmet>
+        <title>ALiyah | Forum</title>
+      </Helmet>
+      <div className="mainContainer">
+        <div className="forumContainer">
+          <div className="fHeaderContainer">
+            <div className="forumHeader">
+              <p className="forumTitle">
+                👋 Hey there, {user.username || "guest"}! Welcome to our Forums!
+              </p>
+              <p style={{ fontSize: "16px" }}>
+                Would you kindly grace us with a question? The button below
+                eagerly awaits your gentle touch, yearning for the opportunity
+                to fulfill its purpose in this vast digital realm.
+              </p>
+              <div style={{ marginTop: "10px" }}>
+                <Link className="addQuestionBtn" to="/addforum">
+                  Add question
+                </Link>
+              </div>
             </div>
-          ))
-        ) : (
-          <Typography variant="h5">No questions available</Typography>
-        )}
-        <Typography>{status}</Typography>
+          </div>
+
+          <div className="searchContainer">
+            <p className="forumTitle">🔎 Search Filter</p>
+            <br />
+            <form onSubmit={searchUp}>
+              <input
+                className="searchQuestion"
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                placeholder="Search your queries here..."
+                type="text"
+              />
+            </form>
+
+            <div style={{ display: "flex" }}>
+              <p style={{ fontSize: "18px", marginTop: "8px" }}>Topic Filter:</p>
+              <form style={{ marginLeft: "10px"}}>
+                <select
+                  className="dropdownContainer"
+                  value={down}
+                  onChange={(e) => setDown(Number(e.target.value))}
+                >
+                  <option value={0}>All</option>
+                  <option value={1}>Pure Math</option>
+                  <option value={2}>Statistics</option>
+                </select>
+              </form>
+            </div>
+              <button className="searchBtn" type="submit" disabled={loading}>
+                Search...
+              </button>
+            </div>
+          <hr />
+          <p>{status}</p>
+          {loading ? (
+            <div className="forumLoad">
+              <ClipLoader size={80} color="#1fa3d5" loading={true} />
+            </div>
+          ) : data.length > 0 ? (
+            data.map((x, index) => (
+              <div key={index}>
+                <ForumQuestion questionData={x} theKey={index} />
+              </div>
+            ))
+          ) : (
+            <p>No questions available</p>
+          )}
+          <p>{status}</p>
+        </div>
       </div>
-    </div>
+    </>
   ) : (
     <div>
-      <Typography variant="h1">
+      <p>
         Please <Link to="/login">login</Link> to continue to the forum
-      </Typography>
+      </p>
     </div>
   );
 };

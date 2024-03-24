@@ -1,72 +1,61 @@
 /* Website background container */
 .backgroundContainer {
   background-color: black;
-  width: fit-content;
+  position: fixed;
 }
 
 /* Background image of the website */
 .bgImg {
-  width: 99vw;
-  height: 100vh;
   opacity: 0.5;
-  background-image: url("/images/background.png");
-  background-size: contain;
+  overflow: scroll;
 }
 
 .itemsContainer {
   position: absolute;
-  top: 45%;
+  top: 35%;
   left: 50%;
-  transform: translate(-50%, -45%);
+  transform: translate(-50%, -40%);
   text-align: center;
 }
 
-.webText {
+/* Courses button */
+.coursesBtn {
+  padding: 12px;
+  text-decoration: none;
   color: white;
-  font-size: 64px;
+  border: 2px solid white;
+  border-radius: 6px;
+  transition: 0.5s;
 }
 
-    /* Courses button */
-    .coursesBtn {
-      padding: 12px;
-      text-decoration: none;
-      color: white;
-      border: 2px solid white;
-      border-radius: 6px;
-      transition: 0.5s;
-    }
-  
-    /* Courses button hover effects */
-    .coursesBtn:hover {
-      color: black;
-      background: white;
-      transition: 0.5s;
-    }
+/* Courses button hover effects */
+.coursesBtn:hover {
+  color: black;
+  background: white;
+  transition: 0.5s;
+}
 
-  /* Login button */
-  .clickLogBtn {
-    padding: 12px;
-    text-decoration: none;
-    color: white;
-    border: 2px solid white;
-    border-radius: 6px;
-    transition: 0.5s;
-    margin-bottom: 20px;
-  }
+/* Login button */
+.clickLogBtn {
+  padding: 12px;
+  text-decoration: none;
+  color: white;
+  border: 2px solid white;
+  border-radius: 6px;
+  transition: 0.5s;
+  margin: 20px;
+}
 
-  /* Login button hover effects */
-  .clickLogBtn:hover {
-    color: black;
-    background: white;
-    transition: 0.5s;
-  }
+/* Login button hover effects */
+.clickLogBtn:hover {
+  color: black;
+  background: white;
+  transition: 0.5s;
+}
 
-  .registration-btns {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .registration-btns {
-    margin-bottom: 20px;
-  }
+.registrationBtns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

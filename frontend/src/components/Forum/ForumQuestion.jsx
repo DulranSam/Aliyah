@@ -3,22 +3,14 @@
 /* eslint-disable no-undef */
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-
 import Axios from "axios";
-
-import {
-  Button,
-  FormControl,
-  Input,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
 import { UserContext } from "../../App";
 
 const ForumQuestion = (questionDataParam, theKey) => {
-  let questionData = questionDataParam.questionData;
+  const [questionData, setQuestionData] = useState(
+    questionDataParam.questionData
+  );
+
   const { BASE, status, setStatus, user } = useContext(UserContext);
 
   const [answer, setAnswer] = useState("");
@@ -30,17 +22,21 @@ const ForumQuestion = (questionDataParam, theKey) => {
     setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
   }, []);
 
+  // useEffect(() => {
+  //   console.log(`The question data -> ${JSON.stringify(questionData)}`);
+  // }, []);
+
   useEffect(() => {
     setTimeout(() => {
       setStatus("");
     }, 2500);
   }, [status]);
 
-  const increaseVotes = async (id) => {
+  const increaseVotes = async (questionIDValue) => {
     try {
       setLoading(true);
-      const response = await Axios.put(`${BASE}/forum/upvotes/${id}`, {
-        userId: loggedInUser._id,
+      const response = await Axios.post(`${BASE}/forum/upvotes`, {
+        questionID: questionIDValue,
       });
       // if (response.status === 200) {
 
@@ -50,16 +46,27 @@ const ForumQuestion = (questionDataParam, theKey) => {
 
       if (response.status === 200) {
         console.log("Yess!");
-      }
+        const updatedData = {
+          ...questionData,
+          rating: questionData.rating + 1,
+        };
 
-      setData((prevData) =>
-        prevData.map((item) =>
-          item._id === id ? { ...item, rating: item.rating + 1 } : item
-        )
-      );
-      setTimeout(() => {
-        navigator("/forum");
-      }, 2000);
+        setQuestionData(updatedData);
+
+        const downVoteBtn = document.getElementById(
+          `questionDownvote_${questionIDValue}`
+        );
+        const upVoteBtn = document.getElementById(
+          `questionUpvote_${questionIDValue}`
+        );
+
+        downVoteBtn.disabled = true;
+        downVoteBtn.style.opacity = "0.5";
+        upVoteBtn.disabled = true;
+        upVoteBtn.style.opacity = "0.5";
+        downVoteBtn.style.pointerEvents = "none";
+        upVoteBtn.style.pointerEvents = "none";
+      }
     } catch (error) {
       if (error.status === 400) {
         setStatus("Error!");
@@ -70,14 +77,75 @@ const ForumQuestion = (questionDataParam, theKey) => {
     }
   };
 
-  const nerdPointsIncrement = async (id) => {
+  const downVote = async (questionIDValue) => {
     try {
-      const response = await Axios.put(`${BASE}/forum/nerds/${id}`, {
-        userID: loggedInUser._id,
+      setLoading(true);
+      const response = await Axios.post(`${BASE}/forum/downvotes`, {
+        questionID: questionIDValue,
+      });
+
+      if (response.status === 200) {
+        console.log("Yess!");
+        const updatedData = {
+          ...questionData,
+          rating: questionData.rating - 1,
+        };
+
+        setQuestionData(updatedData);
+
+        const downVoteBtn = document.getElementById(
+          `questionDownvote_${questionIDValue}`
+        );
+        const upVoteBtn = document.getElementById(
+          `questionUpvote_${questionIDValue}`
+        );
+
+        downVoteBtn.disabled = true;
+        downVoteBtn.style.opacity = "0.5";
+        upVoteBtn.disabled = true;
+        upVoteBtn.style.opacity = "0.5";
+        downVoteBtn.style.pointerEvents = "none";
+        upVoteBtn.style.pointerEvents = "none";
+      }
+    } catch (error) {
+      if (error.status === 400) {
+        setStatus("Error!");
+      }
+      console.error("Error while upvoting:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const downvoteAnswer = async (questionIDValue, answerIDValue) => {
+    try {
+      const response = await Axios.post(`${BASE}/forum/downvoteAnswer`, {
+        questionID: questionIDValue,
+        answerID: answerIDValue,
       });
       if (response.status === 200) {
-        setStatus("Nerd points updated!");
-        console.log(response.data);
+        const newAnswers = [...questionData.answers];
+        for (let i = 0; i < newAnswers.length; i++) {
+          if (newAnswers[i]._id === answerIDValue) {
+            newAnswers[i].noOfUpvotes -= 1;
+            setQuestionData({ ...questionData, answers: newAnswers });
+
+            const downVoteBtn = document.getElementById(
+              `answerDownvote_${questionIDValue}_${answerIDValue}`
+            );
+            const upVoteBtn = document.getElementById(
+              `answerUpvote_${questionIDValue}_${answerIDValue}`
+            );
+
+            downVoteBtn.disabled = true;
+            downVoteBtn.style.opacity = "0.5";
+            upVoteBtn.disabled = true;
+            upVoteBtn.style.opacity = "0.5";
+            downVoteBtn.style.pointerEvents = "none";
+            upVoteBtn.style.pointerEvents = "none";
+            break;
+          }
+        }
       } else {
         setStatus("Error while updating!");
       }
@@ -86,27 +154,41 @@ const ForumQuestion = (questionDataParam, theKey) => {
     }
   };
 
-  const downVote = async (id) => {
+  const nerdPointsIncrement = async (questionIDValue, answerIDValue) => {
     try {
-      setLoading(true);
-      const response = await Axios.put(`${BASE}/forum/downvotes/${id}`, {
-        userId: user.id,
+      const response = await Axios.post(`${BASE}/forum/upvoteAnswer`, {
+        questionID: questionIDValue,
+        answerID: answerIDValue,
       });
       if (response.status === 200) {
-        setStatus("Down Voted");
-        setData((prev) =>
-          prev.map((x) => (x._id === id ? { rating: x.rating - 1 } : x))
-        );
+        const newAnswers = [...questionData.answers];
+
+        for (let i = 0; i < newAnswers.length; i++) {
+          if (newAnswers[i]._id === answerIDValue) {
+            newAnswers[i].noOfUpvotes += 1;
+            setQuestionData({ ...questionData, answers: newAnswers });
+
+            const downVoteBtn = document.getElementById(
+              `answerDownvote_${questionIDValue}_${answerIDValue}`
+            );
+            const upVoteBtn = document.getElementById(
+              `answerUpvote_${questionIDValue}_${answerIDValue}`
+            );
+
+            downVoteBtn.disabled = true;
+            downVoteBtn.style.opacity = "0.5";
+            upVoteBtn.disabled = true;
+            upVoteBtn.style.opacity = "0.5";
+            downVoteBtn.style.pointerEvents = "none";
+            upVoteBtn.style.pointerEvents = "none";
+            break;
+          }
+        }
       } else {
-        setStatus("Error while downvoting");
+        setStatus("Error while updating!");
       }
-      setTimeout(() => {
-        navigator("/forum");
-      }, 2000);
-    } catch (error) {
-      console.error("Error while downvoting:", error);
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -133,8 +215,7 @@ const ForumQuestion = (questionDataParam, theKey) => {
     try {
       const response = await Axios.delete(`${BASE}/forum/${id}`);
       if (response.status === 200) {
-        setData((prev) => prev.filter((comment) => comment._id !== id));
-        forumData();
+        window.location.reload();
       }
     } catch (error) {
       if (error.response.status === 404) {
@@ -144,79 +225,138 @@ const ForumQuestion = (questionDataParam, theKey) => {
     }
   };
 
-  const DeleteAnswer = async (id) => {
-    console.log(`The userID is ${loggedInUser._id}`);
+  const DeleteAnswer = async (answerIDValue, questionIDValue) => {
     try {
-      const response = await Axios.delete(`${BASE}/forum/delans/${id}`, {
-        userID: loggedInUser._id,
+      const response = await Axios.post(`${BASE}/forum/delans`, {
+        questionID: questionIDValue, // Assuming questionIdValue holds the actual question ID
+        answerID: answerIDValue, // Assuming answerIdValue holds the actual answer ID
       });
       if (response.status === 200) {
-        setData((prev) => prev.filter((comment) => comment._id !== id));
-        forumData(); // Assuming this function refreshes the forum data after deleting the comment
+        console.log("Answer deleted successfully!");
+        const newAnswers = [...questionData.answers];
+        for (let i = 0; i < newAnswers.length; i++) {
+          if (newAnswers[i]._id === answerIDValue) {
+            newAnswers.splice(i, 1);
+            setQuestionData({ ...questionData, answers: newAnswers });
+            break;
+          }
+        }
       }
     } catch (error) {
-      if (error.status === 404) {
-        setStatus("Comment Not found!");
-      } else if (error.status === 400) {
-        setStatus("No ID/Who Answered Provided!");
-      }
-      console.error("Error deleting comment:", error);
+      console.error("Error deleting answer:", error);
     }
+
+    // try {
+    //   const response = await Axios.delete(`${BASE}/forum/delans/${id}`, {
+    //     whoAnswered: "blackpeople",
+    //   });
+    //   if (response.status === 200) {
+    //     setData((prev) => prev.filter((comment) => comment._id !== id));
+    //     forumData(); // Assuming this function refreshes the forum data after deleting the comment
+    //   }
+    // } catch (error) {
+    //   if (error.status === 404) {
+    //     setStatus("Comment Not found!");
+    //   } else if (error.status === 400) {
+    //     setStatus("No ID/Who Answered Provided!");
+    //   }
+    //   console.error("Error deleting comment:", error);
+    // }
   };
 
   return (
-    <div key={theKey} className="card" style={{ marginBottom: "20px" }}>
-      <Typography variant="h4">{status}</Typography>
-      <Typography variant="h4">{questionData.question}</Typography>
-      <Typography variant="body1">{questionData.description}</Typography>
+    <div key={theKey} className="questionCard">
+      <p>{status}</p>
+      <p className="questionTitle">{questionData.question}</p>
+      <p className="questionDescription">{questionData.description}</p>
+      <p style={{ paddingTop: "10px", fontSize: "16px" }}>Replies</p>
+
       {questionData.answers.length > 0 ? (
         questionData.answers.map((answer, index) => (
-          <div key={index} style={{ margin: "20px" }}>
+          <div key={index} style={{ margin: "16px" }}>
+            <div className="answerCard">
+              <p style={{ fontSize: "20px", paddingBottom: "10px" }}>
+                replied by <i>{answer.answeredBy}</i>
+              </p>
+              <hr />
+              <p style={{ fontSize: "16px" }}>{answer.text}</p>
+            </div>
             <br />
-            <Typography variant="h6">{answer.text}</Typography>
-            <Typography variant="body1">
-              Posted By: {answer.answeredBy}
-            </Typography>
-            <Typography variant="body1">
+            <div className="replyOptions">
+              {answer.answeredBy !== loggedInUser.username ? (
+                <div>
+                  <button
+                    id={`answerUpvote_${questionData._id}_${answer._id}`}
+                    className="postBtns"
+                    onClick={() =>
+                      nerdPointsIncrement(questionData._id, answer._id)
+                    }
+                  >
+                    Upvote
+                  </button>
+                  <button
+                    id={`answerDownvote_${questionData._id}_${answer._id}`}
+                    className="postBtns"
+                    onClick={() => downvoteAnswer(questionData._id, answer._id)}
+                  >
+                    Downvote
+                  </button>
+                </div>
+              ) : (
+                <button
+                  className="postBtns"
+                  onClick={() => DeleteAnswer(answer._id, questionData._id)}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+            <p style={{ fontSize: "12px", margin: "8px" }}>
               {answer.noOfUpvotes
-                ? ` Number of votes: ${answer.noOfUpvotes}`
+                ? `Number of votes: ${answer.noOfUpvotes}`
                 : "No upvotes!"}
-            </Typography>
-            <br />
-            <Button onClick={() => DeleteAnswer(questionData._id)}>
-              Delete
-            </Button>
-            <br />
-            <Button
-              onClick={() => nerdPointsIncrement(questionData._id)}
-              variant="contained"
-              color="primary"
-            >
-              Give Points!
-            </Button>
+            </p>
           </div>
         ))
       ) : (
-        <Typography variant="h6">Be the first to Answer 🥳</Typography>
+        <p style={{ margin: "10px" }}>Be the first one to answer!🥳</p>
       )}
-      <Typography variant="body2">
-        {questionData.by ? `Posted by ${questionData.by}` : ""}
-      </Typography>
-      <Typography variant="body2">
-        {questionData.rating
-          ? `Upvoted by ${questionData.rating}`
-          : "Rated by none"}
-      </Typography>
-      <Button onClick={() => increaseVotes(questionData._id)}>Upvote</Button>
-      <Button onClick={() => downVote(questionData._id)}>DownVote</Button>
-      <Button onClick={() => DeleteComment(questionData._id)}>Delete</Button>
-      <Button
+      <hr />
+      <br />
+      {loggedInUser.username !== questionData.by ? (
+        <div>
+          <button
+            id={`questionUpvote_${questionData._id}`}
+            className="postBtns"
+            onClick={() => increaseVotes(questionData._id)}
+          >
+            Upvote
+          </button>
+          <button
+            id={`questionDownvote_${questionData._id}`}
+            className="postBtns"
+            onClick={() => downVote(questionData._id)}
+          >
+            Downvote
+          </button>
+        </div>
+      ) : (
+        <button
+          className="postBtns"
+          onClick={() => DeleteComment(questionData._id)}
+        >
+          Delete
+        </button>
+      )}
+      <button
+        className="postBtns"
         onClick={() => {
           setToggle(!toggle);
         }}
       >
+        {" "}
         {toggle ? "Close" : "Answer"}
-      </Button>
+      </button>
       {toggle ? (
         <form
           className="replyForm"
@@ -225,16 +365,27 @@ const ForumQuestion = (questionDataParam, theKey) => {
             AnsweringQuestions(questionData._id, answer);
           }}
         >
-          <Input
+          <input
+            className="replyInput"
             onChange={(e) => setAnswer(e.target.value)}
             placeholder="Answer..."
             type="text"
           />
-          <Button type="submit">Answer</Button>
+          <button className="postBtns" type="submit">
+            Answer
+          </button>
         </form>
       ) : (
         ""
       )}
+      <div className="postInfo">
+        <p style={{ marginRight: "10px", fontSize: "12px" }}>
+          posted by <i>{questionData.by ? `${questionData.by}` : ""}</i> |{" "}
+          {questionData.rating
+            ? ` Upvotes ${questionData.rating}`
+            : "No upvotes yet!"}
+        </p>
+      </div>
     </div>
   );
 };
