@@ -194,11 +194,11 @@ const ExamDashboard = () => {
                       </Link>
                     </div>
                   ))}
-                <button onClick={() => setDoModelExam(!doModelExam)} style={{padding:"30px"}}>
+                <button onClick={() => setDoModelExam(!doModelExam)} style={{padding:"30px",marginTop:"10px"}}>
                   {!doModelExam ? `Do Model Exam!`: `Close Menu!`}
                 </button>
                 {doModelExam ? <PastPaperScope /> : null}
-                <div className="feedbackex" >
+                <div className="feedbackex">
                   <h2>Start Feedback Exam</h2>
                   <FeedbackPage />
                 </div>
