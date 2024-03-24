@@ -51,7 +51,7 @@ const LearningResource = () => {
           IncrementProgress().then(() => {
             setTimeout(() => {
               window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
-            }, 1000);
+            }, 100);
           });
         } else {
           setStatus(`You have completed ${lesson}`);
@@ -69,7 +69,7 @@ const LearningResource = () => {
     }
     setTimeout(() => {
       window.location.href = `/learning/${source}/${topic}/${nextLesson}`;
-    }, 50);
+    }, 100);
   };
 
   useEffect(() => {
