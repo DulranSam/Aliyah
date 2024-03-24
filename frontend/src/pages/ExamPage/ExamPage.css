@@ -28,7 +28,8 @@
 }
 
 .info-panel {
-    width: 50%;
+    width: 20%;
+    margin-left: 100px;
     padding: 20px;
     margin-right: 100px;
     border-radius: 25px 0px 25px 0px;
@@ -97,13 +98,12 @@
     flex-direction: column;
 }
 
-.submit {
+.submit-ans {
     background-color: white;
     color: green;
     border: 1px solid white;
     padding: 10px;
     border-radius: 50px;
-    margin-block: 70px;
     font-size: 1.25rem;
     transition: 0.3s;
 }
@@ -155,12 +155,31 @@
     align-items: center;
 }
 
-.popup {
+.popups {
     background-color: green;
     border-radius: 25px;
     height: 500px;
     width: 500px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+}
+
+.top-popup {
+    font-size: 2rem;
+    font-weight: bold;
     display: flex;
     justify-content: center;
-    align-items: center;
+}
+
+.middle-popup {
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.bottom-popup {
+    display: flex;
+    justify-content: space-around;
 }

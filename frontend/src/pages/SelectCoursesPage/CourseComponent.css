@@ -1,0 +1,58 @@
+/* Course Component */
+.courseContainer {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
+  
+  .courseContainer p {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .topicsContainer {
+    width: 100%;
+  }
+  
+  .topicTagField {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .topicTagField a {
+    background-color: #6a1b9a;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .topicTagField a:hover {
+    background-color: #4a148c;
+  }
+  
+  .courseContainer button {
+    background-color: #6a1b9a;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .courseContainer button:hover {
+    background-color: #4a148c;
+  }

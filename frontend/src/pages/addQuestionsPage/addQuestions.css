@@ -18,13 +18,13 @@
     flex-direction: column;
 }
 
-form {
+.question-source-container form {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-label {
+.question-source-container label {
     display: flex;
     flex-direction: column;
 }
@@ -49,9 +49,9 @@ input, select {
     width: 20%;
 }
 
-p {
+/* p {
     font-size: 1.25rem;
-}
+} */
 
 .qs-pa {
     font-size: 1rem;

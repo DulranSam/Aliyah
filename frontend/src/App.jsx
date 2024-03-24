@@ -11,11 +11,21 @@ import Authenticate from "./pages/AccountPage/Authenticate";
 import AddQuestionsPage from "./pages/addQuestionsPage/addQuestions";
 import AddLesson from "./pages/addLessonPage/addLesson";
 import Scope from "./pages/TestPages/Scope";
-import ExamFinalized from "./pages/TestPages/ExamFinal";
 import FeedbackPage from "./pages/FeedbackPage/FeedbackPage";
 import ExamPage from "./pages/ExamPage/ExamPage";
+import SelectCourses from "./pages/SelectCoursesPage/SelectCourses";
+import SpecificCourse from "./pages/SelectCoursesPage/SpecificCourse";
 import ExamReceipt from "./pages/ExamPage/ExamReceipt/ExamReceipt";
-import ExamHistory from "./pages/ExamPage/ExamHistoryPage/ExamHistory";
+import ExamReview from "./pages/ExamPage/ExamReview/ExamReview";
+import Learn from "./components/Learn/Learn";
+import LearnBlueprint from "./components/Learn/LearnBlueprint";
+import LearningResource from "./components/Learn/LearningResource";
+import TopicalExam from "./components/Learn/TopicalExam";
+import Forum from "./components/Forum/Forum";
+import CreateForum from "./components/Forum/CreateForum";
+import ForumSearch from "./components/Forum/ForumSearch";
+import PastPaperScope from "./pages/PastPaperPage/pastPaperScope";
+import ExamDashboard from "./components/ExamDashboard/ExamDashboard";
 
 export const UserContext = createContext();
 
@@ -40,32 +50,40 @@ function App() {
   const [testedPureProgress, setPureTestedProgress] = useState(0);
   const [testedStatProgress, setStatTestedProgress] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [theTopic, setTheTopic] = useState("");
+  const [source, setSource] = useState("");
+  const [pureLessonCount, setPureLessonCount] = useState(0);
+  const [statLessonCount, setStatLessonCount] = useState(0);
+  const [userId, setUserId] = useState("");
+  const [totalAnswers, setTotalAnswers] = useState([]);
+  const [examHistory, setExamHistory] = useState([]);
+  const [statisticsMarks, setStatisticsMarks] = useState([]);
+  const [mathematicsMarks, setMathematicsMarks] = useState([]);
+  const [totalMathsmarks, setTotalMathsmark] = useState([]);
+  const [totalStatMarks, setTotalStatMarks] = useState([]);
+  const [totalMarks, setTotalMarks] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searched, setSearched] = useState([]);
+  const [transfer, setTransfer] = useState("");
+  const [listofPureProb, setListOfPureProb] = useState({});
+  const [listofStatProb, setListOfStatProb] = useState({});
+  const [listofpureTopics, setListofPureTopics] = useState([]);
+  const [listofStatTopics, setListStatTopics] = useState([]);
+  const [shortenPureMaths, setshortenPureMaths] = useState([]);
+  const [shortenstats, setshortenstats] = useState([]);
 
-  const [loggedInUser, setLoggedInUser] = useState({
-    username: "", // Assuming username is required
-    password: "", // Assuming password is required (not used in this example)
-    marks: 0,
-    testHistory: {
-      Maths: [0], // Assuming Maths is an array of marks
-      Statistics: [0], // Assuming Statistics is an array of marks
-    },
-    testnumber: 0,
-    voxalPoints: 0,
-    hoursLearned: 0,
-    ongoingCourses: 0,
-    completeCourse: 0,
-    PureMathematics: {
-      learnedProgress: 0,
-      lesson: 0,
-    },
-    Statistics: {
-      learnedProgress: 0,
-      lesson: 0,
-    },
-  });
+  const BASE = "http://localhost:8000";
+
+  const [loggedInUser, setLoggedInUser] = useState({});
 
   // Structuring the context value explicitly
   const contextValue = {
+    search,
+    setSearch,
+    searched,
+    setSearched,
+    transfer,
+    setTransfer,
     loggedInUser,
     setLoggedInUser,
     loading,
@@ -86,6 +104,7 @@ function App() {
     setstatValue,
     course,
     setCourse,
+    BASE,
     ongoingCourse,
     setongoingCourses,
     user,
@@ -108,6 +127,42 @@ function App() {
     setPureTestedProgress,
     testedStatProgress,
     setStatTestedProgress,
+    theTopic,
+    setTheTopic,
+    source,
+    setSource,
+    userId,
+    setUserId,
+    totalAnswers,
+    setTotalAnswers,
+    pureLessonCount,
+    setPureLessonCount,
+    statLessonCount,
+    setStatLessonCount,
+    examHistory,
+    setExamHistory,
+    statisticsMarks,
+    setStatisticsMarks,
+    mathematicsMarks,
+    setMathematicsMarks,
+    totalMathsmarks,
+    setTotalMathsmark,
+    totalStatMarks,
+    setTotalStatMarks,
+    totalMarks,
+    setTotalMarks,
+    listofPureProb,
+    setListOfPureProb,
+    listofStatProb,
+    setListOfStatProb,
+    listofpureTopics,
+    setListofPureTopics,
+    listofStatTopics,
+    setListStatTopics,
+    shortenPureMaths,
+    setshortenPureMaths,
+    shortenstats,
+    setshortenstats,
   };
 
   return (
@@ -115,20 +170,32 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/progression" element={<Progressionmark />} />
+          {/* <Route path="/progression" element={<Progressionmark />} /> */}
+          <Route path="/forum" element={<Forum />} />
+          <Route path="/forum/add-question" element={<CreateForum />} />
+          <Route path="/forum/search" element={<ForumSearch />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Register />} />
-          <Route path="/authenticate" element={<Authenticate />} />
+          {/* <Route path="/authenticate" element={<Authenticate />} /> */}
+          <Route path="/past-papers" element={<PastPaperScope />} />
           <Route path="add-questions" element={<AddQuestionsPage />} />
           <Route path="/add-lesson" element={<AddLesson />} />
-          <Route path="exam" element={<ExamPage />} />
+          <Route path="/select-course" element={<SelectCourses />} />
+          <Route path="/select-course/:theTopic" element={<SpecificCourse />} />
+          <Route path="exam/:examID" element={<ExamPage />} />
+          <Route path="/scope" element={<Scope />}></Route>
           <Route path="receipt" element={<ExamReceipt />} />
-          <Route path="/examfinal" element={<ExamFinalized />}></Route>{" "}
-          <Route path="/exam-history" element={<ExamHistory />}></Route>
-          {/**Incomplete */}
-          <Route path="/scope" element={<Scope />}></Route>{" "}
-          {/**Radhul is working on this */}
+          <Route path="/exam-review/:examID" element={<ExamReview />}></Route>
+          <Route path="/scope" element={<Scope />}></Route>
+          <Route path="/examdashboard" element={<ExamDashboard />} />
+          <Route path="/resources" element={<Learn />} />
+          <Route
+            path="/learning/:source/:topic/:lesson"
+            element={<LearningResource />}
+          ></Route>
+          <Route path="/topicalExam/:topic" element={<TopicalExam />}></Route>
+          <Route path="/learnprint/:topic" element={<LearnBlueprint />}></Route>
           <Route path="/feedback" element={<FeedbackPage />}></Route>
           <Route path="*" element={<UnknownPage />} />
         </Routes>

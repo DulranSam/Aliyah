@@ -19,20 +19,146 @@ router.route("/save-exam-ref").post(async (req, res) => {
   }
 });
 
-router.route("/updateModuleProbabilities").post(async (req, res) => {
-  const { username, topicProbabilities } = req?.body;
+router.route("/updateOneModuleProbability").post(async (req, res) => {
+  const { userId, topicKey, sourceKey, probability } = req?.body;
 
-  if (!username || !topicProbabilities) {
-    return res.status(400).json({ Alert: "Username or Topic Probabilities Missing!" });
+  const user = await userModel.findById(userId);
+
+  user.topicProbabilities[sourceKey][topicKey] = probability;
+
+  const updatedUser = await userModel.findByIdAndUpdate(userId, {
+    topicProbabilities: user.topicProbabilities,
+  });
+
+  if (!updatedUser) {
+    return res.status(400).json({ Alert: "updatedUser doesnt match records" });
+  } else {
+    return res.status(200).json(updatedUser);
   }
+});
+
+router.route("/updateModuleProbabilities").post(async (req, res) => {
+  const { userId, topicProbabilities, source } = req?.body;
+
+  console.log(topicProbabilities);
+
+  if (!userId || !topicProbabilities || !source) {
+    return res
+      .status(400)
+      .json({ Alert: "Username or Topic Probabilities Missing!" });
+  }
+
+  const validUser = await userModel.findById(userId);
+
+  if (!validUser) {
+    return res.status(404).json({ Alert: "User not found!" });
+  }
+
+  // Create a new object by spreading the existing topicProbabilities
+  const updatedTopicProbabilities = {
+    ...validUser.topicProbabilities,
+    [source]: topicProbabilities,
+  };
+
+  // Update the topicProbabilities field with the new object
+  validUser.topicProbabilities = updatedTopicProbabilities;
+
+  console.log(updatedTopicProbabilities);
+
+  const savedUser = await validUser.save();
+
+  res.status(201).json(savedUser);
+});
+
+router.route("/setModuleProbabilities").post(async (req, res) => {
+  const { username, topicProbabilities, moduleID } = req?.body;
+
+  if (!username || !topicProbabilities || !moduleID) {
+    return res
+      .status(400)
+      .json({ Alert: "Username or Topic Probabilities Missing!" });
+  }
+
+  const updateObject = {};
+  updateObject[`topicProbabilities.${moduleID}`] = topicProbabilities;
 
   const validUser = await userModel.updateOne(
     { username: username },
-    { $set: { topicProbabilities: topicProbabilities } }
+    { $set: updateObject }
   );
 
   if (validUser) {
     res.status(201).json([{ Alert: "Module Probabilities updated!" }]);
+  }
+});
+
+router.post("/getUserById", async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const user = await userModel.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+router.post("/intialiazeLessons", async (req, res) => {
+  try {
+    const { userId, newLessonProgress } = req.body; // Destructure user ID and new lesson progress
+
+    if (!userId || !newLessonProgress) {
+      return res
+        .status(400)
+        .send("Missing required fields: userId and newLessonProgress");
+    }
+
+    const userToUpdate = await userModel.findById(userId); // Find user by ID
+
+    if (!userToUpdate) {
+      return res.status(404).send("User not found");
+    }
+
+    userToUpdate.lesson.push(newLessonProgress); // Append new lesson progress
+
+    await userToUpdate.save(); // Save updated user document
+
+    res.json(userToUpdate); // Return the updated user
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+router.post("/deleteUser", async (req, res) => {
+  try {
+    const { username } = req.body;
+
+    if (!username) {
+      return res.status(400).json({ message: "Username is required!" });
+    }
+
+    try {
+      const deletedUser = await userModel.deleteOne({ username });
+
+      if (!deletedUser.deletedCount) {
+        return res.status(404).json({ message: "User not found!" });
+      }
+
+      res.status(200).json({ message: "User deleted successfully!" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error!" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error!" });
   }
 });
 

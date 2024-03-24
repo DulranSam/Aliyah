@@ -3,6 +3,14 @@ const router = express.Router();
 const examModel = require("../models/exam");
 const userModel = require("../models/user"); // Import the userModel
 
+// router.post("/topicalcompleted").post(async (req, res) => {
+//   const { topic } = req?.body;
+
+//   if (!topic) {
+//     return res.status(400).json({ Alert: "Topic REQUIRED" });
+//   }
+// });
+
 router.route("/saveExam").post(async (req, res) => {
   const { examType, examQuestions, userRef, examModule, examTopic } = req?.body;
 
@@ -21,13 +29,24 @@ router.route("/saveExam").post(async (req, res) => {
   if (validityExam) {
     // Update user's examInfo after successful exam creation
     try {
-      // let examTypeFormatted = `${examType}Exams`
-      const updatedUser = await userModel.findByIdAndUpdate(userRef, {
-        $push: { feedbackExams: validityExam._id }, // Push exam object Id
-      });
+      let updatedUser = null;
+
+      if (examType.toLowerCase() === "feedback") {
+        updatedUser = await userModel.findByIdAndUpdate(userRef, {
+          $push: { feedbackExams: validityExam._id }, // Push exam object Id
+        });
+      } else if (examType.toLowerCase() === "topical") {
+        updatedUser = await userModel.findByIdAndUpdate(userRef, {
+          $push: { topicalExams: validityExam._id }, // Push exam object Id
+        });
+      } else if (examType.toLowerCase() === "past paper") {
+        updatedUser = await userModel.findByIdAndUpdate(userRef, {
+          $push: { pastPaperExams: validityExam._id }, // Push exam object Id
+        });
+      }
 
       if (updatedUser) {
-        res.status(201).json([{ Alert: "Exam Saved!" }]);
+        res.status(201).json([{ Alert: validityExam._id }]);
       } else {
         // Handle error if user update fails
         console.error("Error updating user exam history");
@@ -39,6 +58,53 @@ router.route("/saveExam").post(async (req, res) => {
     }
   }
 });
+router.route("/deleteExam").post(async (req, res) => {
+  try {
+    const { examRef } = req?.body;
+
+    if (!examRef) {
+      return res.status(400).json({ message: "Exam ID is required!" });
+    }
+
+    try {
+      const deletedExam = await examModel.deleteOne({ _id: examRef });
+
+      if (!deletedExam) {
+        return res.status(404).json({ message: "Exam not found!" });
+      }
+
+      res.status(200).json({ message: "Exam deleted successfully!" });
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error!" });
+    }
+  } catch (error) {
+
+  }
+})
+
+router.route("/deleteExam").post(async (req, res) => {
+  try {
+    const { examRef } = req?.body;
+
+    if (!examRef) {
+      return res.status(400).json({ message: "Exam ID is required!" });
+    }
+
+    try {
+      const deletedExam = await examModel.deleteOne({ _id: examRef });
+
+      if (!deletedExam) {
+        return res.status(404).json({ message: "Exam not found!" });
+      }
+
+      res.status(200).json({ message: "Exam deleted successfully!" });
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error!" });
+    }
+  } catch (error) {
+
+  }
+})
 
 router.route("/getExam").post(async (req, res) => {
   const { examRef } = req?.body;
@@ -47,7 +113,13 @@ router.route("/getExam").post(async (req, res) => {
     return res.status(400).json({ Alert: "The exam reference ID is missing." });
   }
 
-  const examData = await examModel.findById(examRef);
+  let examData;
+
+  try {
+    examData = await examModel.findById(examRef);
+  } catch {
+     return res.status(400).json({ Alert: "No matching exam is found" });
+  }
 
   if (!examData) {
     res
@@ -123,7 +195,7 @@ router.route("/updateExam").post(async (req, res) => {
     });
   }
 
-  if (!examData || !userData) {
+  if (!examData) {
     res.status(400).json({ Alert: "The exam data is not matching records." });
   } else {
     res.status(200).json(examData);

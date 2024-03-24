@@ -1,0 +1,204 @@
+.forumContainer {
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.addQuestionBtn {
+  color: #666666;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.addQuestionBtn:hover {
+  color: #4a9dec;
+  transition: 0.5s;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.forumTitle {
+  font-weight: bold;
+  font-size: 26px;
+  margin-bottom: 0;
+}
+
+.fHeaderContainer {
+  margin: 20px;
+}
+
+.forumHeader {
+  background: rgb(237,255,238);
+  background: linear-gradient(180deg, rgba(237,255,238,1) 18%, rgba(244,243,243,1) 85%);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.searchContainer {
+  background: rgb(237,255,238);
+  background: linear-gradient(180deg, rgba(237,255,238,1) 18%, rgba(244,243,243,1) 85%);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.searchQuestion {
+  border: 2px solid #666666;
+  width: 20em;
+  height: 3em;
+  padding-left: 0.8em;
+  background-color: #F3F3F3;
+  border-radius: 10px;
+  transition: all 0.5s;
+}
+
+.searchQuestion:hover, .searchQuestion:focus, .searchQuestion:active {
+  border: 2px solid #4a9dec;
+  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  background-color: white;
+}
+
+select {
+  border: 2px solid #666666;
+  width: 10em;
+  height: 3em;
+  padding-left: 0.8em;
+  background-color: #F3F3F3;
+  border-radius: 10px;
+  transition: all 0.5s;
+}
+
+select:hover, select:focus {
+  border: 2px solid #4a9dec;
+  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  background-color: white;
+}
+
+.forumLoad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.questionCard {
+  background: rgb(237,255,238);
+  background: linear-gradient(180deg, rgba(237,255,238,1) 18%, rgba(244,243,243,1) 85%);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+}
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.searchBtn {
+  border: 2px solid #666666;
+  border-radius: 10px;
+  transition: all 0.5s;
+  padding: 10px;
+}
+
+.searchBtn:hover {
+  border: 2px solid #4a9dec;
+  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  background-color: white;
+  cursor: pointer;
+}
+
+.questionCard {
+  background: rgb(237,255,238);
+  background: linear-gradient(180deg, rgba(237,255,238,1) 18%, rgba(244,243,243,1) 85%);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+}
+
+.questionTitle {
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.questionDescription {
+  font-size: 20px;
+  padding: 10px;
+}
+
+.answerCard {
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  border-radius: 12px;
+}
+
+.replyOptions {
+  display: flex;
+}
+
+.postBtns {
+  border: 2px solid #666666;
+  border-radius: 10px;
+  transition: all 0.5s;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.postBtns:hover {
+  border: 2px solid #4a9dec;
+  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  background-color: white;
+  cursor: pointer;
+}
+
+.replyForm {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.postInfo {
+  display: flex;
+  margin: 10px;
+}
+
+.replyInput {
+  border: 2px solid #666666;
+  width: 60em;
+  height: 3em;
+  padding-left: 0.8em;
+  background-color: #F3F3F3;
+  border-radius: 10px;
+  transition: all 0.5s;
+}
+
+.replyInput:hover, .replyInput:focus, .replyInput:active {
+  border: 2px solid #4a9dec;
+  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  background-color: white;
+}
+
+
+
+
+/* Forum Buttons */
+.forumBtn {
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  color: black;
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.forumBtn:hover {
+  background-color: #0056b3;
+}

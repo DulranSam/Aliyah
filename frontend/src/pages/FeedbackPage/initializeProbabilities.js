@@ -1,36 +1,23 @@
 import Axios from "axios";
 
-const initializeProbabilities = async (loggedInUser) => {
+const initializeProbabilities = async (source, BASE) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let moduleProbabilities = {};
+      const response = await Axios.post(`${BASE}/getTopics`, {
+        sourceKey: `${source}`,
+      });
 
-    return new Promise(async (resolve, reject) => {
-        try {
-            let moduleProbabilities = {};
+      // Directly update moduleProbabilities with topic keys and initial probabilities
+      for (const topicKey in response.data.topicKeys) {
+        moduleProbabilities[response.data.topicKeys[topicKey]] = -1.0;
+      }
 
-            for (const course in loggedInUser.courses) {
-        
-                let tempTopProb = {};
-        
-                await Axios.post("http://localhost:8000/getTopics", {
-                    sourceKey:`${loggedInUser.courses[course]}`
-                })
-                .then(function (response) {
-                    for (const topicKey in response.data.topicKeys) {
-                        tempTopProb[response.data.topicKeys[topicKey]] = -1;
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                  })
-        
-                moduleProbabilities[loggedInUser.courses[course]] = tempTopProb;
-            }
-        
-            resolve(moduleProbabilities);
-        }
-     catch (error){
-        reject(error);
-     }
-    });
-}
+      resolve(moduleProbabilities);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 export default initializeProbabilities;

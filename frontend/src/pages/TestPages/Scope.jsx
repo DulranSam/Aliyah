@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState, useContext } from "react";
 import Axios from "axios";
 import "./Scope.css";
+import { UserContext } from "../../App";
 
 const Scope = () => {
   const [selectAllTopics, setSelectAllTopics] = useState(false);
@@ -33,12 +34,9 @@ const Scope = () => {
 
   const getTopics = async (selectedModule) => {
     try {
-      const response = await Axios.post(
-        "http://localhost:8000/addQuestion/getQuestionInfo",
-        {
-          source: selectedModule,
-        }
-      );
+      const response = await Axios.post(`${BASE}/addQuestion/getQuestionInfo`, {
+        source: selectedModule,
+      });
 
       dispatch({ type: "FETCH_TOPICS", payload: response.data.topics });
     } catch (error) {}
@@ -46,11 +44,8 @@ const Scope = () => {
 
   const getModules = async () => {
     try {
-      const response = await Axios.get(
-        "http://localhost:8000/addQuestion/getModules"
-      );
+      const response = await Axios.get(`${BASE}/addQuestion/getModules`);
 
-      getTopics();
       dispatch({ type: "FETCH_MODULES", payload: response.data });
       dispatch({ type: "SELECT_MODULE", payload: response.data[0] });
       getTopics(response.data[0]);
@@ -87,7 +82,7 @@ const Scope = () => {
       try {
         console.log("state.selectedTopic", state.selectedTopic);
         const response = await Axios.post(
-          "http://localhost:8000/getQuestionsOnTopic/getQuestionsForExam",
+          `${BASE}/getQuestionsOnTopic/getQuestionsForExam`,
           {
             topics: state.selectedTopic,
           }
