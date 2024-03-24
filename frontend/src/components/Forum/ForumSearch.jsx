@@ -4,7 +4,6 @@ import { UserContext } from "../../App";
 import { Card, Button } from "react-bootstrap"; // Import Bootstrap components
 import { Link } from "react-router-dom";
 import Axios from "axios";
-
 import ForumQuestion from "./ForumQuestion";
 
 const ForumSearch = () => {
@@ -46,12 +45,12 @@ const ForumSearch = () => {
   };
 
   return transfer === 1 ? (
-    <div className="container">
-      <Link to={"/forum"}>Back To Forum</Link>
+    <div className="search-container">
+      <Link to={"/forum"} style={{padding:"20px"}}>Back To Forum</Link>
       <h1 className="text-center mb-4" style={{ textAlign: "center" }}>
         Forum Search
       </h1>
-      <form onSubmit={searchUp}>
+      <form onSubmit={searchUp} style={{margin:"40px"}} className="search-forum">
         <input
           onChange={(e) => {
             setSearch(e.target.value);
