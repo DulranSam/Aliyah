@@ -23,7 +23,10 @@ function Gemini() {
     setData([]);
     try {
       setLoading(true);
-      const response = await Axios.post(endPoint, {search,username:loggedInUser.username});
+      const response = await Axios.post(endPoint, {
+        search,
+        username: loggedInUser.username,
+      });
       if (response.status === 200) {
         searchCounter++;
       }
@@ -35,10 +38,10 @@ function Gemini() {
     }
   }
 
-  useEffect(()=>{
-    setSearch(`Greet me , my name is ${loggedInUser.username}!`)
+  useEffect(() => {
+    setSearch(`Greet me , my name is ${loggedInUser.username}!`);
     GatherData();
-  },[])
+  }, []);
 
   return loggedInUser ? (
     <div className="bot-container">
@@ -46,7 +49,13 @@ function Gemini() {
         {menu ? "Close Bot" : "Open Bot!"}
       </AiFillRobot>
       {menu && (
-        <form onSubmit={GatherData} className="askMe">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            GatherData();
+          }}
+          className="askMe"
+        >
           <TextField
             className="bot-input"
             onChange={(e) => setSearch(e.target.value)}

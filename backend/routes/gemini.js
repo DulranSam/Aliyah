@@ -11,7 +11,7 @@ router.route("/").post(async (req, res) => {
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-    const prompt = ` ${search} , respond to this as a maths bot! respond to ${username}`;
+    const prompt = ` ${search} , respond to this as a maths bot! the user asking the question is ${username}`;
 
     const result = await model.generateContent(prompt);
     const response = result.response;
