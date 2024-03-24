@@ -43,11 +43,11 @@ const ForumQuestion = (questionDataParam, theKey) => {
     }, 2500);
   }, [status]);
 
-  const increaseVotes = async (id) => {
+  const increaseVotes = async (questionIDValue) => {
     try {
       setLoading(true);
-      const response = await Axios.post(`${BASE}forum/upvotes/${id}`, {
-        username: loggedInUser.username,
+      const response = await Axios.post(`${BASE}/forum/upvotes`, {
+        questionID: questionIDValue,
       });
       // if (response.status === 200) {
 
@@ -57,11 +57,27 @@ const ForumQuestion = (questionDataParam, theKey) => {
 
       if (response.status === 200) {
         console.log("Yess!");
+        const updatedData = {
+          ...questionData,
+          rating: questionData.rating + 1,
+        };
+
+        setQuestionData(updatedData);
+
+        const downVoteBtn = document.getElementById(
+          `questionDownvote_${questionIDValue}`
+        );
+        const upVoteBtn = document.getElementById(
+          `questionUpvote_${questionIDValue}`
+        );
+
+        downVoteBtn.disabled = true;
+        downVoteBtn.style.opacity = "0.5";
+        upVoteBtn.disabled = true;
+        upVoteBtn.style.opacity = "0.5";
+        downVoteBtn.style.pointerEvents = "none";
+        upVoteBtn.style.pointerEvents = "none";
       }
-
-      const updatedData = { ...questionData, rating: questionData.rating + 1 };
-
-      setQuestionData(updatedData);
     } catch (error) {
       if (error.status === 400) {
         setStatus("Error!");
@@ -72,27 +88,80 @@ const ForumQuestion = (questionDataParam, theKey) => {
     }
   };
 
-  const downVote = async (id) => {
+  const downVote = async (questionIDValue) => {
     try {
       setLoading(true);
-      const response = await Axios.put(`${BASE}/forum/downvotes/${id}`, {
-        userId: user.id,
+      const response = await Axios.post(`${BASE}/forum/downvotes`, {
+        questionID: questionIDValue,
       });
+
       if (response.status === 200) {
-        setStatus("Down Voted");
+        console.log("Yess!");
         const updatedData = {
           ...questionData,
           rating: questionData.rating - 1,
         };
 
         setQuestionData(updatedData);
-      } else {
-        setStatus("Error while downvoting");
+
+        const downVoteBtn = document.getElementById(
+          `questionDownvote_${questionIDValue}`
+        );
+        const upVoteBtn = document.getElementById(
+          `questionUpvote_${questionIDValue}`
+        );
+
+        downVoteBtn.disabled = true;
+        downVoteBtn.style.opacity = "0.5";
+        upVoteBtn.disabled = true;
+        upVoteBtn.style.opacity = "0.5";
+        downVoteBtn.style.pointerEvents = "none";
+        upVoteBtn.style.pointerEvents = "none";
       }
     } catch (error) {
-      console.error("Error while downvoting:", error);
+      if (error.status === 400) {
+        setStatus("Error!");
+      }
+      console.error("Error while upvoting:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const downvoteAnswer = async (questionIDValue, answerIDValue) => {
+    try {
+      const response = await Axios.post(`${BASE}/forum/downvoteAnswer`, {
+        questionID: questionIDValue,
+        answerID: answerIDValue,
+      });
+      if (response.status === 200) {
+        const newAnswers = [...questionData.answers];
+        for (let i = 0; i < newAnswers.length; i++) {
+          if (newAnswers[i]._id === answerIDValue) {
+            newAnswers[i].noOfUpvotes -= 1;
+            setQuestionData({ ...questionData, answers: newAnswers });
+
+            const downVoteBtn = document.getElementById(
+              `answerDownvote_${questionIDValue}_${answerIDValue}`
+            );
+            const upVoteBtn = document.getElementById(
+              `answerUpvote_${questionIDValue}_${answerIDValue}`
+            );
+
+            downVoteBtn.disabled = true;
+            downVoteBtn.style.opacity = "0.5";
+            upVoteBtn.disabled = true;
+            upVoteBtn.style.opacity = "0.5";
+            downVoteBtn.style.pointerEvents = "none";
+            upVoteBtn.style.pointerEvents = "none";
+            break;
+          }
+        }
+      } else {
+        setStatus("Error while updating!");
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -103,8 +172,29 @@ const ForumQuestion = (questionDataParam, theKey) => {
         answerID: answerIDValue,
       });
       if (response.status === 200) {
-        setStatus("Nerd points updated!");
-        console.log(response.data);
+        const newAnswers = [...questionData.answers];
+
+        for (let i = 0; i < newAnswers.length; i++) {
+          if (newAnswers[i]._id === answerIDValue) {
+            newAnswers[i].noOfUpvotes += 1;
+            setQuestionData({ ...questionData, answers: newAnswers });
+
+            const downVoteBtn = document.getElementById(
+              `answerDownvote_${questionIDValue}_${answerIDValue}`
+            );
+            const upVoteBtn = document.getElementById(
+              `answerUpvote_${questionIDValue}_${answerIDValue}`
+            );
+
+            downVoteBtn.disabled = true;
+            downVoteBtn.style.opacity = "0.5";
+            upVoteBtn.disabled = true;
+            upVoteBtn.style.opacity = "0.5";
+            downVoteBtn.style.pointerEvents = "none";
+            upVoteBtn.style.pointerEvents = "none";
+            break;
+          }
+        }
       } else {
         setStatus("Error while updating!");
       }
@@ -207,14 +297,18 @@ const ForumQuestion = (questionDataParam, theKey) => {
               {answer.answeredBy !== loggedInUser.username ? (
                 <div>
                   <button
+                    id={`answerUpvote_${questionData._id}_${answer._id}`}
                     className="postBtns"
-                    onClick={() => increaseVotes(questionData._id)}
+                    onClick={() =>
+                      nerdPointsIncrement(questionData._id, answer._id)
+                    }
                   >
                     Upvote
                   </button>
                   <button
+                    id={`answerDownvote_${questionData._id}_${answer._id}`}
                     className="postBtns"
-                    onClick={() => downVote(questionData._id)}
+                    onClick={() => downvoteAnswer(questionData._id, answer._id)}
                   >
                     Downvote
                   </button>
@@ -243,12 +337,14 @@ const ForumQuestion = (questionDataParam, theKey) => {
       {loggedInUser.username !== questionData.by ? (
         <div>
           <button
+            id={`questionUpvote_${questionData._id}`}
             className="postBtns"
             onClick={() => increaseVotes(questionData._id)}
           >
             Upvote
           </button>
           <button
+            id={`questionDownvote_${questionData._id}`}
             className="postBtns"
             onClick={() => downVote(questionData._id)}
           >

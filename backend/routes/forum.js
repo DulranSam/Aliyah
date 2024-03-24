@@ -182,84 +182,73 @@ router
     }
   });
 
-router.route("/upvotes/:id").post(async (req, res) => {
-  const id = req?.params?.id;
+router.route("/upvotes").post(async (req, res) => {
+  const { questionID } = req?.body;
 
-  if (!id) {
-    return res.status(400).json({ Alert: "No ID" });
-  }
-
+  if (!questionID)
+    return res.status(400).json({ Alert: "ID + userID are REQUIRED!" });
   try {
-    const verify = await forumModel.findByIdAndUpdate(
-      id,
-      { $inc: { rating: 1 } },
-      { new: true }
-    );
-
-    if (!verify) {
+    const exists = await forumModel.findById(questionID);
+    if (!exists) {
       return res
         .status(404)
-        .json({ Alert: `${id} is an invalid question ID!` });
-    }
+        .json({ Alert: `${String(questionID)} is invalid!` });
+    } else {
+      exists.rating += 1;
+      const answeredBy = exists.by;
 
-    const upvotedByUpdate = await userModel
-      .findOne({ username: username })
-      .updateOne({ $inc: { voxelPoints: 5 } });
+      const user = await userModel.findOne({ username: answeredBy });
 
-    if (!upvotedByUpdate) {
-      return res.status(400).json({
-        Alert: "Error while updating nerd points, perhaps user not logged in?",
+      if (!user) {
+        return res.status(404).json({ Alert: "Invalid User!" });
+      }
+
+      user.voxelPoints += 5;
+
+      await user.save().then(async () => {
+        await exists.save().then(() => {
+          return res.status(200).json({ Alert: "Nerd Points Updated!" });
+        });
       });
     }
-
-    res.status(200).json({
-      Alert: `Nerd Points Updated For The User ${userId}!`,
-      Votes: `Upvotes updated to ${verify.rating}! Data ${JSON.stringify(
-        verify
-      )}`,
-    });
   } catch (error) {
-    res.status(500).json({ Alert: "Internal Server Error" });
+    console.error("Error occurred:", error);
+    return res.status(500).json({ Alert: "Internal Server Error" });
   }
 });
 
-router.route("/downvotes/:id").put(async (req, res) => {
-  const id = req?.params?.id;
-  const userId = req.body.userId;
-  if (!id) {
-    return res.status(400).json({ Alert: "No ID" });
-  }
+router.route("/downvotes").post(async (req, res) => {
+  const { questionID } = req?.body;
+
+  if (!questionID)
+    return res.status(400).json({ Alert: "ID + userID are REQUIRED!" });
   try {
-    const verify = await forumModel.findByIdAndUpdate(
-      id,
-      { $inc: { rating: -1 } },
-      { new: true }
-    );
-    const nerdPointsUpdate = await userModel.findByIdAndUpdate(
-      { _id: userId },
-      { $inc: { voxelPoints: -1 } }
-    ); //decrement points by 1
-    if (!nerdPointsUpdate) {
-      res.status(400).json({
-        Alert: "Error while updating nerd points , perhaps user not logged in?",
-      });
-    } else {
-      res.status(200).json({
-        Alert: `Nerd Points Updated For The User ${nerdPointsUpdate}!`,
-      });
-    }
-    if (!verify) {
+    const exists = await forumModel.findById(questionID);
+    if (!exists) {
       return res
         .status(404)
-        .json({ Alert: `${id} brings an invalid question!` });
+        .json({ Alert: `${String(questionID)} is invalid!` });
+    } else {
+      exists.rating -= 1;
+      const answeredBy = exists.by;
+
+      const user = await userModel.findOne({ username: answeredBy });
+
+      if (!user) {
+        return res.status(404).json({ Alert: "Invalid User!" });
+      }
+
+      user.voxelPoints -= 5;
+
+      await user.save().then(async () => {
+        await exists.save().then(() => {
+          return res.status(200).json({ Alert: "Nerd Points Updated!" });
+        });
+      });
     }
-    res.status(200).json({
-      Votes: `Upvotes updated to ${verify.rating}! Data ${JSON.stringify(
-        verify
-      )}`,
-    });
   } catch (error) {
-    res.status(500).json({ Alert: "Internal Server Error" });
+    console.error("Error occurred:", error);
+    return res.status(500).json({ Alert: "Internal Server Error" });
   }
 });
 
@@ -284,6 +273,44 @@ router.route("/upvoteAnswer").post(async (req, res) => {
             return res.status(404).json({ Alert: "Invalid User!" });
           }
           user.voxelPoints += 5;
+
+          await user.save().then(async () => {
+            await exists.save().then(() => {
+              return res.status(200).json({
+                Alert: "Nerd Points Updated!",
+              });
+            });
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error occurred:", error);
+    return res.status(500).json({ Alert: "Internal Server Error" });
+  }
+});
+
+router.route("/downvoteAnswer").post(async (req, res) => {
+  const { questionID, answerID } = req?.body;
+
+  if (!questionID || !answerID)
+    return res.status(400).json({ Alert: "ID + userID are REQUIRED!" });
+  try {
+    const exists = await forumModel.findById(questionID);
+    if (!exists) {
+      return res
+        .status(404)
+        .json({ Alert: `${String(questionID)} is invalid!` });
+    } else {
+      for (let i = 0; i < exists.answers.length; i++) {
+        if (exists.answers[i]._id == answerID) {
+          exists.answers[i].noOfUpvotes -= 1;
+          const answeredBy = exists.answers[i].answeredBy;
+          const user = await userModel.findOne({ username: answeredBy });
+          if (!user) {
+            return res.status(404).json({ Alert: "Invalid User!" });
+          }
+          user.voxelPoints -= 5;
 
           await user.save().then(async () => {
             await exists.save().then(() => {
