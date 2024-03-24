@@ -145,7 +145,7 @@ const Forum = () => {
               />
             </form>
 
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", marginTop: "10px" }}>
               <p style={{ fontSize: "18px", marginTop: "8px" }}>Topic Filter:</p>
               <form style={{ marginLeft: "10px"}}>
                 <select

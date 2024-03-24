@@ -349,6 +349,7 @@ const ForumQuestion = (questionDataParam, theKey) => {
         </button>
       )}
       <button
+        style={{marginTop: "10px"}}
         className="postBtns"
         onClick={() => {
           setToggle(!toggle);
