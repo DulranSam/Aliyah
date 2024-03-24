@@ -5,6 +5,7 @@ const NavBar = () => {
   return (
     <>
       <div className="navBar">
+        <img className="siteLogo" src="https://img.icons8.com/plasticine/100/elephant.png" />
         <nav className="navContainer">
           <a className="navItem" href="/">
             Home

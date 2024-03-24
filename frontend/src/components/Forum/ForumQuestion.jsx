@@ -3,18 +3,7 @@
 /* eslint-disable no-undef */
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-
 import Axios from "axios";
-
-import {
-  Button,
-  FormControl,
-  Input,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
 import { UserContext } from "../../App";
 
 const ForumQuestion = (questionDataParam, theKey) => {

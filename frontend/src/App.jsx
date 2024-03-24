@@ -64,6 +64,10 @@ function App() {
   const [search, setSearch] = useState("");
   const [searched, setSearched] = useState([]);
   const [transfer, setTransfer] = useState("");
+  const [listofPureProb,setListOfPureProb] = useState({});
+  const [listofStatProb,setListOfStatProb] = useState({});
+  const [listofpureTopics,setListofPureTopics] = useState([]);
+  const [listofStatTopics,setListStatTopics] = useState([]);
 
   const BASE = "http://localhost:8000";
 
@@ -144,6 +148,14 @@ function App() {
     setTotalStatMarks,
     totalMarks,
     setTotalMarks,
+    listofPureProb,
+    setListOfPureProb,
+    listofStatProb,
+    setListOfStatProb,
+    listofpureTopics,
+    setListofPureTopics,
+    listofStatTopics,
+    setListStatTopics
   };
 
   return (
@@ -185,3 +197,4 @@ function App() {
 }
 
 export default App;
+
