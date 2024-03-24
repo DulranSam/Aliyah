@@ -2,6 +2,14 @@ html,body {
     overflow: visible;
     background-color: #f4f3f3;
 }
+.stats{
+    position: relative;
+    display: flex;
+}
+.maths{
+    position: relative;
+    display: flex;
+}
 
 .dashboard-header, .profile-corner {
     display: flex;

@@ -13,11 +13,14 @@ import Axios from "axios";
 import axios from "axios";
 import Progressionmark from "../../components/graphs/Progressionmark";
 import { Link } from "react-router-dom";
+import NavBar from "../../components/NavigationBar/navBar";
+
 
 // Dashboard Header Tab
 function DashboardHeader() {
   return (
     <>
+      <NavBar/>
       <div className="dashboard-header">
         <h1 className="dashboard-title">Dashboard</h1>
         <div className="profile-corner">
@@ -292,18 +295,25 @@ function DashboardActivity() {
     BASE,
     listofpureTopics,
     listofStatTopics,
+    shortenPureMaths,
+    shortenstats,
+
   } = useContext(UserContext);
   const [sortedPureData, setSortedPureData] = useState([]);
   const [sorterdStatData, setSortedStatData] = useState([]);
 
   let statFeedback = [];
   let pureMathsFeedback = [];
+  const getPureIndexes = [];
+  const getStatIndexes = [];
+  let lessonPureMath = [];
+  let statlesson = [];
   
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
   
-  console.log(listofpureTopics);
-  console.log(listofStatTopics);
+  
+  
   const sortThearraybyFeedback = (obj) => {
     if (!obj || typeof obj !== "object" || Object.keys(obj).length === 0) {
       // If the object is null, undefined, or not an object, or is empty,
@@ -336,14 +346,60 @@ function DashboardActivity() {
   console.log(sortedPure);
   console.log(sortStat);
 
+
   for(let i =0;i<3;i++){
     pureMathsFeedback[i]=sortedPure[i];
+    
+    
   }
   console.log(pureMathsFeedback);
   for(let i =0;i<3;i++){
    statFeedback[i] = sortStat[i];
+   
   }
+  const firstPureElements = pureMathsFeedback.map(subArray => subArray?.[0] ?? '');
+  const firstStatElements = statFeedback.map(subArray => subArray?.[0] ?? '');
+  const firstPureFeedback = pureMathsFeedback.map(subArray => subArray?.[1] ?? '');
+  const firststatFeedback = statFeedback.map(subArray => subArray?.[1] ?? '');
+
+  
+
   console.log(statFeedback);
+  console.log(pureMathsFeedback);
+  console.log(firstPureElements);
+  console.log(firstStatElements);
+  console.log(shortenPureMaths);
+  console.log(shortenstats);
+
+  console.log(listofpureTopics);
+  console.log(listofStatTopics);
+  console.log(firstPureFeedback );
+  console.log(firststatFeedback);
+
+  function getMatchingIndexesFromSecondArray(array1, array2) {
+    const matchingIndexes = [];
+    array1.forEach(element => {
+      const indexInArray2 = array2.indexOf(element);
+      if (indexInArray2 !== -1) {
+        matchingIndexes.push(indexInArray2);
+      }
+    });
+    return matchingIndexes;
+  }
+  
+  
+  
+  // Usage
+  const purelessonIndexes = getMatchingIndexesFromSecondArray(firstPureElements, shortenPureMaths);
+  console.log(purelessonIndexes); // Outputs indexes from shortenPureMaths
+  const pureMathslessonTopics = purelessonIndexes.map(index => listofpureTopics[index].topic);
+  console.log(pureMathslessonTopics);
+
+
+  const statlessonIndexes = getMatchingIndexesFromSecondArray(firstStatElements, shortenstats);
+  console.log(statlessonIndexes); // Outputs indexes from shortenstats
+  const statlessonTopics = statlessonIndexes.map(index => listofStatTopics[index].topic);
+  console.log(statlessonTopics);
 
 
   // Check if data is null before accessing its properties
@@ -352,16 +408,55 @@ function DashboardActivity() {
   return (
     loggedInUser && (
       <div className="dashboard-activity">
+        <h5>Pure Mathematics I</h5>
         <div className="maths">
-          <h5>Pure Mathematics I</h5>
+          
+          <div className="Mathstopics">
+              {pureMathslessonTopics.length > 0 ? (
+                pureMathslessonTopics.map((item, id) => (
+                  <h5 key={id}>{item}</h5> // Make sure to use parentheses () to implicitly return from arrow function
+                ))
+              ) : (
+                <h5>Nothing to display</h5>
+              )}
+          </div>
+          <div className="feedbacklesson">
+                {firstPureFeedback.length > 0 ? (
+                  firstPureFeedback.map((item, id) => (
+                    <h5 key={id}>{item * 100}%</h5> // Implicit return with parentheses
+                  ))
+                ) : (
+                  <h5>Nothing to display</h5>
+                )}
+        </div>
 
+          
         </div>
-        <div>
-          <h5>Statistics</h5>
+        <h5>Statistics</h5>
+        <div className="stats">
+         
+          <div className="statTopics">
+            {statlessonTopics.length > 0 ?(
+              statlessonTopics.map((item, id) => (
+                <h5 key={id}>{item}</h5> // Make sure to use parentheses () to implicitly return from arrow function
+              ))
+            ):
+            (
+              <h5> Nothing to display </h5>
+            )
+            }
+          </div>
+          <div className="feedbacklesson2">
+                {firststatFeedback.length > 0 ? (
+                  firststatFeedback.map((item, id) => (
+                    <h5 key={id}>{item * 100}%</h5> // Implicit return with parentheses
+                  ))
+                ) : (
+                  <h5>Nothing to display</h5>
+                )}
+          </div>
+          
         </div>
-        
-        
-        
       </div>
     )
   );
@@ -426,6 +521,10 @@ function DashboardPage() {
     setListofPureTopics,
     listofStatTopics,
     setListStatTopics,
+    shortenPureMaths,
+    setshortenPureMaths,
+    shortenstats,
+    setshortenstats
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -532,6 +631,7 @@ function DashboardPage() {
           sourceKey: "p1",
         });
         setListofPureTopics(response.data.topicLesson);
+        setshortenPureMaths(response.data.topicKeys)
         console.log(response);
       } catch (err) {
         console.log(err);
@@ -546,6 +646,7 @@ function DashboardPage() {
         const response = await axios.post(`${BASE}/getTopics`, {
           sourceKey: "s1",
         });
+        setshortenstats(response.data.topicKeys)
         setListStatTopics(response.data.topicLesson);
         console.log(response);
       } catch (err) {
