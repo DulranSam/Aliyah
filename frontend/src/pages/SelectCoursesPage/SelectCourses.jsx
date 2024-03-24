@@ -103,7 +103,7 @@ const SelectCourses = () => {
           <div className="course-container">
             <h1>Courses In Progress</h1>
             {userStartedCourses.length == 0 ? (
-              <p>No Courses Started!!</p>
+              <h1>No Courses Started!!</h1>
             ) : (
               userStartedCourses.map((course, i) => (
                 <div key={i}>
@@ -129,9 +129,9 @@ const SelectCourses = () => {
         {userNotStartedCourses ? (
           <div className="course-container">
             <div>
-              <h1>Not Started Courses</h1>
+            {userNotStartedCourses.length!==0? <h1>`Not Started Courses`</h1> : null}
               {userNotStartedCourses.length == 0 ? (
-                <p>All Courses Started!!</p>
+                <h2>All Courses Started!!</h2>
               ) : (
                 userNotStartedCourses.map((course, i) => (
                   <div key={i}>

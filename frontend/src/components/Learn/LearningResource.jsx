@@ -5,6 +5,7 @@ import { UserContext } from "../../App";
 import Axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import "./LearningResource.css";
+import NavBar from "../NavigationBar/navBar";
 
 const LearningResource = () => {
   const navigate = useNavigate();
@@ -113,12 +114,12 @@ const LearningResource = () => {
   ) : (
     topicRelated && Object.keys(topicRelated).length > 0 && (
       <>
+        <NavBar/>
         <div style={{ display: "flex" }}>
           <Link
             to={`/learnprint/${source}`}
-            style={{ margin: "40px", padding: "20px" }}
           >
-            <button> Go Back!</button>
+            <button className="stlr-gb-btn">Go Back</button>
           </Link>
           <div
             className="sidebar"
@@ -157,10 +158,10 @@ const LearningResource = () => {
           <div className="learnresources">
             <h1>{lesson}</h1>
             {Object.keys(section).length > 0 && (
-              <div>
+              <div className="stlr-container">
                 {section.lessonSection.map((sectionText, index) => (
-                  <div key={index}>
-                    <p>{sectionText}</p>
+                  <div className="img-stlr-container" key={index}>
+                    <p className="section-text-learnresource">{sectionText}</p>
                     {section.sectionImgURL[index] !== "" && (
                       <img
                         src={section.sectionImgURL[index]}
@@ -172,12 +173,12 @@ const LearningResource = () => {
                 ))}
               </div>
             )}
-            <button
+            <button className="stlr-next-btn"
               onClick={() => {
                 handleBtnClick();
               }}
             >
-              Next Page!
+              Next Page
             </button>
           </div>
         </div>

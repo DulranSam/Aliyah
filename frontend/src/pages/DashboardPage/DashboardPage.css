@@ -1,181 +1,203 @@
-html,body {
-    overflow: visible;
-    background-color: #f4f3f3;
+html,
+body {
+  overflow: visible;
+  background-color: #f4f3f3;
 }
-.stats{
-    position: relative;
-    display: flex;
-    justify-content:space-between;
-    margin-bottom: 10px;
+.stats {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
-.maths{
-    position: relative;
-    display: flex;
-    justify-content:space-between;
-    margin-bottom: 10px;
+.maths {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.dashboard-header, .profile-corner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.dashboard-header,
+.profile-corner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-graph-container,
+.dashboard-activity,
+.dashboard-statistics-container,
+.dashboard-courses {
+  box-shadow: 0 0px 6px  rgb(9, 173, 9),
+    /* Light green border */ 0 4px 6px rgba(0, 0, 0, 0.1); /* Regular box shadow */
+  /* background: linear-gradient(
+    180deg,
+    rgb(62, 154, 67) 18%,
+    rgba(244, 243, 243, 1) 85%
+  ); */
 }
 
 .profile-corner {
-    width: 8%;
+  width: 8%;
 }
 
 .notification-tab {
-    width: 35px;
-    height: 35px;
-    border-radius: 50px;
-    background-color: green;
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  background-color: green;
 }
 
 .profile-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50px;
-    background-color: rgb(1, 157, 1);
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  background-color: rgb(1, 157, 1);
 }
 
 .graph-db {
-    height: 400px;
-    margin-top: auto;
-    margin-bottom: auto;
+  height: 400px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .statistics-tab {
-    display: grid;
-    grid-template-columns: auto auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    column-gap: 30px;
-    row-gap: 55px;
+  display: grid;
+  grid-template-columns: auto auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  column-gap: 30px;
+  row-gap: 55px;
 }
 
 .dashboard-main {
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 25px;
-    row-gap: 25px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 25px;
+  row-gap: 25px;
 }
 
 .courses-tab {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
 }
 
 .activity-graph {
-    /* background-color: black; */
-    height: 300px;
+  /* background-color: black; */
+  height: 300px;
 }
 
 .dashboard-statistics-container {
-    display: flex;
-    flex-direction: column;
-    border-radius: 15px;
-    padding: 25px;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  padding: 25px;
+  background-color: white;
 }
 
 .dashboard-graph-container {
-    display: flex;
-    flex-direction: column;
-    border-radius: 15px;
-    padding: 20px;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  padding: 20px;
+  background-color: white;
 }
 
-.dashboard-complete-container { 
-    padding: 25px;
+.dashboard-complete-container {
+  padding: 25px;
 }
 
 .graph-title {
-    font-size: 2rem;
-    margin-bottom: 40px;
+  font-size: 2rem;
+  margin-bottom: 40px;
 }
 
 .points-tab {
-    background-color: #f4f3f3;
-    border-radius: 15px;
-    padding-block: 20px;
-    padding-inline: 20px;
+  background-color: #f4f3f3;
+  border-radius: 15px;
+  padding-block: 20px;
+  padding-inline: 20px;
 }
 
 .tab-header {
-    margin-bottom: 35px;
+  margin-bottom: 35px;
 }
 
 .st-num {
-    font-size: 1.5rem;
-    text-align: end;
-    border-left: 3px solid rgb(6, 140, 31);
-    border-radius: 3px;
+  font-size: 1.5rem;
+  text-align: end;
+  border-left: 3px solid rgb(6, 140, 31);
+  border-radius: 3px;
 }
 
-.dashboard-courses, .dashboard-activity {
-    background-color: white;
-    border-radius: 15px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+.dashboard-courses,
+.dashboard-activity {
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .course-card {
-    background-color: #f4f3f3;
-    border-radius: 15px;
-    padding: 15px;
-    padding-block: 35px;
-    width: 400px;
+  background-color: #f4f3f3;
+  border-radius: 15px;
+  padding: 15px;
+  width: 400px;
+  margin: 40px;
+  padding: 60px;
+}
+
+.course-card > * {
+  margin-bottom: 10px;
 }
 
 .course-title {
-    font-size: 1.25rem;
-    font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .course-lessons {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .course-progress-tab {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
 }
 
 .prog-bar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .prog-bar-text {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 
-.course-learn-progress, .course-test-progress {
-    padding: 15px;
-    padding-block: 20px;
-    border-radius: 50px;
+.course-learn-progress,
+.course-test-progress {
+  padding: 15px;
+  padding-block: 20px;
+  border-radius: 50px;
 }
 
 .course-learn-progress {
-    border: 3px solid rgb(6, 140, 31);
+  border: 3px solid rgb(6, 140, 31);
 }
 
 .course-test-progress {
-    border: 3px solid rgb(6, 91, 140);
+  border: 3px solid rgb(6, 91, 140);
 }
 
 .dashboard-title {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .feedback-headers {
-    margin: 20px;
-    font-size: 1.5rem;
+  margin: 20px;
+  font-size: 1.5rem;
 }

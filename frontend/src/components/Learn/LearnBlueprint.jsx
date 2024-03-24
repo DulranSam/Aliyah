@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
-import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams} from "react-router-dom";
 import {
   Container,
   Typography,
@@ -220,6 +220,7 @@ const LearnBlueprint = () => {
   ) : (
     <div className="fullthing">
       <NavBar />
+      <RouterLink to={`/resources`}>Go to Learning Resources!</RouterLink>
       {topicTitles && topicTitles.length > 0 && (
         <>
           <Typography
