@@ -15,10 +15,6 @@ router.post("/getModules", async (req, res) => {
         .json({ message: "Invalid courses data. Must be an array." });
     }
 
-    if (courses.length === 0) {
-      return res.status(200).json({ userInProgress: [], userNotStarted: [] });
-    }
-
     // Efficiently filter topics using aggregation framework:
     const topics = await topicsModel.aggregate([
       {

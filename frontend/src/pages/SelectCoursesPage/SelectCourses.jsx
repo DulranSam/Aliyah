@@ -44,6 +44,8 @@ const SelectCourses = () => {
         courses: userCourses,
       });
 
+      console.log(response.data);
+
       setUserStartedCourses(response.data.userInProgress);
       setNotStartedCourses(response.data.userNotStarted);
     } catch (error) {
@@ -69,6 +71,16 @@ const SelectCourses = () => {
     }
   }, [loggedInUser]);
   // Your code here
+
+  useEffect(() => {
+    if (userStartedCourses.length > 0) {
+      console.log(userStartedCourses);
+    }
+
+    if (userNotStartedCourses.length > 0) {
+      console.log(userNotStartedCourses);
+    }
+  }, [userStartedCourses, userNotStartedCourses]);
 
   useEffect(() => {
     if (userStartedCourses.length > 0) {
