@@ -6,15 +6,25 @@ const userModel = require("../models/user");
 router.route("/").post(async (req, res) => {
   const { searchParams } = req.body;
 
-  try {
-    let forums;
-    if (searchParams && searchParams.trim() !== "") {
-      forums = await forumModel.find({ topic: searchParams }).sort();
-    } else {
-      forums = await forumModel.find(); // Get all forums if no search params
-    }
+  if (!searchParams) {
+    return res.status(400).json({ message: "Invalid search parameters." });
+  }
 
-    res.status(200).json(forums);
+  try {
+    if (searchParams && searchParams.trim() !== "") {
+      const forums = await forumModel.find({ topic: searchParams });
+
+      console.log(forums);
+
+      if (!forums) {
+        return res.status(404).json({ message: "No results found!" });
+      } else {
+        res.status(200).json(forums);
+      }
+    } else {
+      const forums = await forumModel.find(); // Get all forums if no search params
+      res.status(200).json(forums);
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error fetching forums" });
