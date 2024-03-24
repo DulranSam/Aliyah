@@ -83,7 +83,7 @@ function ExamPageContent({
             style={{
               height: 200 + "px",
               marginBlock: 20 + "px",
-              width: 800 + "px",
+              width: 80 + "%",
             }}
           >
             {answer}

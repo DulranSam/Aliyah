@@ -59,6 +59,29 @@ router.route("/saveExam").post(async (req, res) => {
     }
   }
 });
+router.route("/deleteExam").post(async (req, res) => {
+  try {
+    const { examRef } = req?.body;
+
+    if (!examRef) {
+      return res.status(400).json({ message: "Exam ID is required!" });
+    }
+
+    try {
+      const deletedExam = await examModel.deleteOne({ _id: examRef });
+
+      if (!deletedExam) {
+        return res.status(404).json({ message: "Exam not found!" });
+      }
+
+      res.status(200).json({ message: "Exam deleted successfully!" });
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error!" });
+    }
+  } catch (error) {
+
+  }
+})
 
 router.route("/getExam").post(async (req, res) => {
   const { examRef } = req?.body;
