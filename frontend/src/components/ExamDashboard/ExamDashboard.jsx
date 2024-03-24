@@ -81,7 +81,7 @@ const ExamDashboard = () => {
           examDashboard.topicalExams.length ||
           examDashboard.pastPapersExams.length ? (
             <>
-              <div className="feedback">
+              <div className="feedback" style={{padding:"20px"}}>
                 <h2>Feedback Exams</h2>
                 {examDashboard.feedbackExams.map((x) => (
                   <div
@@ -108,16 +108,20 @@ const ExamDashboard = () => {
                         }}
                       /> */}
                     </div>
-                    <p>{`${Math.round(
-                      (x.mark / x.totalMark) * 100
-                    )}% Completed`}</p>
+                    <p style={{textAlign:"left"}}>
+                      {x.mark
+                        ? `${Math.round(
+                            (x.mark / x.totalMark) * 100
+                          )}% Completed`
+                        : `0% completed`}
+                    </p>
                     <Link to={`/exam-review/${x._id}`}>
                       Click to view more info!
                     </Link>
                   </div>
                 ))}
               </div>
-              <div className="topical">
+              <div className="topical" style={{padding:"20px"}}>
                 <h2>Topical Exams</h2>
                 <div className="card-container">
                   {examDashboard.topicalExams.map((x) => (
@@ -146,9 +150,13 @@ const ExamDashboard = () => {
                           }}
                         />
                       </div> */}
-                      <p>{`${Math.round(
-                        (x.mark / x.totalMark) * 100
-                      )}% Completed`}</p>
+                      <p>
+                        {x.mark
+                          ? `${Math.round(
+                              (x.mark / x.totalMark) * 100
+                            )}% Completed`
+                          : `0% completed`}
+                      </p>
                       <p>{x.examTopic}</p>
                       <Link to={`/exam-review/${x._id}`}>
                         Click to view more info!
@@ -188,9 +196,13 @@ const ExamDashboard = () => {
                         />
                       </div> */}
 
-                      <p>{`${Math.round(
-                        (x.mark / x.totalMark) * 100
-                      )}% Completed`}</p>
+                      <p>
+                        {x.mark
+                          ? `${Math.round(
+                              (x.mark / x.totalMark) * 100
+                            )}% Completed`
+                          : `0% completed`}
+                      </p>
                       <Link to={`/exam-review/${x._id}`}>
                         Click to view more info!
                       </Link>

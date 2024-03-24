@@ -124,7 +124,7 @@ const Forum = () => {
                 to fulfill its purpose in this vast digital realm.
               </p>
               <div style={{ marginTop: "10px" }}>
-                <Link className="addQuestionBtn" to="/addforum">
+                <Link className="addQuestionBtn" to="/forum/add-question">
                   Add question
                 </Link>
               </div>
@@ -134,7 +134,7 @@ const Forum = () => {
           <div className="searchContainer">
             <p className="forumTitle">🔎 Search Filter</p>
             <br />
-            <form onSubmit={searchUp}>
+            <form onSubmit={searchUp} style={{padding:"20px"}}>
               <input
                 className="searchQuestion"
                 onChange={(e) => {
@@ -143,6 +143,9 @@ const Forum = () => {
                 placeholder="Search your queries here..."
                 type="text"
               />
+               <button className="searchBtn" type="submit" disabled={loading}>
+                Search...
+              </button>
             </form>
 
             <div style={{ display: "flex", marginTop: "10px" }}>
@@ -159,9 +162,7 @@ const Forum = () => {
                 </select>
               </form>
             </div>
-              <button className="searchBtn" type="submit" disabled={loading}>
-                Search...
-              </button>
+             
             </div>
           <hr />
           <p>{status}</p>

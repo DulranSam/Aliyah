@@ -54,14 +54,16 @@
     transition: 0.3s ease-in;
 }
 
-h2 {
+.receipt-top h2 {
     font-size: 1.5rem;
 }
 
-p {
+.receipt-bottom p {
     font-size: 1rem;
     text-align: center;
+    
 } 
+
 
 .mark-container {
     display: flex;

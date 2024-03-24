@@ -67,14 +67,14 @@ const Learn = () => {
       <NavBar/>
       <div className="learn-container">
         <header className="header">
-          <h1 className="lr-heading">Learning Resources</h1>
+          <h1 className="lr-heading" >Learning Resources</h1>
         </header>
         <div className="subjects-container">
           {startedModule.length > 0 &&
             startedModule.map((course, index) => (
               <div className="sc-container" key={course._id}>
                 <h3>{course}</h3>
-                <div className="subject-card" key={index}>
+                <div className="subject-card" key={index} >
                     {course === "Probability and Statistics I" && <img className="subject-img" src={s1img}></img>}
                     {course === "Pure Mathematics I" && <img src={p1img}></img>}
                   <Link
