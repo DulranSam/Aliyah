@@ -5,10 +5,14 @@ html,body {
 .stats{
     position: relative;
     display: flex;
+    justify-content:space-between;
+    padding: 20px;
 }
 .maths{
     position: relative;
     display: flex;
+    justify-content:space-between;
+    padding: 20px;
 }
 
 .dashboard-header, .profile-corner {

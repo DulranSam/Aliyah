@@ -407,55 +407,40 @@ function DashboardActivity() {
 
   return (
     loggedInUser && (
+      
       <div className="dashboard-activity">
+        <h1>Your feed back</h1>
         <h5>Pure Mathematics I</h5>
-        <div className="maths">
-          
-          <div className="Mathstopics">
-              {pureMathslessonTopics.length > 0 ? (
-                pureMathslessonTopics.map((item, id) => (
-                  <h5 key={id}>{item}</h5> // Make sure to use parentheses () to implicitly return from arrow function
-                ))
+        
+            <div className="Mathstopics">
+              {pureMathslessonTopics.length > 0 && firstPureFeedback.length > 0 ? (
+                pureMathslessonTopics
+                  .filter((_, id) => firstPureFeedback[id] > 0)
+                  .map((item, id) => (
+                    <div key={id} className="maths">
+                      <h5>{item}</h5>
+                      <h5>{(firstPureFeedback[id] * 100).toFixed(2)}%</h5>
+                    </div>
+                  ))
               ) : (
                 <h5>Nothing to display</h5>
               )}
-          </div>
-          <div className="feedbacklesson">
-                {firstPureFeedback.length > 0 ? (
-                  firstPureFeedback.map((item, id) => (
-                    <h5 key={id}>{item * 100}%</h5> // Implicit return with parentheses
-                  ))
-                ) : (
-                  <h5>Nothing to display</h5>
-                )}
-        </div>
-
-          
-        </div>
+            </div>
+        
         <h5>Statistics</h5>
-        <div className="stats">
-         
-          <div className="statTopics">
-            {statlessonTopics.length > 0 ?(
-              statlessonTopics.map((item, id) => (
-                <h5 key={id}>{item}</h5> // Make sure to use parentheses () to implicitly return from arrow function
+            <div className="statTopics">
+                {statlessonTopics.length > 0 && firststatFeedback.length > 0 ? (
+                 statlessonTopics
+                .filter((_, id) => firststatFeedback[id] > 0)
+                .map((item, id) => (
+                <div key={id} className="stats">
+                  <h5>{item}</h5>
+                  <h5>{(firststatFeedback[id] * 100).toFixed(2)}%</h5>
+                </div>
               ))
-            ):
-            (
-              <h5> Nothing to display </h5>
-            )
-            }
-          </div>
-          <div className="feedbacklesson2">
-                {firststatFeedback.length > 0 ? (
-                  firststatFeedback.map((item, id) => (
-                    <h5 key={id}>{item * 100}%</h5> // Implicit return with parentheses
-                  ))
-                ) : (
-                  <h5>Nothing to display</h5>
-                )}
-          </div>
-          
+          ) : (
+            <h5>Nothing to display</h5>
+          )}
         </div>
       </div>
     )
