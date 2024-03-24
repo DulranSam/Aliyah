@@ -1,8 +1,7 @@
 .learnresources {
-    flex: 1;
-    border: 12px solid #17B169;
-    border-width: 5px;
-    margin: 20px;
-    padding: 20px;
-  }
-  
+  flex: 1;
+  border: 12px solid #17B169;
+  border-width: 5px;
+  margin: 20px;
+  padding: 20px;
+}
