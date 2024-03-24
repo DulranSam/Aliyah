@@ -5,6 +5,7 @@ import { Card, Button } from "react-bootstrap"; // Import Bootstrap components
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import ForumQuestion from "./ForumQuestion";
+import "./Forum.css";
 
 const ForumSearch = () => {
   const {
@@ -46,22 +47,34 @@ const ForumSearch = () => {
 
   return transfer === 1 ? (
     <div className="search-container">
-      <Link to={"/forum"} style={{padding:"20px"}}>Back To Forum</Link>
-      <h1 className="text-center mb-4" style={{ textAlign: "center" }}>
-        Forum Search
-      </h1>
-      <form onSubmit={searchUp} style={{margin:"40px"}} className="search-forum">
-        <input
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          placeholder="Search here..."
-          type="text"
-        ></input>
-        <button type="submit" disabled={loading}>
-          Search...
-        </button>
-      </form>
+      <div className="forumHeader">
+        <p style={{ fontSize: "26px", fontWeight: "bold" }}>Forum Search</p>
+        <div className="theLinks" style={{ margin: "10px", padding: "20px" }}>
+          <Link to={"/forum"} className="backToForum">
+            Back To Forum
+          </Link>
+        </div>
+        <Link to={"/forum/add-question"} className="backToForum" style={{margin: "40px"}}>
+          Add Question
+        </Link>
+        <form
+          onSubmit={searchUp}
+          style={{ margin: "40px" }}
+          className="search-forum"
+        >
+          <input
+            className="searchQuestion"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+            placeholder="Search here..."
+            type="text"
+          ></input>
+          <button className="searchBtn" type="submit" disabled={loading}>
+            Search...
+          </button>
+        </form>
+      </div>
 
       {searched && searched.length ? (
         <div>

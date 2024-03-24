@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
-import { Link as RouterLink, useNavigate, useParams} from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -220,7 +220,9 @@ const LearnBlueprint = () => {
   ) : (
     <div className="fullthing">
       <NavBar />
-      <RouterLink to={`/resources`}>Go to Learning Resources!</RouterLink>
+      <RouterLink to={`/resources`} style={{ marginTop: "80px" }}>
+        Go to Learning Resources!
+      </RouterLink>
       {topicTitles && topicTitles.length > 0 && (
         <>
           <Typography
@@ -313,14 +315,21 @@ const LearnBlueprint = () => {
                                     border: "1px solid green",
                                     padding: "5px",
                                     width: "140px",
-                                    background: "white"
+                                    background: "white",
                                   }}
                                 >
                                   Completed
                                 </p>
                               ) : (
                                 <p
-                                  style={{ color: "green", fontWeight: "bold", padding: "5px", width: "140px", border: "1px solid white", background: "white" }}
+                                  style={{
+                                    color: "green",
+                                    fontWeight: "bold",
+                                    padding: "5px",
+                                    width: "140px",
+                                    border: "1px solid white",
+                                    background: "white",
+                                  }}
                                 >{`${topicPercentage[index].completedPercentage}% Complete`}</p>
                               )}
                             </RouterLink>
@@ -348,7 +357,8 @@ const LearnBlueprint = () => {
                                 </RouterLink>
                               ) : (
                                 !topicPercentage[index].examCompleted && (
-                                  <button className="available-btn"
+                                  <button
+                                    className="available-btn"
                                     onClick={() => {
                                       if (availableDisabled !== 1) {
                                         availableDisabled++;
