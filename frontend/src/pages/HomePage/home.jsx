@@ -8,16 +8,16 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../App.jsx";
 import { Helmet } from "react-helmet";
 
-function Home() {
+const Home = () => {
   const { isAuthenticated, user, setIsAuthenticated, setUser } =
     useContext(UserContext);
 
   useEffect(() => {
     if (sessionStorage.getItem("loggedUser")) {
       setIsAuthenticated(true);
-      setUser(JSON.parse(sessionStorage.getItem("loggedUser")));
+      setUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
     }
-  }, [isAuthenticated]);
+  }, []);
 
   return isAuthenticated ? (
     <>
@@ -75,6 +75,6 @@ function Home() {
       </div>
     </div>
   );
-}
+};
 
 export default Home;
