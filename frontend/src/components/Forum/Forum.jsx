@@ -115,7 +115,7 @@ const Forum = () => {
         <div className="forumContainer">
           <div className="fHeaderContainer">
             <div className="forumHeader">
-              <p className="forumTitle">
+              <p className="forumTitle" style={{marginBottom:"20px"}}>
                 👋 Hey there, {user.username || "guest"}! Welcome to our Forums!
               </p>
               <p style={{ fontSize: "16px" }}>
@@ -134,7 +134,7 @@ const Forum = () => {
           <div className="searchContainer">
             <p className="forumTitle">🔎 Search Filter</p>
             <br />
-            <form onSubmit={searchUp} style={{padding:"20px"}}>
+            <form onSubmit={searchUp} style={{ padding: "20px",margin:"40px" }}>
               <input
                 className="searchQuestion"
                 onChange={(e) => {
@@ -143,27 +143,27 @@ const Forum = () => {
                 placeholder="Search your queries here..."
                 type="text"
               />
-               <button className="searchBtn" type="submit" disabled={loading}>
+              <button className="searchBtn" type="submit" disabled={loading}>
                 Search...
               </button>
             </form>
-
-            <div style={{ display: "flex", marginTop: "10px" }}>
-              <p style={{ fontSize: "18px", marginTop: "8px" }}>Topic Filter:</p>
-              <form style={{ marginLeft: "10px"}}>
+            <div style={{ display: "flex", marginTop: "4px" }}>
+              <p style={{ fontSize: "18px", marginTop: "4px" }}>
+                Filter : 
+              </p>
+              <form style={{ marginLeft: "10px" }}>
                 <select
                   className="dropdownContainer"
                   value={down}
                   onChange={(e) => setDown(Number(e.target.value))}
                 >
-                  <option value={0}>All</option>
+                  <option value={0}>All Questions</option>
                   <option value={1}>Pure Math</option>
                   <option value={2}>Statistics</option>
                 </select>
               </form>
             </div>
-             
-            </div>
+          </div>
           <hr />
           <p>{status}</p>
           {loading ? (

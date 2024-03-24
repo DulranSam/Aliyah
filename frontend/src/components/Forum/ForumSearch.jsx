@@ -48,22 +48,33 @@ const ForumSearch = () => {
   return transfer === 1 ? (
     <div className="search-container">
       <div className="forumHeader">
-        <p style={{fontSize: "26px", fontWeight: "bold"}}>Forum Search</p>
-      <Link to={"/forum"} className="backToForum">Back To Forum</Link>
-      <form onSubmit={searchUp} style={{margin:"40px"}} className="search-forum">
-        <input
-        className="searchQuestion"
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          placeholder="Search here..."
-          type="text"
+        <p style={{ fontSize: "26px", fontWeight: "bold" }}>Forum Search</p>
+        <div className="theLinks" style={{ margin: "10px", padding: "20px" }}>
+          <Link to={"/forum"} className="backToForum">
+            Back To Forum
+          </Link>
+        </div>
+        <Link to={"/forum/add-question"} className="backToForum" style={{margin: "40px"}}>
+          Add Question
+        </Link>
+        <form
+          onSubmit={searchUp}
+          style={{ margin: "40px" }}
+          className="search-forum"
+        >
+          <input
+            className="searchQuestion"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+            placeholder="Search here..."
+            type="text"
           ></input>
-        <button className="searchBtn" type="submit" disabled={loading}>
-          Search...
-        </button>
-      </form>
-          </div>
+          <button className="searchBtn" type="submit" disabled={loading}>
+            Search...
+          </button>
+        </form>
+      </div>
 
       {searched && searched.length ? (
         <div>

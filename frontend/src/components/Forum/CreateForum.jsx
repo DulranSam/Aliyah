@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { Link } from "react-router-dom";
@@ -65,7 +66,7 @@ const CreateForum = () => {
     container: {
       maxWidth: "600px",
       margin: "auto",
-      padding: "20px",
+      padding: "40px",
       fontFamily: "Arial, sans-serif",
     },
     title: {
@@ -76,6 +77,7 @@ const CreateForum = () => {
     form: {
       display: "flex",
       flexDirection: "column",
+      padding:"25px"
     },
     input: {
       marginBottom: "15px",
