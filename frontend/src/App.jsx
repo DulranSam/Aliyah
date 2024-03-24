@@ -69,7 +69,7 @@ function App() {
   const [listofpureTopics,setListofPureTopics] = useState([]);
   const [listofStatTopics,setListStatTopics] = useState([]);
 
-  const BASE = "http://localhost:8000";
+  const BASE = "https://aliyah-dlyb.onrender.com";
 
   const [loggedInUser, setLoggedInUser] = useState({});
 

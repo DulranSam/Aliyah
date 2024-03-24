@@ -18,13 +18,13 @@
     flex-direction: column;
 }
 
-form {
+.question-source-container form {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-label {
+.question-source-container label {
     display: flex;
     flex-direction: column;
 }
