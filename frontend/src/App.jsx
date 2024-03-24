@@ -31,6 +31,7 @@ export const UserContext = createContext();
 
 function App() {
   const [loading, setLoading] = useState(false);
+  const [topicalExam, setTopicalExam] = useState({});
   const [value, setValue] = useState([]);
   const [data, setData] = useState([]);
   const [voxalPoints, setVoxalpoints] = useState(0);
@@ -78,6 +79,8 @@ function App() {
 
   // Structuring the context value explicitly
   const contextValue = {
+    topicalExam,
+    setTopicalExam,
     search,
     setSearch,
     searched,

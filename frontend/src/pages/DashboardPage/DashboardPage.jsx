@@ -89,6 +89,7 @@ function DashboardCourses() {
     testedStatProgress,
     setPureTestedProgress,
     setStatTestedProgress,
+    topicalExam,
     pureLessonCount,
     statLessonCount,
     statisticsMarks,
@@ -102,8 +103,9 @@ function DashboardCourses() {
   } = useContext(UserContext);
 
   useEffect(() => {
-    setExamHistory(loggedInUser.data);
-  }, [loggedInUser]);
+    setExamHistory(topicalExam.data);
+    console.log(topicalExam);
+  }, [topicalExam]);
 
   useEffect(() => {
     let tempStatisticsMarks = [];
@@ -127,11 +129,6 @@ function DashboardCourses() {
       setTotalStatMarks(totaltempStatMarks);
     }
   }, [examHistory]);
-
-  useEffect(() => {
-    console.log("logged in user:");
-    console.log(loggedInUser);
-  }, [loggedInUser]);
 
   useEffect(() => {
     const correcttotalStatmarks = statisticsMarks.reduce(
@@ -160,9 +157,6 @@ function DashboardCourses() {
       (correcttotalPuremaths / totalPureMaths) * 100,
       2
     );
-
-    console.log(averagePureMarks);
-    console.log(averageStatMarks);
 
     setStatTestedProgress(averageStatMarks);
     setPureTestedProgress(averagePureMarks);
@@ -292,6 +286,7 @@ function DashboardActivity() {
     setListOfPureProb,
     listofStatProb,
     setListOfStatProb,
+    topicalExam,
     BASE,
     listofpureTopics,
     listofStatTopics,
@@ -327,11 +322,9 @@ function DashboardActivity() {
 
   useEffect(() => {
     const sortedPure = sortThearraybyFeedback(listofPureProb);
-    console.log(sortedPure);
     setSortedPureData(sortedPure);
 
     const sortedStat = sortThearraybyFeedback(listofStatProb);
-    console.log(sortedStat);
     // Update state or perform actions with sortedStat...
     setSortedStatData(sortedPure);
   }, [listofPureProb, listofStatProb]);
@@ -339,13 +332,9 @@ function DashboardActivity() {
   const sortedPure = sortThearraybyFeedback(listofPureProb);
   const sortStat = sortThearraybyFeedback(listofStatProb);
 
-  console.log(sortedPure);
-  console.log(sortStat);
-
   for (let i = 0; i < 3; i++) {
     pureMathsFeedback[i] = sortedPure[i];
   }
-  console.log(pureMathsFeedback);
   for (let i = 0; i < 3; i++) {
     statFeedback[i] = sortStat[i];
   }
@@ -357,18 +346,6 @@ function DashboardActivity() {
     (subArray) => subArray?.[1] ?? ""
   );
   const firststatFeedback = statFeedback.map((subArray) => subArray?.[1] ?? "");
-
-  console.log(statFeedback);
-  console.log(pureMathsFeedback);
-  console.log(firstPureElements);
-  console.log(firstStatElements);
-  console.log(shortenPureMaths);
-  console.log(shortenstats);
-
-  console.log(listofpureTopics);
-  console.log(listofStatTopics);
-  console.log(firstPureFeedback);
-  console.log(firststatFeedback);
 
   function getMatchingIndexesFromSecondArray(array1, array2) {
     const matchingIndexes = [];
@@ -386,33 +363,31 @@ function DashboardActivity() {
     firstPureElements,
     shortenPureMaths
   );
-  console.log(purelessonIndexes); // Outputs indexes from shortenPureMaths
+
   const pureMathslessonTopics = purelessonIndexes.map(
     (index) => listofpureTopics[index].topic
   );
-  console.log(pureMathslessonTopics);
 
   const statlessonIndexes = getMatchingIndexesFromSecondArray(
     firstStatElements,
     shortenstats
   );
-  console.log(statlessonIndexes); // Outputs indexes from shortenstats
+
   const statlessonTopics = statlessonIndexes.map(
     (index) => listofStatTopics[index].topic
   );
-  console.log(statlessonTopics);
 
   // Check if data is null before accessing its properties
 
   return (
-    loggedInUser && (
+    topicalExam && (
       <div
         className="dashboard-activity"
         style={{ margin: "60px", padding: "60px" }}
       >
         <h1>Feedback</h1>
         <h5 className="feedback-headers">Pure Mathematics I</h5>
-        <div className="Mathstopics" style={{margin:"10px"}}>
+        <div className="Mathstopics" style={{ margin: "10px" }}>
           {pureMathslessonTopics.length > 0 && firstPureFeedback.length > 0 ? (
             pureMathslessonTopics
               .filter((_, id) => firstPureFeedback[id] > 0)
@@ -525,11 +500,9 @@ function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(data);
         const sessionData = sessionStorage.getItem("loggedUser");
         if (sessionData) {
           const sessionUser = JSON.parse(sessionData).data;
-          console.log(sessionUser);
 
           setVoxalpoints(sessionUser.voxelPoints);
           setHoursLearned(0); // Make sure to compute the correct value
@@ -543,9 +516,6 @@ function DashboardPage() {
             // Handle the case where lesson is not an array or is empty
             setPureMathLearnedProgress(null);
           }
-          console.log("Voxel Points:", sessionUser.voxelPoints);
-          console.log(listofPureProb);
-          console.log(listofStatProb);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -556,7 +526,6 @@ function DashboardPage() {
   }, []);
 
   useEffect(() => {
-    console.log(pureMathLearnedProgress);
     if (Array.isArray(pureMathLearnedProgress)) {
       // Assuming pureMathLearnedProgress is the array of topicLessons as seen in your screenshot
       const totalCount = pureMathLearnedProgress.reduce((total, topic) => {
@@ -575,7 +544,6 @@ function DashboardPage() {
       }, 0);
 
       const percentage = Math.round((totalCount / totaNumber) * 100, 2);
-      console.log("The total number is" + percentage);
       setPureLessonCount(percentage);
     }
   }, [pureMathLearnedProgress]);
@@ -627,7 +595,6 @@ function DashboardPage() {
         });
         setListofPureTopics(response.data.topicLesson);
         setshortenPureMaths(response.data.topicKeys);
-        console.log(response);
       } catch (err) {
         console.log(err);
       }

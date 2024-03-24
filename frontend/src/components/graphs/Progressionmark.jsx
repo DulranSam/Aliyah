@@ -34,6 +34,7 @@ function Progressionmark() {
     BASE,
     voxalPoints,
     loggedInUser,
+    setTopicalExam,
     setLoggedInUser,
   } = useContext(UserContext);
 
@@ -48,8 +49,6 @@ function Progressionmark() {
         // eslint-disable-next-line react/prop-types
         setClickedPoint({ examNumber: data.name, mark: data.percentage });
         // eslint-disable-next-line react/prop-types
-        console.log(`Clicked on ${data.name} with mark ${data.percentage}`);
-        console.log(clickedPoint);
       };
 
       return (
@@ -71,34 +70,28 @@ function Progressionmark() {
 
   // You're already using useContext here, ensure that it provides 'id'
   const id = localStorage.getItem("id");
-  useEffect(()=>{
-    const fetchData = async ()=>{
-       try{
-         const response = await axios.post(`${BASE}/progression/get/topicalexams`,{useRef:id})
-         console.log(response);
-         setLoggedInUser(response);
-       }catch(err){
-         console.log(err);
-       }
-     }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          `${BASE}/progression/get/topicalexams`,
+          { useRef: id }
+        );
+        setTopicalExam(response);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     fetchData();
-    
-   },[])
-
-   useEffect(()=>{
-    console.log(loggedInUser);
-
-  },[loggedInUser])
-
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post(`${BASE}/progression/get/marks`, {
           useRef: id,
-        });        
-        console.log(response);
-       
+        });
+
         // Process the fetched data and calculate percentages
 
         const totalOfTotalMarks = response.data.reduce(
@@ -126,18 +119,12 @@ function Progressionmark() {
             id: item._id,
           }));
 
-        console.log("Sum of total marks:", marks);
-
         const averageMarks = Math.round(100 * (marks / totalOfTotalMarks), 2);
 
         setTotalMarks(averageMarks);
         // Set the processed data to the local state
         setPureMathsData(pureMathsarray);
         setProbStatsData(statArray);
-
-
-        console.log(pureMathsarray);
-        console.log(statArray);
       } catch (err) {
         console.log(err);
       }
