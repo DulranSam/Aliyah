@@ -70,7 +70,7 @@ describe("POST /getProgress", () => {
   it("should return 200 if request is successful", async () => {
     const response = await request(BASE)
       .post("/course/getProgress")
-      .send({ userID: "65f86f434b9403f9d70d8aa3", sourceKey: "p1" });
+      .send({ userID: "65febde2ea793268b6b6a26d", sourceKey: "p1" });
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
       expect.objectContaining({
