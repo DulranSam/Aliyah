@@ -3,14 +3,13 @@ const router = express.Router();
 const examModel = require("../models/exam");
 const userModel = require("../models/user"); // Import the userModel
 
-router.post("/topicalcompleted").post(async (req,res)=>{
-  const {topic} = req?.body
-  
-  if (!topic) {
-    return res.status(400).json({ Alert: "Topic REQUIRED" });
-x
-  }
-})
+// router.post("/topicalcompleted").post(async (req, res) => {
+//   const { topic } = req?.body;
+
+//   if (!topic) {
+//     return res.status(400).json({ Alert: "Topic REQUIRED" });
+//   }
+// });
 
 router.route("/saveExam").post(async (req, res) => {
   const { examType, examQuestions, userRef, examModule, examTopic } = req?.body;
@@ -59,6 +58,30 @@ router.route("/saveExam").post(async (req, res) => {
     }
   }
 });
+router.route("/deleteExam").post(async (req, res) => {
+  try {
+    const { examRef } = req?.body;
+
+    if (!examRef) {
+      return res.status(400).json({ message: "Exam ID is required!" });
+    }
+
+    try {
+      const deletedExam = await examModel.deleteOne({ _id: examRef });
+
+      if (!deletedExam) {
+        return res.status(404).json({ message: "Exam not found!" });
+      }
+
+      res.status(200).json({ message: "Exam deleted successfully!" });
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error!" });
+    }
+  } catch (error) {
+
+  }
+})
+
 router.route("/deleteExam").post(async (req, res) => {
   try {
     const { examRef } = req?.body;
@@ -192,9 +215,6 @@ router.route("/getExamHistory").post(async (req, res) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
-
-    console.log(user.topicalExams);
-    console.log(user.feedbackExams);
 
     const exams = {
       topicalExams: user.topicalExams,

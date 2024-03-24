@@ -31,10 +31,12 @@ const SelectCourses = () => {
   };
 
   useEffect(() => {
-    if (Object.keys(loggedInUser).length > 0 && lessonProgress.length > 0) {
+    if (userNotStartedCourses.length > 0) {
+      setLoading(true);
+    } else if (lessonProgress.length > 0) {
       setLoading(true);
     }
-  }, [lessonProgress]);
+  }, [userNotStartedCourses, lessonProgress]);
 
   const retrieveCourses = async (userCourses) => {
     try {

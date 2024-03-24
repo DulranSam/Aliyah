@@ -6,15 +6,25 @@ const userModel = require("../models/user");
 router.route("/").post(async (req, res) => {
   const { searchParams } = req.body;
 
-  try {
-    let forums;
-    if (searchParams && searchParams.trim() !== "") {
-      forums = await forumModel.find({ topic: searchParams }).sort();
-    } else {
-      forums = await forumModel.find(); // Get all forums if no search params
-    }
+  if (!searchParams) {
+    return res.status(400).json({ message: "Invalid search parameters." });
+  }
 
-    res.status(200).json(forums);
+  try {
+    if (searchParams && searchParams.trim() !== "") {
+      const forums = await forumModel.find({ topic: searchParams });
+
+      console.log(forums);
+
+      if (forums.length === 0) {
+        return res.status(404).json({ message: "No results found!" });
+      } else {
+        res.status(200).json(forums);
+      }
+    } else {
+      const forums = await forumModel.find(); // Get all forums if no search params
+      res.status(200).json(forums);
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error fetching forums" });
@@ -78,8 +88,6 @@ router.route("/addAnswerToQuestion").post(async (req, res) => {
       answeredBy: answeredBy,
     };
 
-    console.log(answerObj);
-
     question.answers.push(answerObj);
     await question.save();
 
@@ -96,7 +104,6 @@ router.route("/search").post(async (req, res) => {
     const regex = new RegExp(search, "i"); // 'i' flag for case-insensitive search
     const matches = await forumModel.find({ question: regex });
 
-    console.log(matches);
     if (matches) {
       res.status(200).json(matches);
     } else {
@@ -143,7 +150,7 @@ router
     const id = req.params.id;
 
     if (!answer || !id) {
-      return res.status(400).json({ Alert: "No `Answer` or ID Provided!" });
+      return res.status(400).json({ Alert: "No Answer or ID Provided!" });
     }
 
     try {
