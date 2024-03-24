@@ -1,7 +1,28 @@
 .learnresources {
   flex: 1;
-  border: 12px solid #17B169;
   border-width: 5px;
-  margin: 20px;
-  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgb(62, 154, 67) 18%,rgb(27, 167, 172) 80%);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+  margin: 30px;
+  margin-bottom: 40px;
+  padding: 40px;
+  display: flex; /* Add display flex */
+  flex-direction: column; /* Set flex direction to column */
+  gap: 20px;
+  color:white; 
+}
+
+
+.theLessonComplete{
+  background: linear-gradient(180deg, rgb(62, 154, 67) 18%,rgb(27, 167, 172) 80%);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.learnresources button {
+  /* Add specific styling for the button */
+  padding: 10px 20px; /* Adjust padding */
+  font-size: 16px; /* Adjust font size */
+  width: 100px;
+  height: fit-content;
 }

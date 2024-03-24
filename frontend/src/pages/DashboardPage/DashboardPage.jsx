@@ -13,6 +13,8 @@ import Axios from "axios";
 import axios from "axios";
 import Progressionmark from "../../components/graphs/Progressionmark";
 import { Link } from "react-router-dom";
+import NavBar from "../../components/NavigationBar/navBar";
+
 
 // Dashboard Header Tab
 function DashboardHeader() {
@@ -20,10 +22,6 @@ function DashboardHeader() {
     <>
       <div className="dashboard-header">
         <h1 className="dashboard-title">Dashboard</h1>
-        <div className="profile-corner">
-          <div className="notification-tab"></div>
-          <div className="profile-icon"></div>
-        </div>
       </div>
     </>
   );
@@ -35,7 +33,7 @@ function DashboardGraph() {
     <>
       <div className="dashboard-graph-container">
         <h2 className="graph-title">Progress</h2>
-        <div className="graph">
+        <div className="graph-db">
           <Progressionmark />
         </div>
       </div>
@@ -292,18 +290,25 @@ function DashboardActivity() {
     BASE,
     listofpureTopics,
     listofStatTopics,
+    shortenPureMaths,
+    shortenstats,
+
   } = useContext(UserContext);
   const [sortedPureData, setSortedPureData] = useState([]);
   const [sorterdStatData, setSortedStatData] = useState([]);
 
   let statFeedback = [];
   let pureMathsFeedback = [];
+  const getPureIndexes = [];
+  const getStatIndexes = [];
+  let lessonPureMath = [];
+  let statlesson = [];
   
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
   
-  console.log(listofpureTopics);
-  console.log(listofStatTopics);
+  
+  
   const sortThearraybyFeedback = (obj) => {
     if (!obj || typeof obj !== "object" || Object.keys(obj).length === 0) {
       // If the object is null, undefined, or not an object, or is empty,
@@ -336,14 +341,60 @@ function DashboardActivity() {
   console.log(sortedPure);
   console.log(sortStat);
 
+
   for(let i =0;i<3;i++){
     pureMathsFeedback[i]=sortedPure[i];
+    
+    
   }
   console.log(pureMathsFeedback);
   for(let i =0;i<3;i++){
    statFeedback[i] = sortStat[i];
+   
   }
+  const firstPureElements = pureMathsFeedback.map(subArray => subArray?.[0] ?? '');
+  const firstStatElements = statFeedback.map(subArray => subArray?.[0] ?? '');
+  const firstPureFeedback = pureMathsFeedback.map(subArray => subArray?.[1] ?? '');
+  const firststatFeedback = statFeedback.map(subArray => subArray?.[1] ?? '');
+
+  
+
   console.log(statFeedback);
+  console.log(pureMathsFeedback);
+  console.log(firstPureElements);
+  console.log(firstStatElements);
+  console.log(shortenPureMaths);
+  console.log(shortenstats);
+
+  console.log(listofpureTopics);
+  console.log(listofStatTopics);
+  console.log(firstPureFeedback );
+  console.log(firststatFeedback);
+
+  function getMatchingIndexesFromSecondArray(array1, array2) {
+    const matchingIndexes = [];
+    array1.forEach(element => {
+      const indexInArray2 = array2.indexOf(element);
+      if (indexInArray2 !== -1) {
+        matchingIndexes.push(indexInArray2);
+      }
+    });
+    return matchingIndexes;
+  }
+  
+  
+  
+  // Usage
+  const purelessonIndexes = getMatchingIndexesFromSecondArray(firstPureElements, shortenPureMaths);
+  console.log(purelessonIndexes); // Outputs indexes from shortenPureMaths
+  const pureMathslessonTopics = purelessonIndexes.map(index => listofpureTopics[index].topic);
+  console.log(pureMathslessonTopics);
+
+
+  const statlessonIndexes = getMatchingIndexesFromSecondArray(firstStatElements, shortenstats);
+  console.log(statlessonIndexes); // Outputs indexes from shortenstats
+  const statlessonTopics = statlessonIndexes.map(index => listofStatTopics[index].topic);
+  console.log(statlessonTopics);
 
 
   // Check if data is null before accessing its properties
@@ -351,17 +402,41 @@ function DashboardActivity() {
 
   return (
     loggedInUser && (
+      
       <div className="dashboard-activity">
-        <div className="maths">
-          <h5>Pure Mathematics I</h5>
-
+        <h1>Feedback</h1>
+        <h5 className="feedback-headers">Pure Mathematics I</h5>
+        
+            <div className="Mathstopics">
+              {pureMathslessonTopics.length > 0 && firstPureFeedback.length > 0 ? (
+                pureMathslessonTopics
+                  .filter((_, id) => firstPureFeedback[id] > 0)
+                  .map((item, id) => (
+                    <div key={id} className="maths">
+                      <h5>The probability of getting the topic {item} wrong is</h5>
+                      <h5>{(firstPureFeedback[id] * 100).toFixed(2)}%</h5>
+                    </div>
+                  ))
+              ) : (
+                <h5>Nothing to display</h5>
+              )}
+            </div>
+        
+        <h5 className="feedback-headers">Probability & Statistics I</h5>
+            <div className="statTopics">
+                {statlessonTopics.length > 0 && firststatFeedback.length > 0 ? (
+                 statlessonTopics
+                .filter((_, id) => firststatFeedback[id] > 0)
+                .map((item, id) => (
+                <div key={id} className="stats">
+                  <h5>{item}</h5>
+                  <h5>{(firststatFeedback[id] * 100).toFixed(2)}%</h5>
+                </div>
+              ))
+          ) : (
+            <h5>Nothing to display</h5>
+          )}
         </div>
-        <div>
-          <h5>Statistics</h5>
-        </div>
-        
-        
-        
       </div>
     )
   );
@@ -426,6 +501,10 @@ function DashboardPage() {
     setListofPureTopics,
     listofStatTopics,
     setListStatTopics,
+    shortenPureMaths,
+    setshortenPureMaths,
+    shortenstats,
+    setshortenstats
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -532,6 +611,7 @@ function DashboardPage() {
           sourceKey: "p1",
         });
         setListofPureTopics(response.data.topicLesson);
+        setshortenPureMaths(response.data.topicKeys)
         console.log(response);
       } catch (err) {
         console.log(err);
@@ -546,6 +626,7 @@ function DashboardPage() {
         const response = await axios.post(`${BASE}/getTopics`, {
           sourceKey: "s1",
         });
+        setshortenstats(response.data.topicKeys)
         setListStatTopics(response.data.topicLesson);
         console.log(response);
       } catch (err) {
@@ -557,6 +638,7 @@ function DashboardPage() {
 
   return (
     <>
+      <NavBar/>
       <div className="dashboard-complete-container">
         <DashboardHeader />
         <div className="dashboard-main">

@@ -69,6 +69,8 @@ const PastPaperScope = () => {
     }
   };
 
+  let fetched = 0;
+
   const fetchQuestions = async () => {
     try {
       const response = await Axios.post(`${BASE}/getQuestionsOnTopic`, {
@@ -82,6 +84,7 @@ const PastPaperScope = () => {
         return;
       }
       setQuestions(response.data);
+      fetched++;
     } catch (error) {
       console.log(error);
     }
@@ -194,7 +197,7 @@ const PastPaperScope = () => {
           </select>
 
           <p>
-            Selected Module:{" "}
+            Selected Module:
             <strong>
               {state.selectedModule === "p1"
                 ? "Pure Mathematics 1"
@@ -202,7 +205,7 @@ const PastPaperScope = () => {
             </strong>
           </p>
           <p>
-            Selected Season:{" "}
+            Selected Season:
             {state.selectedSeason === "s" ? "May/June" : "October/November"}
           </p>
           <p>
@@ -223,9 +226,9 @@ const PastPaperScope = () => {
                 </li>
               ))}
             </ul>
-          ) : (
+          ) : fetched === 1 ? (
             <p>No questions found</p>
-          )}
+          ) : null}
         </>
       )}
     </div>

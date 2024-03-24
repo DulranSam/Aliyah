@@ -71,16 +71,34 @@ function Progressionmark() {
 
   // You're already using useContext here, ensure that it provides 'id'
   const id = localStorage.getItem("id");
+  useEffect(()=>{
+    const fetchData = async ()=>{
+       try{
+         const response = await axios.post(`${BASE}/progression/get/topicalexams`,{useRef:id})
+         console.log(response);
+         setLoggedInUser(response);
+       }catch(err){
+         console.log(err);
+       }
+     }
+    fetchData();
+    
+   },[])
+
+   useEffect(()=>{
+    console.log(loggedInUser);
+
+  },[loggedInUser])
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post(`${BASE}/progression/get/marks`, {
           useRef: id,
-        });
+        });        
         console.log(response);
-        setLoggedInUser(response);
-
+       
         // Process the fetched data and calculate percentages
 
         const totalOfTotalMarks = response.data.reduce(
