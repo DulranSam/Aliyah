@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@babel/preset-env": "^7.24.3",
     "@google/generative-ai": "^0.2.0",
     "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
@@ -20,12 +21,12 @@
     "test": "jest",
     "test:unit": "jest --testPathPattern=unit",
     "test:integration": "jest --testPathPattern=integration",
-    "test:learn":"jest --testPathPattern=learn",
-    "test:forum":"jest --testPathPattern=forum",
-    "test:exam":"jest --testPathPattern=exam",
-    "test:courses":"jest --testPathPattern=courses",
-    "test:getQuestion":"jest --testPathPattern=getQuestion",
-    "test:getTopics":"jest --testPathPattern=getTopics"
+    "test:learn": "jest --testPathPattern=learn",
+    "test:forum": "jest --testPathPattern=forum",
+    "test:exam": "jest --testPathPattern=exam",
+    "test:courses": "jest --testPathPattern=courses",
+    "test:getQuestion": "jest --testPathPattern=getQuestion",
+    "test:getTopics": "jest --testPathPattern=getTopics"
   },
   "name": "backend",
   "version": "1.0.0",
