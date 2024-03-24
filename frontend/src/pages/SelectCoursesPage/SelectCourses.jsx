@@ -25,8 +25,6 @@ const SelectCourses = () => {
       userID: loggedInUser._id,
     });
 
-    console.log(response.data);
-
     setLessonProgress((prevLessonProgress) => [
       ...prevLessonProgress,
       response.data,
@@ -49,8 +47,6 @@ const SelectCourses = () => {
         courses: userCourses,
       });
 
-      console.log(response.data);
-
       setUserStartedCourses(response.data.userInProgress);
       setNotStartedCourses(response.data.userNotStarted);
     } catch (error) {
@@ -64,25 +60,16 @@ const SelectCourses = () => {
 
   useEffect(() => {
     if (Object.keys(loggedInUser).length > 0) {
-      console.log(loggedInUser);
       const sourceKeys = [];
 
       loggedInUser.lesson.forEach((lessonProgress) => {
         sourceKeys.push(lessonProgress.source);
       });
 
-      console.log(sourceKeys);
-
       retrieveCourses(sourceKeys);
     }
   }, [loggedInUser]);
   // Your code here
-
-  useEffect(() => {
-    if (userStartedCourses.length > 0) {
-      console.log(userStartedCourses);
-    }
-  }, [userStartedCourses]);
 
   useEffect(() => {
     if (userStartedCourses.length > 0) {

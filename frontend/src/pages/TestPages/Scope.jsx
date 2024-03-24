@@ -80,7 +80,6 @@ const Scope = () => {
       return;
     } else {
       try {
-        console.log("state.selectedTopic", state.selectedTopic);
         const response = await Axios.post(
           `${BASE}/getQuestionsOnTopic/getQuestionsForExam`,
           {
@@ -88,7 +87,6 @@ const Scope = () => {
           }
         );
 
-        console.log(response.data);
         setQuestions(response.data);
 
         const examJSON = JSON.stringify(response.data);
