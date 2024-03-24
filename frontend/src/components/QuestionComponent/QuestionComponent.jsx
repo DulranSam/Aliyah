@@ -24,7 +24,7 @@ function SubQuestion({ sqNum, sqText, sqMarks, sqFigure, sqHistogram }) {
     <MathJaxContext>
     <div className="sub-question">
       <div className="sub-question-text-container">
-        <div className="sq-num" onClick={logAnswer}>{sqNum}</div>
+        <div className="sq-num">{sqNum}</div>
         <div className="sub-question-text"><MathJax>{sqText}</MathJax></div>
       </div>
       {sqFigure!=="" && <img src={sqFigure} />}
@@ -103,7 +103,7 @@ function QuestionComponent({ question, mqNum }) {
       <div className="question-component-container">
         <div className="main-question-container">
           <div className="main-text-container">
-            <div className="mq-num" onClick={log}>
+            <div className="mq-num">
               {mqNum}
             </div>
             {(hasContext || isOneAnswerQuestion) && (
