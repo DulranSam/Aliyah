@@ -24,6 +24,8 @@ const SelectCourses = () => {
       userID: loggedInUser._id,
     });
 
+    console.log(response.data);
+
     setLessonProgress((prevLessonProgress) => [
       ...prevLessonProgress,
       response.data,
@@ -32,7 +34,9 @@ const SelectCourses = () => {
 
   useEffect(() => {
     if (userNotStartedCourses.length > 0) {
-      setLoading(true);
+      setTimeout(() => {
+        setLoading(true);
+      }, 300);
     } else if (lessonProgress.length > 0) {
       setLoading(true);
     }
@@ -59,6 +63,7 @@ const SelectCourses = () => {
 
   useEffect(() => {
     if (Object.keys(loggedInUser).length > 0) {
+      console.log(loggedInUser);
       const sourceKeys = [];
 
       loggedInUser.lesson.forEach((lessonProgress) => {
@@ -76,11 +81,7 @@ const SelectCourses = () => {
     if (userStartedCourses.length > 0) {
       console.log(userStartedCourses);
     }
-
-    if (userNotStartedCourses.length > 0) {
-      console.log(userNotStartedCourses);
-    }
-  }, [userStartedCourses, userNotStartedCourses]);
+  }, [userStartedCourses]);
 
   useEffect(() => {
     if (userStartedCourses.length > 0) {
@@ -98,8 +99,7 @@ const SelectCourses = () => {
           <h1>Select Courses</h1>
           <p>Welcome {loggedInUser.username} 👋</p>
         </div>
-        {userStartedCourses &&
-        lessonProgress.length == userStartedCourses.length ? (
+        {userStartedCourses && lessonProgress.length > 0 ? (
           <div className="course-container">
             <h1>Courses In Progress</h1>
             {userStartedCourses.length == 0 ? (
@@ -124,7 +124,7 @@ const SelectCourses = () => {
             )}
           </div>
         ) : (
-          <p>Loading Course</p>
+          <p>Loading in Progress Courses</p>
         )}
         {userNotStartedCourses ? (
           <div className="course-container">

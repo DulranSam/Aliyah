@@ -43,7 +43,9 @@ const CourseComponent = ({ course, completedFlag, progress }) => {
         <div className="topicsContainer">
           <ul className="topicTagField">
             {course.topics.map((topic, i) => (
-              <a href={`learnprint/${course.sourceKey}`}>{topic}</a>
+              <a key={i} href={`learnprint/${course.sourceKey}`}>
+                {topic}
+              </a>
             ))}
           </ul>
         </div>
