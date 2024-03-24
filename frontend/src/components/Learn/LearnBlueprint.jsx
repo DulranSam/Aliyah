@@ -16,6 +16,7 @@ import {
 import { styled } from "@mui/system";
 import Axios from "axios";
 import "./Learn.css";
+import NavBar from "../NavigationBar/navBar";
 
 const LearnBlueprint = () => {
   const {
@@ -217,39 +218,64 @@ const LearnBlueprint = () => {
   return loading ? (
     <h1>Loading...</h1>
   ) : (
-    <>
-      {topicTitles && topicTitles.length && (
-        <Container
-          style={{ display: "flex", fontFamily: "poppins" }}
-          className="container"
-        >
-          {loading ? (
-            <Typography variant="h4">Loading...</Typography>
-          ) : (
-            <>
-              <Typography variant="h3">
-                {topic === "p1"
-                  ? "Pure Mathematics I"
-                  : "Probability And Statistics"}
-              </Typography>
-              <br />
-
-              <br />
-              <Table style={{ width: "100%", textAlign: "center" }}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Topic</TableCell>
-                    <TableCell>Learned Progress</TableCell>
-                    <TableCell>Topical Exams</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/* Rendering topicRelated */}
-                  {topicTitles &&
-                    topicTitles.map((title, index) => (
+    <div className="fullthing">
+      <NavBar/>
+      {topicTitles && topicTitles.length > 0 && (
+        <>
+          <Typography variant="h3" style={{ marginBottom: "30px",color:"black",textAlign:"center",padding:"40px" }}>
+            {topic === "p1"
+              ? "Pure Mathematics I"
+              : "Probability And Statistics"}
+          </Typography>
+          <Container
+            style={{ display: "flex",  margin: "20px" }}
+            className="container"
+          >
+            {loading ? (
+              <Typography variant="h4">Loading...</Typography>
+            ) : (
+              <>
+                <Table
+                  style={{ width: "100%", textAlign: "center" }}
+                  className="resourcestable"
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: 28,
+                        }}
+                      >
+                         Topic
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: 28,
+                        }}
+                      >
+                        Learned Progress
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: 28,
+                        }}
+                      >
+                        Topical Exams
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody className="topicstable">
+                    {/* Rendering topicRelated */}
+                    {topicTitles.map((title, index) => (
                       <TableRow key={index}>
                         <TableCell>
-                          <div>{title}</div>
+                          <div style={{color:"white"}}>{title}</div>
                         </TableCell>
                         <TableCell>
                           {topicPercentage && topicPercentage[index] && (
@@ -271,10 +297,14 @@ const LearnBlueprint = () => {
                             >
                               {topicPercentage[index].completedPercentage ===
                               100 ? (
-                                <p style={{ color: "green" }}>Completed</p>
+                                <p
+                                  style={{ color: "white", fontWeight: "bold" }}
+                                >
+                                  Completed
+                                </p>
                               ) : (
                                 <p
-                                  style={{ color: "red" }}
+                                  style={{ color: "white", fontWeight: "bold" }}
                                 >{`${topicPercentage[index].completedPercentage}% Complete`}</p>
                               )}
                             </RouterLink>
@@ -286,19 +316,6 @@ const LearnBlueprint = () => {
                             topicPercentage[index] &&
                             (topicPercentage[index].completedPercentage ===
                             100 ? (
-                              // <RouterLink
-                              //   component="button"
-                              //   variant="body2"
-                              //   to={
-                              //     !topicPercentage[index].examCompleted &&
-                              //     `/topicalExam/${title}`
-                              //   }
-                              // >
-                              //   {completedTopical.includes(topicTitles[index])
-                              //     ? "Done"
-                              //     : "Available"}
-                              // </RouterLink>
-
                               completedTopical.includes(topicTitles[index]) ? (
                                 <RouterLink
                                   variant="body2"
@@ -307,22 +324,13 @@ const LearnBlueprint = () => {
                                   }}
                                   style={{
                                     textDecoration: "none",
-                                    color: "inherit",
+                                    color: "white",
+                                    fontWeight: "bold",
                                   }}
                                 >
                                   Done
                                 </RouterLink>
                               ) : (
-                                // <RouterLink
-                                //   component="button"
-                                //   variant="body2"
-                                //   to={
-                                //     !topicPercentage[index].examCompleted &&
-                                //     `/topicalExam/${title}`
-                                //   }
-                                // >
-                                //   Available
-                                // </RouterLink>
                                 !topicPercentage[index].examCompleted && (
                                   <button
                                     onClick={() => {
@@ -330,7 +338,6 @@ const LearnBlueprint = () => {
                                         availableDisabled++;
                                         generateTopicalExam(topicTitles[index]);
                                       }
-
                                       // Disable the button after it's clicked
                                     }}
                                     disabled={availableDisabled === 1}
@@ -342,6 +349,7 @@ const LearnBlueprint = () => {
                             ) : (
                               <RouterLink
                                 variant="body2"
+                                style={{ color: "white", fontWeight: "bold" }}
                                 onClick={() => {
                                   setStatus(
                                     `Please complete ${title} to access the Topical Exam!`
@@ -357,14 +365,15 @@ const LearnBlueprint = () => {
                         </TableCell>
                       </TableRow>
                     ))}
-                </TableBody>
-              </Table>
-            </>
-          )}
-          <Typography variant="body1">{status}</Typography>
-        </Container>
+                  </TableBody>
+                </Table>
+              </>
+            )}
+            <Typography variant="body1">{status}</Typography>
+          </Container>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

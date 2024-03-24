@@ -113,8 +113,8 @@ const LearningResource = () => {
   ) : (
     topicRelated && Object.keys(topicRelated).length > 0 && (
       <>
-        <div style={{ display: "flex", fontFamily: "poppins" }}>
-          <Link to={`/learnprint/${topic}`} style={{ margin: "20px" }}>
+        <div style={{ display: "flex"}}>
+          <Link to={`/learnprint/${topic}`} style={{ margin: "40px",padding:"20px" }}>
             Go Back!
           </Link>
           <div
@@ -140,7 +140,7 @@ const LearningResource = () => {
               >
                 <a
                   href={`/learning/${source}/${topic}/${x.lessonName}`}
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: "none",margin:"20px" }}
                 >
                   {x.completed == false ? (
                     <h1 style={{ color: "red" }}>{x.lessonName}</h1>
@@ -152,6 +152,7 @@ const LearningResource = () => {
             ))}
           </div>
           <div
+          className="learnresources"
             style={{
               flex: 1,
               border: "12px solid #17B169",
