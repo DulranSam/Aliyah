@@ -1,6 +1,6 @@
 .modules-container {
     display: flex;
-    justify-content: space-around;
+    margin-right:20%;
 }
 
 .module {
@@ -8,6 +8,8 @@
     padding: 10px;
     color: white;
     background-color: green;
+    margin-top: 50px;
+    margin-right: 80px;
 }
 
 .module:hover {

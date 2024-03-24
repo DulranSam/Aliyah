@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import Axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import "./LearningResource.css"
+import "./LearningResource.css";
 
 const LearningResource = () => {
   const navigate = useNavigate();
@@ -109,13 +109,16 @@ const LearningResource = () => {
   }, [topicRelated, section]);
 
   return loading ? (
-    <h1>Loading...</h1>
+    <h1 style={{ padding: "60px" }}>Loading...</h1>
   ) : (
     topicRelated && Object.keys(topicRelated).length > 0 && (
       <>
-        <div style={{ display: "flex"}}>
-          <Link to={`/learnprint/${topic}`} style={{ margin: "40px",padding:"20px" }}>
-            Go Back!
+        <div style={{ display: "flex" }}>
+          <Link
+            to={`/learnprint/${topic}`}
+            style={{ margin: "40px", padding: "20px" }}
+          >
+            <button> Go Back!</button>
           </Link>
           <div
             className="sidebar"
@@ -140,7 +143,7 @@ const LearningResource = () => {
               >
                 <a
                   href={`/learning/${source}/${topic}/${x.lessonName}`}
-                  style={{ textDecoration: "none",margin:"20px" }}
+                  style={{ textDecoration: "none", margin: "20px" }}
                 >
                   {x.completed == false ? (
                     <h1 style={{ color: "red" }}>{x.lessonName}</h1>
@@ -151,16 +154,7 @@ const LearningResource = () => {
               </ul>
             ))}
           </div>
-          <div
-          className="learnresources"
-            style={{
-              flex: 1,
-              border: "12px solid #17B169",
-              borderWidth: "5px",
-              margin: "20px",
-              padding: "20px",
-            }}
-          >
+          <div className="learnresources">
             <h1>{lesson}</h1>
             {Object.keys(section).length > 0 && (
               <div>

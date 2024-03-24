@@ -4,7 +4,8 @@
     box-sizing: border-box;
 }
 
-#bodyDiv{
+.bodyDiv {
+    margin-top: 40px; /* Note: No comma between margin values */
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -13,4 +14,5 @@
     justify-content: center;
     margin-top: 50px;
     gap: 1rem;
-}
+  }
+  

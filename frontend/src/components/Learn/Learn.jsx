@@ -61,7 +61,7 @@ const Learn = () => {
   return (
     Object.keys(loggedInUser).length > 0 &&
     (loading ? (
-      <h1 className="learn-container">Loading...</h1>
+      <h1 className="learn-container" style={{padding:"60px"}}>Loading...</h1>
     ) : (
       <>
       <NavBar/>
@@ -72,7 +72,7 @@ const Learn = () => {
         <div className="subjects-container">
           {startedModule.length > 0 &&
             startedModule.map((course, index) => (
-              <div className="sc-container">
+              <div className="sc-container" key={course._id}>
                 <h3>{course}</h3>
                 <div className="subject-card" key={index}>
                     {course === "Probability and Statistics I" && <img className="subject-img" src={s1img}></img>}
