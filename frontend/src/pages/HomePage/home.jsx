@@ -32,7 +32,6 @@ function Home() {
             <b
               style={{
                 fontSize: "128px",
-                textShadow: "1px 1px 8px rgba(0, 0, 0, 1)",
               }}
             >
               ALiyah
@@ -47,7 +46,7 @@ function Home() {
   ) : (
     <div>
       <Helmet>
-        <title>Welcome to the realms of ALiyah!</title>
+        <title>Welcome to ALiyah!</title>
       </Helmet>
       <div className="backgroundContainer">
         <img alt="background" className="bgImg" src="./images/background.png" />
