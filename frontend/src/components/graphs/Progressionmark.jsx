@@ -119,7 +119,7 @@ function Progressionmark() {
           }));
 
         const statArray = response.data
-          .filter((item) => item.examModule === "Probability & Statistics I")
+          .filter((item) => item.examModule === "Probability and Statistics I")
           .map((item, index) => ({
             name: `Exam ${index + 1}`, // Assuming you want to label exams numerically
             percentage: (item.mark / item.totalMark) * 100,
@@ -134,6 +134,7 @@ function Progressionmark() {
         // Set the processed data to the local state
         setPureMathsData(pureMathsarray);
         setProbStatsData(statArray);
+
 
         console.log(pureMathsarray);
         console.log(statArray);
