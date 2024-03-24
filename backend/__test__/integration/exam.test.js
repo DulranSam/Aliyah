@@ -1,5 +1,5 @@
 const request = require("supertest");
-const BASE = "https://aliyah-dlyb.onrender.com";
+const BASE = "http://localhost:8000";
 
 describe("POST /saveExam", () => {
   it("should return 400 if the request body is empty", async () => {

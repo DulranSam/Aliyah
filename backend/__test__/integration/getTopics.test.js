@@ -1,5 +1,5 @@
 const request = require("supertest");
-const BASE = "https://aliyah-dlyb.onrender.com";
+const BASE = "http://localhost:8000";
 
 describe("POST getTopics", () => {
   it("should return 400 if the topic source is missing", async () => {

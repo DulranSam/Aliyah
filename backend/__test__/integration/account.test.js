@@ -1,6 +1,6 @@
 const request = require("supertest");
 
-const BASE = "https://aliyah-dlyb.onrender.com";
+const BASE = "http://localhost:8000";
 
 describe("POST /register", () => {
   const existingAccount = {
