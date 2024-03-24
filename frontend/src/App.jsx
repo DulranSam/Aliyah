@@ -71,7 +71,7 @@ function App() {
   const [shortenPureMaths,setshortenPureMaths] = useState([]);
   const [shortenstats,setshortenstats] = useState([]);
 
-  const BASE = "https://aliyah-dlyb.onrender.com";
+  const BASE = "http://localhost:8000";
 
   const [loggedInUser, setLoggedInUser] = useState({});
 
