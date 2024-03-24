@@ -257,9 +257,17 @@ const AddLesson = () => {
 
         {state.lessons && state.lessons.length > 0 ? (
           <select
-            onChange={(e) =>
-              dispatch({ type: "SET_SELECTED_LESSON", payload: e.target.value })
-            }
+            onChange={(e) => {
+              for (let i = 0; i < state.lessons.length; i++) {
+                if (state.lessons[i].lessonTitle === e.target.value) {
+                  dispatch({
+                    type: "SET_SELECTED_LESSON",
+                    payload: state.lessons[i],
+                  });
+                  break;
+                }
+              }
+            }}
           >
             {state.lessons.map((lesson, index) => (
               <option key={index} value={lesson.lessonTitle}>
