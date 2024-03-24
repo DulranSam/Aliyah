@@ -1,5 +1,6 @@
 import "./navBar.css";
 import "../../pages/main.css";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -7,24 +8,24 @@ const NavBar = () => {
       <div className="navBar">
         <img className="siteLogo" src="https://img.icons8.com/plasticine/100/elephant.png" />
         <nav className="navContainer">
-          <a className="navItem" href="/">
+          <Link to={`/`} className="navItem">
             Home
-          </a>
-          <a className="navItem" href="select-course">
+          </Link>
+          <Link to={`/select-course`} className="navItem">
             Courses
-          </a>
-          <a className="navItem" href="dashboard">
+          </Link>
+          <Link to={`/dashboard`} className="navItem">
             Dashboard
-          </a>
-          <a className="navItem" href="resources">
+          </Link>
+          <Link to={`/resources`} className="navItem">
             Resources
-          </a>
-          <a className="navItem" href="examdashboard">
+          </Link>
+          <Link to={`/examdashboard`} className="navItem">
             Exams
-          </a>
-          <a className="navItem" href="forum">
+          </Link>
+          <Link to={`/forum`} className="navItem">
             Forum
-          </a>
+          </Link>
         </nav>
         <div className="logContainer">
           <a className="loginBtn" href="login">
