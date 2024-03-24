@@ -216,19 +216,27 @@ const LearnBlueprint = () => {
   }, [status]);
 
   return loading ? (
-    <h1>Loading...</h1>
+    <h1 style={{padding:"60px"}}>Loading...</h1>
   ) : (
     <div className="fullthing">
-      <NavBar/>
+      <NavBar />
       {topicTitles && topicTitles.length > 0 && (
         <>
-          <Typography variant="h3" style={{ marginBottom: "30px",color:"black",textAlign:"center",padding:"40px" }}>
+          <Typography
+            variant="h3"
+            style={{
+              marginBottom: "30px",
+              color: "black",
+              textAlign: "center",
+              padding: "40px",
+            }}
+          >
             {topic === "p1"
               ? "Pure Mathematics I"
               : "Probability And Statistics"}
           </Typography>
           <Container
-            style={{ display: "flex",  margin: "20px" }}
+            style={{ display: "flex", margin: "20px" }}
             className="container"
           >
             {loading ? (
@@ -248,7 +256,7 @@ const LearnBlueprint = () => {
                           fontSize: 28,
                         }}
                       >
-                         Topic
+                        Topic
                       </TableCell>
                       <TableCell
                         style={{
@@ -275,7 +283,7 @@ const LearnBlueprint = () => {
                     {topicTitles.map((title, index) => (
                       <TableRow key={index}>
                         <TableCell>
-                          <div style={{color:"white"}}>{title}</div>
+                          <div style={{ color: "white" }}>{title}</div>
                         </TableCell>
                         <TableCell>
                           {topicPercentage && topicPercentage[index] && (
@@ -298,7 +306,7 @@ const LearnBlueprint = () => {
                               {topicPercentage[index].completedPercentage ===
                               100 ? (
                                 <p
-                                  style={{ color: "white", fontWeight: "bold" }}
+                                  style={{ color: "white", fontWeight: "bold",listStyle:"none" }}
                                 >
                                   Completed
                                 </p>
