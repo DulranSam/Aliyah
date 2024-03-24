@@ -65,6 +65,19 @@
   bottom: 10px;
   left: 110px;
   width: 100px;
+  background-color: green;
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 25px;
+  font-family: "Rubik";
+  font-weight: bold;
+}
+
+.sc-btn:hover {
+  cursor: pointer;
+  background-color: white;
+  color: green;
+  transition: 0.2s ease-in;
 }
 
 .lr-heading {
@@ -81,6 +94,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .sc-container h3 {
