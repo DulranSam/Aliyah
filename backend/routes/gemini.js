@@ -5,13 +5,13 @@ const apiKey = process.env.GEMINI_KEY;
 
 router.route("/").post(async (req, res) => {
   try {
-    const { search } = req?.body;
+    const { search,username } = req?.body;
 
     const genAI = new GoogleGenerativeAI(apiKey);
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-    const prompt = ` ${search} , respond to this as a maths bot!`;
+    const prompt = ` ${search} , respond to this as a maths bot! respond to ${username}`;
 
     const result = await model.generateContent(prompt);
     const response = result.response;

@@ -1,4 +1,5 @@
-import { useContext, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import { UserContext } from "../../App";
 import BarLoader from "react-spinners/BarLoader";
@@ -18,12 +19,11 @@ function Gemini() {
 
   let searchCounter = 0;
 
-  async function GatherData(e) {
+  async function GatherData() {
     setData([]);
-    e.preventDefault();
     try {
       setLoading(true);
-      const response = await Axios.post(endPoint, search);
+      const response = await Axios.post(endPoint, {search,username:loggedInUser.username});
       if (response.status === 200) {
         searchCounter++;
       }
@@ -34,6 +34,11 @@ function Gemini() {
       setLoading(false);
     }
   }
+
+  useEffect(()=>{
+    setSearch(`Greet me , my name is ${loggedInUser.username}!`)
+    GatherData();
+  },[])
 
   return loggedInUser ? (
     <div className="bot-container">
