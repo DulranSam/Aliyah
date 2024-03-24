@@ -68,7 +68,9 @@ const ExamDashboard = () => {
   const [doModelExam, setDoModelExam] = useState(false);
 
   return loading ? (
-    <h1 className="loading-header" style={{margin:"40px"}}>Loading...</h1>
+    <h1 className="loading-header" style={{ margin: "40px" }}>
+      Loading...
+    </h1>
   ) : (
     <div className="the-main">
       <NavBar />
@@ -194,8 +196,11 @@ const ExamDashboard = () => {
                       </Link>
                     </div>
                   ))}
-                <button onClick={() => setDoModelExam(!doModelExam)} style={{padding:"30px",marginTop:"10px"}}>
-                  {!doModelExam ? `Do Model Exam!`: `Close Menu!`}
+                <button
+                  onClick={() => setDoModelExam(!doModelExam)}
+                  style={{ padding: "20px", marginTop: "10px" }}
+                >
+                  {!doModelExam ? `Do Model Exam!` : `Close Menu!`}
                 </button>
                 {doModelExam ? <PastPaperScope /> : null}
                 <div className="feedbackex">

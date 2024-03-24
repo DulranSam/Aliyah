@@ -216,7 +216,7 @@ const LearnBlueprint = () => {
   }, [status]);
 
   return loading ? (
-    <h1 style={{padding:"60px"}}>Loading...</h1>
+    <h1 style={{ padding: "60px" }}>Loading...</h1>
   ) : (
     <div className="fullthing">
       <NavBar />
@@ -236,7 +236,7 @@ const LearnBlueprint = () => {
               : "Probability And Statistics"}
           </Typography>
           <Container
-            style={{ display: "flex", margin: "20px" }}
+            style={{ display: "flex", marginTop: "85px", marginBottom: "25px" }}
             className="container"
           >
             {loading ? (
@@ -306,7 +306,13 @@ const LearnBlueprint = () => {
                               {topicPercentage[index].completedPercentage ===
                               100 ? (
                                 <p
-                                  style={{ color: "white", fontWeight: "bold",listStyle:"none" }}
+                                  style={{
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    listStyle: "none",
+                                    border: "4px solid white",
+                                    margin: "5px",
+                                  }}
                                 >
                                   Completed
                                 </p>
@@ -327,9 +333,9 @@ const LearnBlueprint = () => {
                               completedTopical.includes(topicTitles[index]) ? (
                                 <RouterLink
                                   variant="body2"
-                                  onClick={() => {
-                                    setStatus(`You have completed ${title}`);
-                                  }}
+                                  // onClick={() => {
+                                  //   setStatus(`You have completed ${title}`);
+                                  // }}
                                   style={{
                                     textDecoration: "none",
                                     color: "white",
@@ -358,11 +364,11 @@ const LearnBlueprint = () => {
                               <RouterLink
                                 variant="body2"
                                 style={{ color: "white", fontWeight: "bold" }}
-                                onClick={() => {
-                                  setStatus(
-                                    `Please complete ${title} to access the Topical Exam!`
-                                  );
-                                }}
+                                // onClick={() => {
+                                //   setStatus(
+                                //     `Please complete ${title} to access the Topical Exam!`
+                                //   );
+                                // }}
                               >
                                 Unavailable
                               </RouterLink>

@@ -15,7 +15,6 @@ import Progressionmark from "../../components/graphs/Progressionmark";
 import { Link } from "react-router-dom";
 import NavBar from "../../components/NavigationBar/navBar";
 
-
 // Dashboard Header Tab
 function DashboardHeader() {
   return (
@@ -183,13 +182,13 @@ function DashboardCourses() {
                 <div className="prog-bar">
                   <div style={{ width: 100, height: 100 }}>
                     <CircularProgressbar
-                      value={pureLessonCount}
-                      text={`${pureLessonCount}%`}
+                      value={pureLessonCount ? pureLessonCount : 0}
+                      text={`${pureLessonCount ? pureLessonCount : 0}%`}
                       styles={{
                         path: {
                           // Use the progress percentage to determine the opacity
                           stroke: `rgba(62, 152, 199, ${
-                            pureLessonCount / 100
+                            pureLessonCount ? pureLessonCount / 100 : 0
                           })`,
                         },
                         text: {
@@ -204,8 +203,8 @@ function DashboardCourses() {
                 <div className="prog-bar">
                   <div style={{ width: 100, height: 100 }}>
                     <CircularProgressbar
-                      value={testedPureProgress}
-                      text={`${testedPureProgress}`}
+                      value={testedPureProgress ? testedPureProgress : 0}
+                      text={`${testedPureProgress ? testedPureProgress : 0}%`}
                       styles={{
                         path: {
                           // Use the progress percentage to determine the opacity
@@ -232,8 +231,8 @@ function DashboardCourses() {
                 <div className="prog-bar">
                   <div style={{ width: 100, height: 100 }}>
                     <CircularProgressbar
-                      value={statLessonCount}
-                      text={`${statLessonCount}%`}
+                      value={statLessonCount ? statLessonCount : 0}
+                      text={`${statLessonCount ? statLessonCount : 0}%`}
                       styles={{
                         path: {
                           stroke: `rgba(62, 152, 199, ${
@@ -253,8 +252,8 @@ function DashboardCourses() {
                 <div className="prog-bar">
                   <div style={{ width: 100, height: 100 }}>
                     <CircularProgressbar
-                      value={testedStatProgress}
-                      text={`${testedStatProgress}`}
+                      value={testedStatProgress ? testedStatProgress : 0}
+                      text={`${testedStatProgress ? testedStatProgress : 0}%`}
                       styles={{
                         path: {
                           stroke: `rgba(62, 152, 199, ${
@@ -292,7 +291,6 @@ function DashboardActivity() {
     listofStatTopics,
     shortenPureMaths,
     shortenstats,
-
   } = useContext(UserContext);
   const [sortedPureData, setSortedPureData] = useState([]);
   const [sorterdStatData, setSortedStatData] = useState([]);
@@ -303,12 +301,9 @@ function DashboardActivity() {
   const getStatIndexes = [];
   let lessonPureMath = [];
   let statlesson = [];
-  
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
-  
-  
-  
+
   const sortThearraybyFeedback = (obj) => {
     if (!obj || typeof obj !== "object" || Object.keys(obj).length === 0) {
       // If the object is null, undefined, or not an object, or is empty,
@@ -341,23 +336,21 @@ function DashboardActivity() {
   console.log(sortedPure);
   console.log(sortStat);
 
-
-  for(let i =0;i<3;i++){
-    pureMathsFeedback[i]=sortedPure[i];
-    
-    
+  for (let i = 0; i < 3; i++) {
+    pureMathsFeedback[i] = sortedPure[i];
   }
   console.log(pureMathsFeedback);
-  for(let i =0;i<3;i++){
-   statFeedback[i] = sortStat[i];
-   
+  for (let i = 0; i < 3; i++) {
+    statFeedback[i] = sortStat[i];
   }
-  const firstPureElements = pureMathsFeedback.map(subArray => subArray?.[0] ?? '');
-  const firstStatElements = statFeedback.map(subArray => subArray?.[0] ?? '');
-  const firstPureFeedback = pureMathsFeedback.map(subArray => subArray?.[1] ?? '');
-  const firststatFeedback = statFeedback.map(subArray => subArray?.[1] ?? '');
-
-  
+  const firstPureElements = pureMathsFeedback.map(
+    (subArray) => subArray?.[0] ?? ""
+  );
+  const firstStatElements = statFeedback.map((subArray) => subArray?.[0] ?? "");
+  const firstPureFeedback = pureMathsFeedback.map(
+    (subArray) => subArray?.[1] ?? ""
+  );
+  const firststatFeedback = statFeedback.map((subArray) => subArray?.[1] ?? "");
 
   console.log(statFeedback);
   console.log(pureMathsFeedback);
@@ -368,12 +361,12 @@ function DashboardActivity() {
 
   console.log(listofpureTopics);
   console.log(listofStatTopics);
-  console.log(firstPureFeedback );
+  console.log(firstPureFeedback);
   console.log(firststatFeedback);
 
   function getMatchingIndexesFromSecondArray(array1, array2) {
     const matchingIndexes = [];
-    array1.forEach(element => {
+    array1.forEach((element) => {
       const indexInArray2 = array2.indexOf(element);
       if (indexInArray2 !== -1) {
         matchingIndexes.push(indexInArray2);
@@ -381,53 +374,56 @@ function DashboardActivity() {
     });
     return matchingIndexes;
   }
-  
-  
-  
+
   // Usage
-  const purelessonIndexes = getMatchingIndexesFromSecondArray(firstPureElements, shortenPureMaths);
+  const purelessonIndexes = getMatchingIndexesFromSecondArray(
+    firstPureElements,
+    shortenPureMaths
+  );
   console.log(purelessonIndexes); // Outputs indexes from shortenPureMaths
-  const pureMathslessonTopics = purelessonIndexes.map(index => listofpureTopics[index].topic);
+  const pureMathslessonTopics = purelessonIndexes.map(
+    (index) => listofpureTopics[index].topic
+  );
   console.log(pureMathslessonTopics);
 
-
-  const statlessonIndexes = getMatchingIndexesFromSecondArray(firstStatElements, shortenstats);
+  const statlessonIndexes = getMatchingIndexesFromSecondArray(
+    firstStatElements,
+    shortenstats
+  );
   console.log(statlessonIndexes); // Outputs indexes from shortenstats
-  const statlessonTopics = statlessonIndexes.map(index => listofStatTopics[index].topic);
+  const statlessonTopics = statlessonIndexes.map(
+    (index) => listofStatTopics[index].topic
+  );
   console.log(statlessonTopics);
 
-
   // Check if data is null before accessing its properties
-  
 
   return (
     loggedInUser && (
-      
-      <div className="dashboard-activity">
+      <div className="dashboard-activity" style={{margin:"40px",padding:"40px"}}>
         <h1>Feedback</h1>
         <h5 className="feedback-headers">Pure Mathematics I</h5>
-        
-            <div className="Mathstopics">
-              {pureMathslessonTopics.length > 0 && firstPureFeedback.length > 0 ? (
-                pureMathslessonTopics
-                  .filter((_, id) => firstPureFeedback[id] > 0)
-                  .map((item, id) => (
-                    <div key={id} className="maths">
-                      <h5>The probability of getting the topic {item} wrong is</h5>
-                      <h5>{(firstPureFeedback[id] * 100).toFixed(2)}%</h5>
-                    </div>
-                  ))
-              ) : (
-                <h5>Nothing to display</h5>
-              )}
-            </div>
-        
+        <div className="Mathstopics">
+          {pureMathslessonTopics.length > 0 && firstPureFeedback.length > 0 ? (
+            pureMathslessonTopics
+              .filter((_, id) => firstPureFeedback[id] > 0)
+              .map((item, id) => (
+                <div key={id} className="maths">
+                  <h5>The probability of getting the topic {item} wrong is</h5>
+                  <h5>{(firstPureFeedback[id] * 100).toFixed(2)}%</h5>
+                </div>
+              ))
+          ) : (
+            <h5>Nothing to display</h5>
+          )}
+        </div>
+
         <h5 className="feedback-headers">Probability & Statistics I</h5>
-            <div className="statTopics">
-                {statlessonTopics.length > 0 && firststatFeedback.length > 0 ? (
-                 statlessonTopics
-                .filter((_, id) => firststatFeedback[id] > 0)
-                .map((item, id) => (
+        <div className="statTopics">
+          {statlessonTopics.length > 0 && firststatFeedback.length > 0 ? (
+            statlessonTopics
+              .filter((_, id) => firststatFeedback[id] > 0)
+              .map((item, id) => (
                 <div key={id} className="stats">
                   <h5>{item}</h5>
                   <h5>{(firststatFeedback[id] * 100).toFixed(2)}%</h5>
@@ -504,7 +500,7 @@ function DashboardPage() {
     shortenPureMaths,
     setshortenPureMaths,
     shortenstats,
-    setshortenstats
+    setshortenstats,
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -611,7 +607,7 @@ function DashboardPage() {
           sourceKey: "p1",
         });
         setListofPureTopics(response.data.topicLesson);
-        setshortenPureMaths(response.data.topicKeys)
+        setshortenPureMaths(response.data.topicKeys);
         console.log(response);
       } catch (err) {
         console.log(err);
@@ -626,7 +622,7 @@ function DashboardPage() {
         const response = await axios.post(`${BASE}/getTopics`, {
           sourceKey: "s1",
         });
-        setshortenstats(response.data.topicKeys)
+        setshortenstats(response.data.topicKeys);
         setListStatTopics(response.data.topicLesson);
         console.log(response);
       } catch (err) {
@@ -638,7 +634,7 @@ function DashboardPage() {
 
   return (
     <>
-      <NavBar/>
+      <NavBar />
       <div className="dashboard-complete-container">
         <DashboardHeader />
         <div className="dashboard-main">
@@ -658,4 +654,3 @@ function DashboardPage() {
 }
 
 export default DashboardPage;
-
