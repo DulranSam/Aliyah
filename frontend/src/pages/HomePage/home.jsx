@@ -6,7 +6,7 @@ import "../main.css";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../App.jsx";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 
 function Home() {
   const { isAuthenticated, user, setIsAuthenticated, setUser } =
@@ -26,35 +26,49 @@ function Home() {
       </Helmet>
       <NavBar />
       <div className="backgroundContainer">
+        <img alt="background" className="bgImg" src="./images/background.png" />
         <div className="itemsContainer">
-          <p style={{fontSize: "64px", color: "white"}}>
-            <b style={{fontSize: "128px", textShadow: "1px 1px 8px rgba(0, 0, 0, 1)"}}>ALiyah</b>
+          <p style={{ fontSize: "64px", color: "white" }}>
+            <b
+              style={{
+                fontSize: "128px",
+                textShadow: "1px 1px 8px rgba(0, 0, 0, 1)",
+              }}
+            >
+              ALiyah
+            </b>
             <br />
-            Welcome back, <i>{user.username}</i></p>
-            <p></p>
+            Welcome back, <i>{user.username}</i>
+          </p>
+          <p></p>
         </div>
       </div>
     </>
   ) : (
     <div>
       <Helmet>
-        <title>ALiyah | Welcome to the realms!</title>
+        <title>Welcome to the realms of ALiyah!</title>
       </Helmet>
       <div className="backgroundContainer">
         <img alt="background" className="bgImg" src="./images/background.png" />
         <div className="itemsContainer">
-          <p style={{fontSize: "64px", color: "white"}}>
-            <b style={{fontSize: "128px"}}>ALiyah</b>
+          <p style={{ fontSize: "64px", color: "white" }}>
+            <b style={{ fontSize: "128px" }}>ALiyah</b>
             <br />
-            Your partner for learning<br />
+            Your partner for learning
+            <br />
             Advanced Level Mathematics!
           </p>
-          <p style={{color: "white", padding: "20px", fontStyle: "italic"}}>Welcome to the e-learning party! No velvet ropes, <br />just logins and laughter. Get on the guest list by registering or logging in!</p>
-          <div className="registration-btns">
+          <p style={{ color: "white", padding: "20px", fontStyle: "italic" }}>
+            Welcome to the e-learning party! No velvet ropes, <br />
+            just logins and laughter. Get on the guest list by registering or
+            logging in!
+          </p>
+          <div className="registrationBtns">
             <Link to="login" className="clickLogBtn">
               Click here to Login!
             </Link>
-            <Link to="register" className="clickLogBtn">
+            <Link to="registration" className="clickLogBtn">
               Click here to Register!
             </Link>
           </div>

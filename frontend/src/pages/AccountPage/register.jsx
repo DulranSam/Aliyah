@@ -1,10 +1,11 @@
+/* eslint-disable react/no-unknown-property */
 import Axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../components/NavigationBar/navBar.jsx";
 import "../main.css";
 import "./account.css";
 import { UserContext } from "../../App.jsx";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
   const navigator = useNavigate();
@@ -47,6 +48,9 @@ const Register = () => {
 
   return (
     <>
+      <Helmet>
+        <title>ALiyah | Register</title>
+      </Helmet>
       <div className="backgroundContainer">
         <img
           alt="background"
@@ -55,6 +59,7 @@ const Register = () => {
         />
         <div className="a-container">
           <img alt="avatar" className="avItem2" src="./images/avatar.png" />
+          <br />
           <p className="containerTitle">Register</p>
           <p className="containerText">
             Already have an account?&nbsp;
@@ -62,12 +67,17 @@ const Register = () => {
               Login
             </a>
           </p>
+          <p>{status}</p>
           <form onSubmit={handleRegister} className="forms">
             <div className="inputLabelGrp">
-              <p>{status}</p>
-              <label htmlFor="username">Your username</label>
+              <label
+                styles={{ fontSize: "18px", color: "#666666" }}
+                htmlFor="username"
+              >
+                Your username
+              </label>
               <input
-                className="input-btn"
+                className="inputBox"
                 type="text"
                 id="username"
                 name="username"
@@ -77,9 +87,14 @@ const Register = () => {
               />
             </div>
             <div className="inputLabelGrp">
-              <label htmlFor="password">Your password</label>
+              <label
+                styles={{ fontSize: "18px", color: "#666666" }}
+                htmlFor="password"
+              >
+                Your password
+              </label>
               <input
-                className="input-btn"
+                className="inputBox"
                 type="password"
                 id="password"
                 name="password"
