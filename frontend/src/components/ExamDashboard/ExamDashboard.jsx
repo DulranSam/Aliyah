@@ -129,7 +129,7 @@ const ExamDashboard = () => {
                       key={x._id}
                       className="card changingCard"
                       id="changingCard"
-                      style={{ marginRight: "100px" }}
+                  
                     >
                       <h1>{x.examModule}</h1>
                       {/* <div className="progressbar">

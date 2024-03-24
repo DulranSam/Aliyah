@@ -20,7 +20,9 @@ function DashboardHeader() {
   return (
     <>
       <div className="dashboard-header">
-        <h1 className="dashboard-title">Dashboard</h1>
+        <h1 className="dashboard-title" style={{ margin: "25px" }}>
+          Dashboard
+        </h1>
       </div>
     </>
   );
@@ -198,6 +200,7 @@ function DashboardCourses() {
                       }}
                     />
                   </div>
+                  <br />
                   <p className="prog-bar-text">Learned Progress</p>
                 </div>
                 <div className="prog-bar">
@@ -220,6 +223,7 @@ function DashboardCourses() {
                       }}
                     />
                   </div>
+                  <br />
                   <p className="prog-bar-text">Tested Progress</p>
                 </div>
               </div>
@@ -247,6 +251,7 @@ function DashboardCourses() {
                       }}
                     />
                   </div>
+                  <br />
                   <p className="prog-bar-text">Learned Progress</p>
                 </div>
                 <div className="prog-bar">
@@ -267,6 +272,7 @@ function DashboardCourses() {
                         // Customize the text color and style as needed
                       }}
                     />
+                    <br /> <br />
                     <p className="prog-bar-text">Tested Progress</p>
                   </div>
                 </div>
@@ -400,16 +406,25 @@ function DashboardActivity() {
 
   return (
     loggedInUser && (
-      <div className="dashboard-activity" style={{margin:"40px",padding:"40px"}}>
+      <div
+        className="dashboard-activity"
+        style={{ margin: "60px", padding: "60px" }}
+      >
         <h1>Feedback</h1>
         <h5 className="feedback-headers">Pure Mathematics I</h5>
-        <div className="Mathstopics">
+        <div className="Mathstopics" style={{margin:"10px"}}>
           {pureMathslessonTopics.length > 0 && firstPureFeedback.length > 0 ? (
             pureMathslessonTopics
               .filter((_, id) => firstPureFeedback[id] > 0)
               .map((item, id) => (
-                <div key={id} className="maths">
-                  <h5>The probability of getting the topic {item} wrong is</h5>
+                <div key={id} className="maths" style={{ color: "red" }}>
+                  <ul>
+                    <li>
+                      <h5>
+                        The probability of getting the topic {item} wrong is
+                      </h5>
+                    </li>
+                  </ul>
                   <h5>{(firstPureFeedback[id] * 100).toFixed(2)}%</h5>
                 </div>
               ))
@@ -424,8 +439,12 @@ function DashboardActivity() {
             statlessonTopics
               .filter((_, id) => firststatFeedback[id] > 0)
               .map((item, id) => (
-                <div key={id} className="stats">
-                  <h5>{item}</h5>
+                <div key={id} className="stats" style={{ color: "red" }}>
+                  <ul>
+                    <li>
+                      <h5>{item}</h5>
+                    </li>
+                  </ul>
                   <h5>{(firststatFeedback[id] * 100).toFixed(2)}%</h5>
                 </div>
               ))
