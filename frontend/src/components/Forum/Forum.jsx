@@ -17,6 +17,7 @@ import {
 import "./Forum.css";
 
 import ForumQuestion from "./ForumQuestion";
+import NavBar from "../NavigationBar/navBar";
 
 const Forum = () => {
   const {
@@ -111,7 +112,9 @@ const Forum = () => {
   };
 
   return loggedInUser ? (
-    <div className="main">
+    <>
+      <NavBar/>
+      <div className="main">
       <div
         style={{ margin: "5%", border: "12px solid #ccc", padding: "20px" }}
         className="container"
@@ -167,6 +170,7 @@ const Forum = () => {
         <Typography>{status}</Typography>
       </div>
     </div>
+    </>
   ) : (
     <div>
       <Typography variant="h1">

@@ -69,7 +69,6 @@ const Login = () => {
     </div>
   ) : (
     <>
-      <NavBar />
       <div className="backgroundContainer">
         <img
           alt="background"

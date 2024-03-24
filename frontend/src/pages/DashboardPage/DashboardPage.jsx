@@ -13,17 +13,15 @@ import Axios from "axios";
 import axios from "axios";
 import Progressionmark from "../../components/graphs/Progressionmark";
 import { Link } from "react-router-dom";
+import NavBar from "../../components/NavigationBar/navBar";
 
 // Dashboard Header Tab
 function DashboardHeader() {
   return (
     <>
+      <NavBar/>
       <div className="dashboard-header">
         <h1 className="dashboard-title">Dashboard</h1>
-        <div className="profile-corner">
-          <div className="notification-tab"></div>
-          <div className="profile-icon"></div>
-        </div>
       </div>
     </>
   );

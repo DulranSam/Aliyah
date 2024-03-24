@@ -15,16 +15,13 @@ const NavBar = () => {
           <a className="navItem" href="dashboard">
             Dashboard
           </a>
-          <a className="navItem" href="#">
+          <a className="navItem" href="resources">
             Resources
           </a>
-          <a className="navItem" href="questions">
-            Test
-          </a>
-          <a className="navItem" href="dashboard">
+          <a className="navItem" href="examdashboard">
             Exams
           </a>
-          <a className="navItem" href="#">
+          <a className="navItem" href="forum">
             Forum
           </a>
         </nav>

@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import Axios from "axios";
 import { UserContext } from "../../App";
 import CourseComponent from "./CourseComponent";
+import NavBar from "../../components/NavigationBar/navBar";
 
 const SelectCourses = () => {
   const { BASE } = useContext(UserContext);
@@ -68,6 +69,7 @@ const SelectCourses = () => {
 
   return { loggedInUser } ? (
     <div>
+      <NavBar/>
       <h1>Select Courses</h1>
       <p>Welcome {loggedInUser.username}</p>
       {userStartedCourses &&
@@ -118,6 +120,7 @@ const SelectCourses = () => {
     </div>
   ) : (
     <div>
+      <NavBar/>
       <h1>Select Courses</h1>
       <p>Welcome Guest</p>
     </div>

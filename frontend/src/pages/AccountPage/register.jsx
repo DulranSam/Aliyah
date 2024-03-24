@@ -47,7 +47,6 @@ const Register = () => {
 
   return (
     <>
-      <NavBar />
       <div className="backgroundContainer">
         <img
           alt="background"

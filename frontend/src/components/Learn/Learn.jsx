@@ -9,6 +9,7 @@ import NotLogged from "../NotLogged";
 import { ProgressBar } from "react-loader-spinner";
 import "./Learn.css";
 import Axios from "axios";
+import NavBar from "../NavigationBar/navBar";
 
 const Learn = () => {
   const {
@@ -60,6 +61,8 @@ const Learn = () => {
     (loading ? (
       <h1 className="learn-container">Loading...</h1>
     ) : (
+      <>
+      <NavBar/>
       <div className="learn-container">
         <header className="header">
           <h1>Learning Resources</h1>
@@ -85,6 +88,7 @@ const Learn = () => {
             ))}
         </div>
       </div>
+      </>
     ))
   );
 };
