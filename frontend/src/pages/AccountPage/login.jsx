@@ -88,7 +88,7 @@ const Login = () => {
               Register
             </Link>
           </p>
-          <p style={{margin:"15px"}}>{issue}</p>
+          <p style={{margin:"5px", textAlign: "center", color: "red"}}>{issue}</p>
           <form onSubmit={Login} className="forms">
             <div className="inputLabelGrp">
               <label

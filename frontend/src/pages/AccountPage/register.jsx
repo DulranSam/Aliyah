@@ -67,7 +67,7 @@ const Register = () => {
               Login
             </a>
           </p>
-          <p style={{margin:"15px"}}>{status}</p>
+          <p style={{margin:"5px", textAlign: "center", color: "red"}}>{status}</p>
           <form onSubmit={handleRegister} className="forms">
             <div className="inputLabelGrp">
               <label
