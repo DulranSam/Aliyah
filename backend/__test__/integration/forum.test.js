@@ -1,6 +1,6 @@
 const { describe } = require("node:test");
 const request = require("supertest");
-const app = "https://aliyah-dlyb.onrender.com";
+const app = "http://localhost:8000";
 
 describe("Forum Routes", () => {
   describe("GET /", () => {

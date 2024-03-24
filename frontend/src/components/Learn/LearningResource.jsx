@@ -115,6 +115,7 @@ const LearningResource = () => {
     topicRelated && Object.keys(topicRelated).length > 0 && (
       <>
         <NavBar />
+
         <div style={{ display: "flex" }}>
           <Link to={`/learnprint/${source}`}>
             <button className="stlr-gb-btn">Go Back</button>
