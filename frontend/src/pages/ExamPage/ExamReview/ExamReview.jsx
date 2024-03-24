@@ -178,10 +178,6 @@ function ExamReview() {
     }
   }, [questionIDs]);
 
-  useEffect(() => {
-    console.log(userAnswers);
-  }, [userAnswers]);
-
   return (
     <>
       {loading ? (

@@ -43,10 +43,6 @@ const ExamFinalized = () => {
   const getAnswers = () => {
     const answers = document.querySelectorAll("math-field");
     answerValues = Array.from(answers).map((answer) => answer.value);
-    console.log(
-      "This is what the user inputted for the answers:",
-      answerValues
-    );
 
     correctAnswers = [];
     JSON.parse(examData).forEach((question) => {
@@ -56,14 +52,12 @@ const ExamFinalized = () => {
         }
       });
     });
-    console.log("These are the correct answers:", correctAnswers);
     compareAnswers();
     addWrongAnswers();
   };
 
   async function QuestionIDs() {
     //velo wrote this
-    console.log(answerValues);
 
     try {
       for (let i = 0; i < answerValues.length; i++) {
@@ -84,14 +78,12 @@ const ExamFinalized = () => {
         wrongAnswersIndex.push(i);
       }
     }
-    console.log("these are the index of the wrong answers", wrongAnswersIndex);
   };
 
   const addWrongAnswers = () => {
     let count = -1;
     wrongQuestions = [];
 
-    // console.log(JSON.parse(examData)[0]);
 
     JSON.parse(examData).forEach((question) => {
       question.answersGrid.forEach((answer) => {
@@ -107,7 +99,6 @@ const ExamFinalized = () => {
       });
     });
 
-    console.log("these are the IDs of the wrong questions", wrongQuestions);
 
     getTotalMarks();
   };
@@ -126,7 +117,6 @@ const ExamFinalized = () => {
     for (let i = 0; i < wrongAnswersIndex.length; i++) {
       totalMarks -= marksArray[wrongAnswersIndex[i]];
     }
-    console.log("Total marks:", totalMarks);
   }
 
   // end of getting answers

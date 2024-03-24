@@ -7,10 +7,6 @@ import Histogram from "../graphs/histogram"
 function SubQuestion({ sqNum, sqText, sqMarks, sqFigure, sqHistogram }) {
   const [answer, setAnswer] = useState("");
 
-  function logAnswer() {
-    console.log(answer);
-  }
-
   function returnAnswerInput(sqHistogram) {
     if (sqHistogram !== "Expression") {
       return (
@@ -100,12 +96,6 @@ function QuestionComponent({ question, mqNum }) {
       setSubQuestions(newArray);
     }
   }, [hasContext]);
-
-  function log() {
-    console.log("One answer question: " + isOneAnswerQuestion);
-    console.log("Has context: " + hasContext);
-    console.log(subQuestions);
-  }
 
   return (
     <>

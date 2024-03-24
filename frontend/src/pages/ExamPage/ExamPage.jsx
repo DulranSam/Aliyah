@@ -106,10 +106,6 @@ function ExamPageContent({
   let writtenAnswers = [];
 
   useEffect(() => {
-    console.log(correctAnswers);
-  }, [correctAnswers]);
-
-  useEffect(() => {
     const questionArray = [];
     const answerArray = [];
 
@@ -435,23 +431,6 @@ function ExamPage() {
   const navigator = useNavigate();
 
   useEffect(() => {
-    console.log("The users marks are:");
-    console.log(mark);
-
-    console.log("The total marks are:");
-    console.log(totalMark);
-
-    console.log("the correct indexes are: ");
-    console.log(correctIndex);
-
-    console.log("Correct questions: ");
-    console.log(correctQuestions);
-
-    console.log("Wrong questions: ");
-    console.log(wrongQuestions);
-
-    console.log("The users written answers are: ");
-    console.log(userWrittenAnswers);
 
     if (submitButtonClicked) {
       postUserDetails()
@@ -499,7 +478,6 @@ function ExamPage() {
       probability: probability,
     })
       .then(function (response) {
-        console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);

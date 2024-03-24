@@ -104,7 +104,6 @@ function DashboardCourses() {
 
   useEffect(() => {
     setExamHistory(topicalExam.data);
-    console.log(topicalExam);
   }, [topicalExam]);
 
   useEffect(() => {

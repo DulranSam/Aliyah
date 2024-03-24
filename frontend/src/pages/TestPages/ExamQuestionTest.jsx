@@ -57,7 +57,6 @@ function ExamQuestionTest() {
   const getAnswers = () => {
     const answers = document.querySelectorAll(".answer-input");
     const answerValues = Array.from(answers).map((answer) => answer.value);
-    console.log("Answers:", answerValues);
   };
 
   return (

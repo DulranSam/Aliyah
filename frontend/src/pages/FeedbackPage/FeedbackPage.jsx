@@ -23,7 +23,6 @@ const FeedbackPage = () => {
 
   useEffect(() => {
     if (Object.keys(loggedInUser).length > 0) {
-      console.log(loggedInUser);
       Object.keys(loggedInUser.topicProbabilities).map((moduleKey) => {
         let notStartedCount = 0;
 
@@ -47,7 +46,6 @@ const FeedbackPage = () => {
 
   useEffect(() => {
     if (availFeedbackModules.length > 0) {
-      console.log(availFeedbackModules);
     }
   }, [availFeedbackModules]);
 
@@ -89,8 +87,6 @@ const FeedbackPage = () => {
       .then(function (response) {
         setCorrectAnswers(response.data.correctQuestions);
         setWrongAnswers(response.data.wrongQuestions);
-        console.log("tma: ");
-        console.log(response.data.topicProbabilities[moduleID]);
         setTopicProbabilitiesCloned(response.data.topicProbabilities[moduleID]);
       })
       .catch(function (error) {
@@ -136,7 +132,6 @@ const FeedbackPage = () => {
         console.log(error);
       });
 
-    console.log(loggedInUser.courses);
   };
 
   const getAvailableQuestions = (questionsList) => {
@@ -208,8 +203,6 @@ const FeedbackPage = () => {
   }, [availableQuestions]);
 
   useEffect(() => {
-    console.log("exams out of this");
-    console.log(examQuestions);
 
     if (examQuestions.length > 0) {
     }
@@ -221,15 +214,7 @@ const FeedbackPage = () => {
     }
   }, [probabilitiesSet]);
 
-  useEffect(() => {
-    console.log(questionsList);
-  }, [questionsList]);
-
   const calculator = (probList) => {
-    console.log("prob: ");
-    console.log(probList);
-    console.log(correctAnswers);
-    console.log(wrongAnswers);
 
     let topicProbabilitiesClone = { ...probList };
 
@@ -275,8 +260,6 @@ const FeedbackPage = () => {
   }, [topicProbabilitiesCloned]);
 
   useEffect(() => {
-    console.log("The topic probabilities are: ");
-    console.log(topicProbabilities);
   }, [topicProbabilities]);
 
   useEffect(() => {
