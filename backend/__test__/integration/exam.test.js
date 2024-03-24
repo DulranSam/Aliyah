@@ -23,6 +23,9 @@ describe("POST /saveExam", () => {
         examTopic: "None"
       });
     expect(response.statusCode).toBe(201);
+    await request(BASE).post("/exam/deleteExam").send({
+      examRef: response.body[0].Alert
+    })
   });
 });
 
