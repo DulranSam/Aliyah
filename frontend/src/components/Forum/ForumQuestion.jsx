@@ -5,6 +5,7 @@ import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import Axios from "axios";
 import { UserContext } from "../../App";
+import "./Forum.css";
 
 const ForumQuestion = (questionDataParam, theKey) => {
   const [questionData, setQuestionData] = useState(
@@ -291,7 +292,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
                     onClick={() =>
                       nerdPointsIncrement(questionData._id, answer._id)
                     }
-                    disabled={!loggedInUser}
                   >
                     Upvote
                   </button>
@@ -299,7 +299,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
                     id={`answerDownvote_${questionData._id}_${answer._id}`}
                     className="postBtns"
                     onClick={() => downvoteAnswer(questionData._id, answer._id)}
-                    disabled={!loggedInUser}
                   >
                     Downvote
                   </button>
@@ -308,7 +307,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
                 <button
                   className="postBtns"
                   onClick={() => DeleteAnswer(answer._id, questionData._id)}
-                  disabled={!loggedInUser}
                 >
                   Delete
                 </button>
@@ -332,7 +330,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
             id={`questionUpvote_${questionData._id}`}
             className="postBtns"
             onClick={() => increaseVotes(questionData._id)}
-            disabled={!loggedInUser}
           >
             Upvote
           </button>
@@ -340,7 +337,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
             id={`questionDownvote_${questionData._id}`}
             className="postBtns"
             onClick={() => downVote(questionData._id)}
-            disabled={!loggedInUser}
           >
             Downvote
           </button>
@@ -349,18 +345,16 @@ const ForumQuestion = (questionDataParam, theKey) => {
         <button
           className="postBtns"
           onClick={() => DeleteComment(questionData._id)}
-          disabled={!loggedInUser}
         >
           Delete
         </button>
       )}
       <button
-        style={{ marginTop: "10px" }}
+        style={{marginTop: "10px"}}
         className="postBtns"
         onClick={() => {
           setToggle(!toggle);
         }}
-        disabled={!loggedInUser}
       >
         {" "}
         {toggle ? "Close" : "Answer"}

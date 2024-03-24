@@ -183,6 +183,24 @@ hr {
   background-color: white;
 }
 
+/* Forum Search Page */
+.search-container{
+  padding: 20px;
+}
+
+.backToForum {
+  color: #666666;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.backToForum:hover {
+  color: #4a9dec;
+  transition: 0.5s;
+  cursor: pointer;
+  transition: all 0.2s;
+}
 
 
 
