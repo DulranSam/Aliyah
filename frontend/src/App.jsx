@@ -68,6 +68,8 @@ function App() {
   const [listofStatProb,setListOfStatProb] = useState({});
   const [listofpureTopics,setListofPureTopics] = useState([]);
   const [listofStatTopics,setListStatTopics] = useState([]);
+  const [shortenPureMaths,setshortenPureMaths] = useState([]);
+  const [shortenstats,setshortenstats] = useState([]);
 
   const BASE = "https://aliyah-dlyb.onrender.com";
 
@@ -155,7 +157,11 @@ function App() {
     listofpureTopics,
     setListofPureTopics,
     listofStatTopics,
-    setListStatTopics
+    setListStatTopics,
+    shortenPureMaths,
+    setshortenPureMaths,
+    shortenstats,
+    setshortenstats
   };
 
   return (
