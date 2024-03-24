@@ -201,7 +201,7 @@ function DashboardCourses() {
                   <div style={{ width: 100, height: 100 }}>
                     <CircularProgressbar
                       value={testedPureProgress ? testedPureProgress : 0}
-                      text={`${testedPureProgress ? testedPureProgress : 0}%`}
+                      text={`${testedPureProgress ? testedPureProgress : 0}`}
                       styles={{
                         path: {
                           // Use the progress percentage to determine the opacity
@@ -218,7 +218,7 @@ function DashboardCourses() {
                     />
                   </div>
                   <br />
-                  <p className="prog-bar-text">Tested Progress</p>
+                  <p className="prog-bar-text">Average Mark</p>
                 </div>
               </div>
             </div>
@@ -252,7 +252,7 @@ function DashboardCourses() {
                   <div style={{ width: 100, height: 100 }}>
                     <CircularProgressbar
                       value={testedStatProgress ? testedStatProgress : 0}
-                      text={`${testedStatProgress ? testedStatProgress : 0}%`}
+                      text={`${testedStatProgress ? testedStatProgress : 0}`}
                       styles={{
                         path: {
                           stroke: `rgba(62, 152, 199, ${
@@ -267,7 +267,7 @@ function DashboardCourses() {
                       }}
                     />
                     <br /> <br />
-                    <p className="prog-bar-text">Tested Progress</p>
+                    <p className="prog-bar-text">Average Mark</p>
                   </div>
                 </div>
               </div>
