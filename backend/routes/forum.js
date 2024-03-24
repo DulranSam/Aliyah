@@ -16,7 +16,7 @@ router.route("/").post(async (req, res) => {
 
       console.log(forums);
 
-      if (!forums) {
+      if (forums.length === 0) {
         return res.status(404).json({ message: "No results found!" });
       } else {
         res.status(200).json(forums);
