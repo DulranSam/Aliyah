@@ -307,18 +307,19 @@ const LearnBlueprint = () => {
                               100 ? (
                                 <p
                                   style={{
-                                    color: "white",
+                                    color: "green",
                                     fontWeight: "bold",
-                                    listStyle: "none",
-                                    border: "4px solid white",
-                                    margin: "5px",
+                                    border: "1px solid green",
+                                    padding: "5px",
+                                    width: "140px",
+                                    background: "white"
                                   }}
                                 >
                                   Completed
                                 </p>
                               ) : (
                                 <p
-                                  style={{ color: "white", fontWeight: "bold" }}
+                                  style={{ color: "green", fontWeight: "bold", padding: "5px", width: "140px", border: "1px solid white", background: "white" }}
                                 >{`${topicPercentage[index].completedPercentage}% Complete`}</p>
                               )}
                             </RouterLink>
@@ -346,7 +347,7 @@ const LearnBlueprint = () => {
                                 </RouterLink>
                               ) : (
                                 !topicPercentage[index].examCompleted && (
-                                  <button
+                                  <button className="available-btn"
                                     onClick={() => {
                                       if (availableDisabled !== 1) {
                                         availableDisabled++;
@@ -356,7 +357,7 @@ const LearnBlueprint = () => {
                                     }}
                                     disabled={availableDisabled === 1}
                                   >
-                                    Available
+                                    AVAILABLE
                                   </button>
                                 )
                               )

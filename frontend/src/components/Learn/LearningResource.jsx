@@ -115,7 +115,7 @@ const LearningResource = () => {
       <>
         <div style={{ display: "flex" }}>
           <Link
-            to={`/learnprint/${topic}`}
+            to={`/learnprint/${source}`}
             style={{ margin: "40px", padding: "20px" }}
           >
             <button> Go Back!</button>
