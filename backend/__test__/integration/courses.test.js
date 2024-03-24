@@ -1,6 +1,6 @@
 const request = require("supertest");
 
-const BASE = "http://localhost:8000";
+const BASE = "https://aliyah-dlyb.onrender.com";
 
 describe("POST /getModules", () => {
   it("should return 400 if courses is not an array", async () => {
