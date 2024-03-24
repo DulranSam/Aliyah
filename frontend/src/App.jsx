@@ -65,7 +65,7 @@ function App() {
   const [searched, setSearched] = useState([]);
   const [transfer, setTransfer] = useState("");
 
-  const BASE = "https://aliyah-dlyb.onrender.com";
+  const BASE = "http://localhost:8000";
 
   const [loggedInUser, setLoggedInUser] = useState({});
 

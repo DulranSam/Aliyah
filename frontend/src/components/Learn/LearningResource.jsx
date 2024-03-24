@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import Axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import "./LearningResource.css"
 
 const LearningResource = () => {
   const navigate = useNavigate();
