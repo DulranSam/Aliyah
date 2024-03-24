@@ -62,7 +62,7 @@ const updateCourses = async (userId, courseRef, courseKey, BASE) => {
 
     updateModuleProbability(BASE).then(() => {
       console.log("Module probabilities updated");
-      window.location.href = "/select-course";
+      window.location.reload();
     });
   });
 

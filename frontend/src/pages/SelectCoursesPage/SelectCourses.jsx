@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import Axios from "axios";
 import "./SelectCourses.css";
+
 import { UserContext } from "../../App";
 import CourseComponent from "./CourseComponent";
 import NavBar from "../../components/NavigationBar/navBar";
