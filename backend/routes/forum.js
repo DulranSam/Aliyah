@@ -6,10 +6,6 @@ const userModel = require("../models/user");
 router.route("/").post(async (req, res) => {
   const { searchParams } = req.body;
 
-  if (!searchParams) {
-    return res.status(400).json({ message: "Invalid search parameters." });
-  }
-
   try {
     if (searchParams && searchParams.trim() !== "") {
       const forums = await forumModel.find({ topic: searchParams });
@@ -64,6 +60,28 @@ router.route("/addQuestion").post(async (req, res) => {
     return res
       .status(500)
       .json({ Alert: "An error occurred while processing your request." });
+  }
+});
+
+router.route("/deleteQuestionByTitle").post(async (req, res) => {
+  try {
+    const { question } = req.body;
+
+    if (!question) {
+      return res.status(400).json({ Alert: "Question is required!" });
+    }
+
+    const exists = await forumModel.findOne({ question });
+
+    if (!exists) {
+      return res.status(404).json({ Alert: "Invalid Question!" });
+    }
+
+    await exists.deleteOne();
+    return res.status(200).json({ Alert: "Question Deleted!" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ Alert: "Internal Server Error" });
   }
 });
 

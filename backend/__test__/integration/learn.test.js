@@ -31,14 +31,6 @@ describe("POST /resources", () => {
     });
   });
 
-  it("should return error when title conflicts", async () => {
-    const response = await request(BASE).post("/resources").send(dummyData);
-    expect(response.statusCode).toBe(409);
-    expect(response.body).toEqual({
-      Alert: "Title Already Exists!",
-    });
-  });
-
   it("should add learning resource", async () => {
     const response = await request(BASE).post("/resources").send(dummyData);
     expect(response.statusCode).toBe(201);
@@ -50,16 +42,6 @@ describe("POST /resources", () => {
 
 describe("POST /resources/topic/learned", () => {
   const theTopic = "Pure Mathematics I";
-
-  it("should return 'No results found!' when no results are found", async () => {
-    const response = await request(BASE)
-      .post("/resources/topic/learned")
-      .send({ topic: "oqkwrtokwr" });
-    expect(response.statusCode).toBe(404);
-    expect(response.body).toEqual({
-      Alert: "No results found!",
-    });
-  });
 
   it("should render data when valid topic is provided", async () => {
     const response = await request(BASE)

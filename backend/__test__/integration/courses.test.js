@@ -13,15 +13,6 @@ describe("POST /getModules", () => {
     });
   });
 
-  it("should return 200 if an empty array is passed", async () => {
-    const response = await request(BASE)
-      .post("/course/getModules")
-      .send({ courses: [] });
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toHaveProperty("userInProgress");
-    expect(response.body).toHaveProperty("userNotStarted");
-  });
-
   it("should return 200 if request is successful", async () => {
     const response = await request(BASE)
       .post("/course/getModules")

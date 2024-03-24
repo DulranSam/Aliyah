@@ -4,12 +4,6 @@ const app = "http://localhost:8000";
 
 describe("Forum Routes", () => {
   describe("GET /", () => {
-    it("should return 400 and all forums", async () => {
-      const response = await request(app).post("/forum").send({});
-      expect(response.statusCode).toBe(400);
-      expect(response.body).toEqual({ message: "Invalid search parameters." });
-    });
-
     it("should return 200 and all forums", async () => {
       const response = await request(app)
         .post("/forum")
@@ -38,14 +32,36 @@ describe("Forum Routes", () => {
 
     it("should return 409 and question already posted", async () => {
       const response = await request(app).post("/forum/addQuestion").send({
-        question: "What is the square root of 4?",
+        question: "What is the square root of 9?",
         topic: "Pure Mathematics I",
       });
       expect(response.statusCode).toBe(409);
       expect(response.body).toEqual({
-        Alert: "What is the square root of 4? was Already posted before!",
+        Alert: "What is the square root of 9? was Already posted before!",
       });
     });
+
+    it("it should return 400 coz no body was given", async () => {
+      const response = await request(app)
+        .post("/forum/deleteQuestionByTitle")
+        .send({});
+      expect(response.statusCode).toBe(400);
+    });
+
+    it("it should return 404 coz question not found", async () => {
+      const response = await request(app)
+        .post("/forum/deleteQuestionByTitle")
+        .send({ question: "@#$%^&&**()())_" });
+      expect(response.statusCode).toBe(404);
+    });
+
+    it("it should return 200 coz question deleted", async () => {
+      const response = await request(app)
+        .post("/forum/deleteQuestionByTitle")
+        .send({ question: "What is the square root of 9?" });
+      expect(response.statusCode).toBe(200);
+    });
   });
+
   // Add more test cases for other routes
 });
