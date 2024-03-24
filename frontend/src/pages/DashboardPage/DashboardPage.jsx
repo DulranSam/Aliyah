@@ -20,13 +20,8 @@ import NavBar from "../../components/NavigationBar/navBar";
 function DashboardHeader() {
   return (
     <>
-      <NavBar/>
       <div className="dashboard-header">
         <h1 className="dashboard-title">Dashboard</h1>
-        <div className="profile-corner">
-          <div className="notification-tab"></div>
-          <div className="profile-icon"></div>
-        </div>
       </div>
     </>
   );
@@ -38,7 +33,7 @@ function DashboardGraph() {
     <>
       <div className="dashboard-graph-container">
         <h2 className="graph-title">Progress</h2>
-        <div className="graph">
+        <div className="graph-db">
           <Progressionmark />
         </div>
       </div>
@@ -409,8 +404,8 @@ function DashboardActivity() {
     loggedInUser && (
       
       <div className="dashboard-activity">
-        <h1>Your feed back</h1>
-        <h5>Pure Mathematics I</h5>
+        <h1>Feedback</h1>
+        <h5 className="feedback-headers">Pure Mathematics I</h5>
         
             <div className="Mathstopics">
               {pureMathslessonTopics.length > 0 && firstPureFeedback.length > 0 ? (
@@ -418,7 +413,7 @@ function DashboardActivity() {
                   .filter((_, id) => firstPureFeedback[id] > 0)
                   .map((item, id) => (
                     <div key={id} className="maths">
-                      <h5>{item}</h5>
+                      <h5>The probability of getting the topic {item} wrong is</h5>
                       <h5>{(firstPureFeedback[id] * 100).toFixed(2)}%</h5>
                     </div>
                   ))
@@ -427,7 +422,7 @@ function DashboardActivity() {
               )}
             </div>
         
-        <h5>Statistics</h5>
+        <h5 className="feedback-headers">Probability & Statistics I</h5>
             <div className="statTopics">
                 {statlessonTopics.length > 0 && firststatFeedback.length > 0 ? (
                  statlessonTopics
@@ -643,6 +638,7 @@ function DashboardPage() {
 
   return (
     <>
+      <NavBar/>
       <div className="dashboard-complete-container">
         <DashboardHeader />
         <div className="dashboard-main">
