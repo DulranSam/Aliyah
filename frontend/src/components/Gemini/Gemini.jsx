@@ -16,10 +16,6 @@ function Gemini() {
 
   let searchCounter = 0;
 
-  useEffect(()=>{
-    console.log(loggedInUser)
-  },[loggedInUser])
-
   async function GatherData() {
     setData([]);
     try {
