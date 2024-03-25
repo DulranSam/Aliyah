@@ -35,7 +35,6 @@ const Register = () => {
           `An error occurred while registering. Please try again later. ${err.response.status}`
         );
       }
-      console.error(err);
     } finally {
       setLoading(false);
       setUser({ username: "", password: "" });

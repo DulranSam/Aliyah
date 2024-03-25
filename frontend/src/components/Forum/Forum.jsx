@@ -72,7 +72,6 @@ const Forum = () => {
 
       setData(response.data);
     } catch (error) {
-      console.error("Error fetching forum data:", error);
       setStatus("Error fetching forum data");
     } finally {
       setLoading(false);
@@ -93,7 +92,6 @@ const Forum = () => {
 
       // }
       setSearched(theData.data);
-      console.log(`Searched ${JSON.stringify(searched)}`);
       setTransfer(1);
       navigator("/forum/search");
     } catch (err) {

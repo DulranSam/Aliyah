@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
@@ -47,7 +48,7 @@ const CreateForum = () => {
           "An error occurred while processing your request. Please try again later."
         );
       }
-      console.error(err);
+      
     } finally {
       setForum({
         question: "",
@@ -56,9 +57,6 @@ const CreateForum = () => {
     }
   }
 
-  useEffect(() => {
-    console.log(forum.topic);
-  }, [forum.topic]);
 
   const { logged } = useContext(UserContext);
 

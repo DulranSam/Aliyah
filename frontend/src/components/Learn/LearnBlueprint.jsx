@@ -65,13 +65,12 @@ const LearnBlueprint = () => {
 
   async function fetchData(source) {
     try {
-      console.log(`The topic is ${source}`);
       setLoading(true);
       // const response = await Axios.post(`${BASE}/resources/topic/learned`, {
       //   theTopic: topic,
       // });
       // setTopicRelated(response.data);
-      // console.log(`The topics ${JSON.stringify(response.data)}`);
+
       const theUser = await Axios.post(`${BASE}/resources/testing-user`, {
         userID: loggedInUser._id, //user.id
         source,
@@ -107,10 +106,9 @@ const LearnBlueprint = () => {
           moduleNeeded: moduleNeeded,
         }
       );
-      console.log(response.data);
       setCompletedTopical(response.data.completedExams);
     } catch (error) {
-      console.error(error.message);
+      //
     }
   };
 
@@ -181,7 +179,7 @@ const LearnBlueprint = () => {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        //
       });
   };
 
@@ -205,7 +203,7 @@ const LearnBlueprint = () => {
         navigator(`/exam/${response.data[0].Alert}`);
       })
       .catch(function (error) {
-        console.log(error);
+        //
       });
   };
 

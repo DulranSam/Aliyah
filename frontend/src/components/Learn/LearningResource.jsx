@@ -33,9 +33,8 @@ const LearningResource = () => {
         lessonName: lesson,
       });
 
-      console.log(outcome.data);
     } catch (error) {
-      console.error(error.message);
+      //
     }
   };
 
@@ -43,12 +42,9 @@ const LearningResource = () => {
     let currentLessonIndex = null;
     let nextLesson = "";
 
-    console.log(topicRelated);
-
     topicRelated.map((x, index) => {
       if (x.lessonName == lesson) {
         if (x.completed == false) {
-          console.log("Lesson not completed");
           IncrementProgress().then(() => {
             setTimeout(() => {
               window.location.href = `/learning/${source}/${topic}/${nextLesson}`;

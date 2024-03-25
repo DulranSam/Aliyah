@@ -35,7 +35,7 @@ const Learn = () => {
       });
       setStartedModule(response.data.startedCourses);
     } catch (error) {
-      console.error(error.message);
+      //
     } finally {
       setLoading(false);
     }
@@ -51,12 +51,6 @@ const Learn = () => {
       fetchStartedModule();
     }
   }, [loggedInUser]);
-
-  useEffect(() => {
-    if (startedModule.length > 0) {
-      console.log(startedModule);
-    }
-  }, [startedModule]);
 
   return (
     Object.keys(loggedInUser).length > 0 &&

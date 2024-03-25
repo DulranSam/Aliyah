@@ -34,10 +34,9 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await Axios.post(`${BASE}/login`, user);
-      
+
       localStorage.setItem("id", response.data.data._id);
       if (response.status === 200) {
-        console.log(response.data);
         setData(response.data);
         setIsAuthenticated(true);
         setUserId(response.data.data._id);
@@ -48,7 +47,6 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       if (error.response.status === 401) {
-        console.log(user);
         setIssue("Wrong Password, Please try again!");
       } else if (error.response.status === 404) {
         setIssue("Invalid Username, Please Try Again!");
@@ -88,7 +86,9 @@ const Login = () => {
               Register
             </Link>
           </p>
-          <p style={{margin:"5px", textAlign: "center", color: "red"}}>{issue}</p>
+          <p style={{ margin: "5px", textAlign: "center", color: "red" }}>
+            {issue}
+          </p>
           <form onSubmit={Login} className="forms">
             <div className="inputLabelGrp">
               <label

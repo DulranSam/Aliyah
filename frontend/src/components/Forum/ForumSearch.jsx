@@ -34,14 +34,12 @@ const ForumSearch = () => {
     e.preventDefault();
     try {
       const theData = await Axios.post(`${EndPoint}/search`, { search });
-      console.log(theData.data);
       setSearched([]);
       setSearched(theData.data);
     } catch (err) {
       if (err.response.status === 404) {
         setStatus("No results found");
       }
-      console.error(err);
     }
   };
 
