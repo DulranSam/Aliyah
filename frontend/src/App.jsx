@@ -26,6 +26,7 @@ import CreateForum from "./components/Forum/CreateForum";
 import ForumSearch from "./components/Forum/ForumSearch";
 import PastPaperScope from "./pages/PastPaperPage/pastPaperScope";
 import ExamDashboard from "./components/ExamDashboard/ExamDashboard";
+import Gemini from "./components/Gemini/Gemini"
 
 export const UserContext = createContext();
 
@@ -171,6 +172,7 @@ function App() {
   return (
     <UserContext.Provider value={contextValue}>
       <BrowserRouter>
+      <Gemini/>
         <Routes>
           <Route path="/" element={<Home />} />
           {/* <Route path="/progression" element={<Progressionmark />} /> */}
