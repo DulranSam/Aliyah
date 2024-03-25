@@ -140,31 +140,6 @@ const LearnBlueprint = () => {
     }
   }, [completedTopical]);
 
-  // useEffect(() => {
-  //   console.log(
-  //     userData
-  //       ? `The user data -> ${JSON.stringify(userData)}`
-  //       : "No data bozo!"
-  //   );
-  // }, [userData]);
-
-  async function IncrementProgress(theSource) {
-    // try {
-    //   const outcome = await Axios.put(`${BASE}/resources/progress/updates`, {
-    //     userId: "65f86f434b9403f9d70d8aa3",
-    //     source: TheSource,
-    //     //user.id
-    //   });
-    //   console.log(outcome.data);
-    //   // if (outcome.data.status === 200) {
-    //   //   setLessonCounter((prev) => prev + 1);
-    //   // }
-    // } catch (err) {
-    //   console.error(err.message);
-    // }
-    // alert("Clicked!");
-  }
-
   const generateTopicalExam = async (topical) => {
     await Axios.post(`${BASE}/getQuestionsOnTopic/getQuestionsForExam`, {
       topics: [topical],

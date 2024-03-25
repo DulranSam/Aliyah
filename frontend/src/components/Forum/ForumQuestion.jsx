@@ -23,10 +23,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
     setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
   }, []);
 
-  // useEffect(() => {
-  //   console.log(`The question data -> ${JSON.stringify(questionData)}`);
-  // }, []);
-
   useEffect(() => {
     setTimeout(() => {
       setStatus("");
@@ -46,7 +42,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
       // }
 
       if (response.status === 200) {
-        console.log("Yess!");
         const updatedData = {
           ...questionData,
           rating: questionData.rating + 1,
@@ -86,7 +81,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
       });
 
       if (response.status === 200) {
-        console.log("Yess!");
         const updatedData = {
           ...questionData,
           rating: questionData.rating - 1,
@@ -202,7 +196,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
         answeredBy: loggedInUser.username,
       });
       if (response.status === 200) {
-        console.log("Answer posted successfully!");
         window.location.reload();
       }
     } catch (error) {
@@ -233,7 +226,6 @@ const ForumQuestion = (questionDataParam, theKey) => {
         answerID: answerIDValue, // Assuming answerIdValue holds the actual answer ID
       });
       if (response.status === 200) {
-        console.log("Answer deleted successfully!");
         const newAnswers = [...questionData.answers];
         for (let i = 0; i < newAnswers.length; i++) {
           if (newAnswers[i]._id === answerIDValue) {

@@ -63,7 +63,6 @@ function Progressionmark() {
   };
 
   const passData = (payload) => {
-    console.log(payload.payload.id);
     const examId = payload.payload.id;
     navigator(`/exam-review/${examId}`);
   };

@@ -42,7 +42,6 @@ const Learn = () => {
   };
 
   useEffect(() => {
-    // console.log(sessionStorage.getItem("loggedUser"));
     setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
   }, []);
 
@@ -68,7 +67,7 @@ const Learn = () => {
           <div className="subjects-container">
             {startedModule.length > 0 ? (
               startedModule.map((course, index) => (
-                <div className="sc-container" key={course._id}>
+                <div className="sc-container" key={index}>
                   <h3>{course}</h3>
                   <div className="subject-card" key={index}>
                     {course === "Probability and Statistics I" && (

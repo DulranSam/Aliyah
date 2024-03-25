@@ -30,7 +30,6 @@ const ExamDashboard = () => {
         userId: loggedInUser._id,
       });
       if (response.status === 200) {
-        console.log(response.data);
         setExamDashboard(response.data);
       }
     } catch (err) {
@@ -60,10 +59,6 @@ const ExamDashboard = () => {
       FetchExamData();
     }
   }, [loggedInUser]);
-
-  useEffect(() => {
-    console.log(examDashboard);
-  }, [examDashboard]);
 
   const [doModelExam, setDoModelExam] = useState(false);
 

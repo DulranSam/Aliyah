@@ -15,7 +15,6 @@ export default function Authenticate() {
         const response = await axios.post(`${BASE}/register`, {
           user,
         });
-        console.log("Response:", response.data);
         if (response.data) {
           setIsAuthenticated(true);
         } else {
