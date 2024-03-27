@@ -71,6 +71,8 @@ const SelectCourses = () => {
   }, [loggedInUser]);
   // Your code here
 
+  // Initialize progress for each course
+
   useEffect(() => {
     if (userStartedCourses.length > 0) {
       userStartedCourses.forEach((course) => {
