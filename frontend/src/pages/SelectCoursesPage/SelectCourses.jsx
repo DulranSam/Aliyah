@@ -54,6 +54,8 @@ const SelectCourses = () => {
       // Handle errors appropriately, e.g., display an error message to the user
     }
   };
+
+  // Retrieve user data from session storage
   useEffect(() => {
     setLoggedInUser(JSON.parse(sessionStorage.getItem("loggedUser")).data);
   }, []);
