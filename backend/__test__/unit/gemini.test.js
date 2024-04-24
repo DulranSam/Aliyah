@@ -1,6 +1,6 @@
 const request = require("supertest");
 const Gemini = require("../../routes/gemini");
-const BASE = "http://localhost:8000";
+const BASE = "https://aliyah-dlyb.onrender.com";
 
 describe("POST /gemini", () => {
   const theResponse = "";
