@@ -320,7 +320,7 @@ const ForumQuestion = (questionDataParam, theKey) => {
         <div>
           <button
             id={`questionUpvote_${questionData._id}`}
-            className="postBtns"
+             className="postBtns"
             onClick={() => increaseVotes(questionData._id)}
           >
             Upvote
